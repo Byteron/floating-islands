@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://source/game/map/Map.gd" type="Script" id=1]
+[ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=2]
+
+[node name="Map" type="TileMap"]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 16, 16 )
+format = 1
+script = ExtResource( 1 )
+noise_amplitude = 1
+noise_shrink = 1
+noise_offset = 0.0

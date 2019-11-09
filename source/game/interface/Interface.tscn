@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
+
+[node name="Interface" type="CanvasLayer" groups=[
+"Interface",
+]]
+follow_viewport_enable = true
+script = ExtResource( 1 )
+
+[node name="HighlightContainer" type="Control" parent="."]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Generate" type="Button" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -71.0
+margin_top = -20.0
+text = "Generate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
