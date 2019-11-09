@@ -1,4 +1,7 @@
-extends Control
+extends Panel
 
-func _ready() -> void:
+func _on_New_Game_pressed() -> void:
 	get_tree().change_scene("res://source/game/Game.tscn")
+
+func _on_Quit_pressed() -> void:
+	get_tree().quit()
