@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Construction",
+"language": "GDScript",
+"path": "res://source/construction/Construction.gd"
+}, {
+"base": "Resource",
+"class": "ConstructionData",
+"language": "GDScript",
+"path": "res://source/construction/ConstructionData.gd"
+}, {
 "base": "Camera2D",
 "class": "GameCam",
 "language": "GDScript",
@@ -40,6 +50,8 @@ _global_script_classes=[ {
 "path": "res://source/game/interface/TileHighlighter.gd"
 } ]
 _global_script_class_icons={
+"Construction": "",
+"ConstructionData": "",
 "GameCam": "",
 "Interface": "",
 "Isle": "",
@@ -54,13 +66,18 @@ config/name="Floating Islands"
 run/main_scene="res://source/menu/TitleScreen.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Loader="*res://source/global/Loader.gd"
+Global="*res://source/global/Global.gd"
+
 [display]
 
 window/size/width=320
 window/size/height=180
 window/size/test_width=1280
 window/size/test_height=720
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [importer_defaults]
