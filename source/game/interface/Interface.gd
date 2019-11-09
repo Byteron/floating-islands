@@ -4,6 +4,8 @@ class_name Interface
 onready var highlight_container := $HighlightContainer as Control
 
 func highlight_lands(tiles: Array):
+	clear_highlights()
+
 	for tile in tiles:
 		if tile.type == Tile.TYPE.LAND:
 			var h := TileHighlighter.instance() as TileHighlighter
