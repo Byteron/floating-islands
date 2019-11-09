@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=1]
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=2]
+[ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=3]
+
+[sub_resource type="TileSet" id=1]
+0/name = "Resource"
+0/texture = ExtResource( 3 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 96, 32, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
 
 [node name="Map" type="TileMap"]
 tile_set = ExtResource( 2 )
@@ -11,3 +24,8 @@ script = ExtResource( 1 )
 noise_amplitude = 1
 noise_shrink = 1
 noise_offset = 0.0
+
+[node name="Resources" type="TileMap" parent="."]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1

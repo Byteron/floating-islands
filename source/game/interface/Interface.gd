@@ -12,6 +12,9 @@ func highlight_lands(tiles: Array):
 			highlight_container.add_child(h)
 			h.rect_global_position = tile.position
 
+			if tile.resources:
+				h.modulate = Color("FFAA00")
+
 func clear_highlights():
 	for child in highlight_container.get_children():
 		highlight_container.remove_child(child)

@@ -8,8 +8,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		print("click")
 		var isle := map.get_isle(get_global_mouse_position())
 		if isle:
-			print("Isle: ", isle)
-			print("Tiles: ", isle.tiles)
 			interface.highlight_lands(isle.tiles)
 
 	if event.is_action_pressed("RMB"):

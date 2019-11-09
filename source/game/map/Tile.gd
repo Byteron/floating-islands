@@ -9,6 +9,8 @@ var index := 0
 var position := Vector2()
 var cell := Vector2()
 
+var resources := 0
+
 var neighbors := []
 
 func get_isle() -> Isle:
