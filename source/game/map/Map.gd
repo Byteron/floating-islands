@@ -33,6 +33,17 @@ func _ready() -> void:
 	_build_terrain()
 	_print_info()
 
+func map_to_world_centered(cell: Vector2) -> Vector2:
+	return map_to_world(cell) + cell_size / 2
+
+func get_tile(world_position: Vector2) -> Tile:
+	var cell = world_to_map(world_position)
+
+	if not tiles.has(cell):
+		return null
+
+	return tiles[cell]
+
 func get_isle(world_position: Vector2) -> Isle:
 	var cell = world_to_map(world_position)
 
