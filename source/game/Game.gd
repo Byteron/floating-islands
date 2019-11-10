@@ -5,6 +5,7 @@ onready var player := $Player as Player
 onready var map := $Map as Map
 onready var interface := $Interface as Interface
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("LMB"):
 		print("click")
@@ -14,6 +15,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("RMB"):
 		interface.clear_highlights()
+
 
 func place_construction(data: ConstructionData):
 	var tile_selector := map.new_tile_selector()

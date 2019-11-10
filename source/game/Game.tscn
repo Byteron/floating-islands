@@ -31,6 +31,8 @@ min_isle_size = 12
 noise_amplitude = 100
 noise_shrink = 3
 noise_offset = -0.3
+resource_min = 100
+resource_max = 200
 
 [node name="GameCam" parent="." instance=ExtResource( 2 )]
 position = Vector2( 181.21, 112.422 )

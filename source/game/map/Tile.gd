@@ -1,6 +1,8 @@
 extends Object
 class_name Tile
 
+signal resource_depleted(cell)
+
 enum TYPE { LAND, VOID }
 
 var type := 0
@@ -37,6 +39,18 @@ func get_isle() -> Isle:
 
 	isle.tiles = visited
 	return isle
+
+func mine(amount: int) -> int:
+	var prev = resources
+	resources = clamp(resources - amount, 0, resources)
+
+	if not has_resources():
+		emit_signal("resource_depleted", cell)
+
+	return prev - resources
+
+func has_resources() -> bool:
+	return resources > 0
 
 func is_surrounded_by_land() -> bool:
 	if neighbors.size() < 8:
