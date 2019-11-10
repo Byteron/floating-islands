@@ -5,59 +5,39 @@ signal resource_depleted(cell)
 
 enum TYPE { LAND, VOID }
 
-var type := 0
+var type := 0						# Type of terrain
+var position : Vector2 = Vector2()	# Cell position in the tilemap
+var island : Node = null			# Which island this belongs to
+var neighbors: Array = []			# List of adjacent tiles
 
-var index := 0
-var position := Vector2()
-var cell := Vector2()
-
-var resources := 0
-
+# warning-ignore:unused_class_variable
+var resources : int = 0
+# warning-ignore:unused_class_variable
 var construction : Construction = null
 
-var neighbors := []
 
-func get_isle() -> Isle:
-	if type != TYPE.LAND:
-		return null
+func _init(_position: Vector2, _type, _island: Node):
+	position = _position
+	type = _type
+	island = _island
 
-	var isle := Isle.new()
-
-	var tiles := []
-	tiles.push_back(self)
-
-	var visited := []
-	visited.append(self)
-
-	while not tiles.empty():
-		var current = tiles.pop_back()
-		for n in current.neighbors:
-			if visited.has(n) or n.type != TYPE.LAND:
-				continue
-			tiles.push_back(n)
-			visited.append(n)
-
-	isle.tiles = visited
-	return isle
 
 func mine(amount: int) -> int:
 	var prev = resources
 	resources = clamp(resources - amount, 0, resources)
 
 	if not has_resources():
-		emit_signal("resource_depleted", cell)
+		emit_signal("resource_depleted", position)
 
 	return prev - resources
+
 
 func has_resources() -> bool:
 	return resources > 0
 
-func is_surrounded_by_land() -> bool:
-	if neighbors.size() < 8:
-		return false
 
-	for n in neighbors:
-		if n.type != TYPE.LAND:
-			return false
-
-	return true
+func get_world_position():
+	"""
+	Give the tile position as world coordinates
+	"""
+	return position * Global.TILE_SIZE

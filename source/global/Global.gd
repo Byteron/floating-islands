@@ -1,5 +1,7 @@
 extends Node
 
+# warning-ignore:unused_class_variable
+var TILE_SIZE: int = 16
 var constructions := {}
 
 func _ready() -> void:
