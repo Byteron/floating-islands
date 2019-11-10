@@ -298,8 +298,8 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 
 	# Adds neighboring tiles to available construction places
 	for cell in _get_non_diagonal_neighbor_cells(tile.position):
-		var neighboor_tile = get_tile(cell)
-		if not neighboor_tile:
+		var neighbor_tile = get_tile(cell)
+		if not neighbor_tile:
 			create_tile(cell, Tile.TYPE.VOID, null)
 
 		# If there is a building or a rail, cannot be built on
@@ -307,8 +307,8 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
 			continue
 
-		neighboor_tile = get_tile(cell)
-		connectors[cell] = neighboor_tile
+		neighbor_tile = get_tile(cell)
+		connectors[cell] = neighbor_tile
 
 	# Remove that tile from possible constructions
 	connectors.erase(tile.position)
