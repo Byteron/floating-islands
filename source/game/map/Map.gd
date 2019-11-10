@@ -9,11 +9,10 @@ var tile_selector : TileSelector = null
 
 var tiles := {}
 
-export var size := Vector2(40, 40)
-
 export var resource_min := 200
 export var resource_max := 8000
 
+# warning-ignore:unused_class_variable
 export var resource_amplitude := 2
 export var resource_shrink := 8
 export(float, -1, 1) var resource_offset := -0.3
@@ -113,7 +112,7 @@ func remove_tile(position: Vector2) -> void:
 	"""
 	Remove the tile at the given coordinates
 	"""
-	tiles.erase(position)
+	var __ = tiles.erase(position)
 
 	set_cellv(position, VOID_INDEX)
 

@@ -3,6 +3,7 @@ extends Node2D
 var min_island_radius := Global.TILE_SIZE * 2
 var max_island_radius := Global.TILE_SIZE * 6
 
+# warning-ignore:unused_class_variable
 var id: int = -1
 var tiles_position: Array = []		# Array of all position used by this island
 
