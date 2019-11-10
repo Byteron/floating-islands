@@ -147,14 +147,14 @@ func _get_tiles(positions: Array) -> Array:
 	"""
 	Get a list of tiles from an array of position
 	"""
-	var tiles = []
+	var result = []
 
 	for position in positions:
 		var tile = get_tile(position)
 		if tile:
-			tiles.append(tile)
+			result.append(tile)
 
-	return tiles
+	return result
 
 
 func _get_neighbor_cells(position: Vector2) -> Array:
@@ -300,7 +300,8 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	for cell in _get_non_diagonal_neighbor_cells(tile.position):
 		var neighbor_tile = get_tile(cell)
 		if not neighbor_tile:
-			create_tile(cell, Tile.TYPE.VOID, null)
+			var result = create_tile(cell, Tile.TYPE.VOID, null)
+			assert(result)
 
 		# If there is a building or a rail, cannot be built on
 		var type = get_tile_type(cell)
@@ -311,7 +312,7 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 		connectors[cell] = neighbor_tile
 
 	# Remove that tile from possible constructions
-	connectors.erase(tile.position)
+	var __ = connectors.erase(tile.position)
 
 
 func _add_connection(tile: Tile) -> void:
