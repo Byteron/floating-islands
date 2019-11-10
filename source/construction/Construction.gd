@@ -15,8 +15,8 @@ static func instance():
 	return load("res://source/construction/Construction.tscn").instance()
 
 
-func initialize(data: ConstructionData, tile):
-	self.tile = tile
+func initialize(data: ConstructionData, _tile):
+	self.tile = _tile
 
 	name = data.name
 	sprite.texture = data.texture

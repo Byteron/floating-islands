@@ -5,8 +5,6 @@ onready var player := $Player as Player
 onready var map := $Map as Map
 onready var interface := $Interface as Interface
 
-onready var camera := $GameCam as Camera2D
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("LMB"):
