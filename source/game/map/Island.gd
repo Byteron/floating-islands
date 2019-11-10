@@ -1,4 +1,5 @@
 extends Node2D
+class_name Island
 
 var min_island_radius := Global.TILE_SIZE * 2
 var max_island_radius := Global.TILE_SIZE * 6

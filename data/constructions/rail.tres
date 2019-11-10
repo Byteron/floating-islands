@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://source/construction/ConstructionData.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+id = "Rail"
+name = "Rail"
+cost = 10
+is_miner = false
+is_connector = true
+miner_radius = 0
+miner_tick_time = 0
+miner_mine_amount = 0

@@ -3,7 +3,7 @@ class_name Tile
 
 signal resource_depleted(cell)
 
-enum TYPE { LAND, VOID }
+enum TYPE { LAND, CONNECTOR, VOID }
 
 var type := 0						# Type of terrain
 var position : Vector2 = Vector2()	# Cell position in the tilemap

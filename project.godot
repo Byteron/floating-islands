@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://source/game/interface/Interface.gd"
 }, {
+"base": "Node2D",
+"class": "Island",
+"language": "GDScript",
+"path": "res://source/game/map/Island.gd"
+}, {
 "base": "TileMap",
 "class": "Map",
 "language": "GDScript",
@@ -70,6 +75,7 @@ _global_script_class_icons={
 "ConstructionData": "",
 "GameCam": "",
 "Interface": "",
+"Island": "",
 "Map": "",
 "Player": "",
 "PopupLabel": "",
