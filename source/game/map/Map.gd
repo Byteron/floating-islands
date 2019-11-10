@@ -93,6 +93,11 @@ func _generate_resources():
 			resource_overlay.set_cellv(tile.position, RES_INDEX)
 
 
+func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
+	var value = noise.get_noise_2dv(cell * factor) + resource_offset
+	return RES_INDEX if value * resource_amplitude > 0 else TileMap.INVALID_CELL
+
+
 func create_tile(position: Vector2, type, island: Node) -> void:
 	"""
 	Adds a tile at the given location, replacing any existing one
@@ -161,39 +166,39 @@ func get_island_tiles(world_position: Vector2) -> Array:
 func world_to_world(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
+
 func world_to_world_centered(world_position: Vector2) -> Vector2:
 	return world_to_world(world_position) + cell_size / 2
 
+
 func map_to_world_centered(cell: Vector2) -> Vector2:
 	return map_to_world(cell) + cell_size / 2
+
 
 func new_tile_selector() -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
 	add_child(tile_selector)
-	print("Selector Added")
 	return tile_selector
 
-func remove_tile_selector() -> void:
 
+func remove_tile_selector() -> void:
 	if not tile_selector:
 		return
 
 	remove_child(tile_selector)
 	tile_selector.queue_free()
 	tile_selector = null
-	print("Selector Removed")
+
 
 func add_contruction(tile: Tile, data: ConstructionData) -> void:
-
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
 	construction.initialize(data)
-	construction.global_position = tile.position + cell_size / 2
+	construction.global_position = tile.position * Global.TILE_SIZE + cell_size / 2
 
 	tile.construction = construction
-	print("Contruction Placed")
 
 
 func _print_info():
@@ -203,8 +208,3 @@ func _print_info():
 			island.size(),
 			island.get_resource_count(self)]
 		)
-
-
-func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
-	var value = noise.get_noise_2dv(cell * factor) + resource_offset
-	return RES_INDEX if value * resource_amplitude > 0 else TileMap.INVALID_CELL
