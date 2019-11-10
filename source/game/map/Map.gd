@@ -163,12 +163,15 @@ func get_island_tiles(world_position: Vector2) -> Array:
 	return []
 
 
-func world_to_world(world_position: Vector2) -> Vector2:
+func snap_position(world_position: Vector2) -> Vector2:
+	"""
+	Given a world position, snaps to the closest tile and return as world position
+	"""
 	return map_to_world(world_to_map(world_position))
 
 
 func world_to_world_centered(world_position: Vector2) -> Vector2:
-	return world_to_world(world_position) + cell_size / 2
+	return snap_position(world_position) + cell_size / 2
 
 
 func map_to_world_centered(cell: Vector2) -> Vector2:
@@ -196,7 +199,7 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
 	construction.initialize(data)
-	construction.global_position = tile.position * Global.TILE_SIZE + cell_size / 2
+	construction.global_position = tile.get_world_position() + cell_size / 2
 
 	tile.construction = construction
 

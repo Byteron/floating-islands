@@ -17,3 +17,10 @@ func _init(_position: Vector2, _type, _island: Node):
 	position = _position
 	type = _type
 	island = _island
+
+
+func get_world_position():
+	"""
+	Give the tile position as world coordinates
+	"""
+	return position * Global.TILE_SIZE

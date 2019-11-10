@@ -25,4 +25,4 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	rect_global_position = map.world_to_world(get_global_mouse_position())
+	rect_global_position = map.snap_position(get_global_mouse_position())
