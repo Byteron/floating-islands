@@ -281,10 +281,11 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	else:
 		_add_building(tile, data)
 
+	# Adds neighboring tiles to available construction places
 	for cell in _get_non_diagonal_neighbor_cells(tile.position):
 		var neighboor_tile = get_tile(cell)
 		if not neighboor_tile:
-			create_tile(cell, Tile.TYPE.CONNECTOR, null)
+			create_tile(cell, Tile.TYPE.VOID, null)
 
 		neighboor_tile = get_tile(cell)
 		connectors[cell] = neighboor_tile
