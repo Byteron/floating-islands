@@ -84,7 +84,7 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
-	construction.initialize(data)
+	construction.initialize(data, tile)
 	construction.global_position = tile.position + cell_size / 2
 
 	tile.construction = construction
@@ -160,6 +160,7 @@ func _generate_resources():
 			var idx = _get_resource_index(tile.cell, noise, resource_shrink)
 			if idx == RES_INDEX:
 				tile.resources = (randi() % (resource_max - resource_min)) + resource_min
+				tile.connect("resource_depleted", self, "_on_Tile_resource_depleted")
 
 func _get_neighbor_cells(cell: Vector2) -> Array:
 	var neighbors := []
@@ -194,3 +195,7 @@ func _get_terrain_index(x: int, y: int, noise: OpenSimplexNoise, factor: int) ->
 func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
 	var value = noise.get_noise_2dv(cell * factor) + resource_offset
 	return RES_INDEX if value * resource_amplitude > 0 else TileMap.INVALID_CELL
+
+func _on_Tile_resource_depleted(cell: Vector2) -> void:
+	print("Map._on_Tile_resource_depleted called")
+	resource_overlay.set_cellv(cell, TileMap.INVALID_CELL)
