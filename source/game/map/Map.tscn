@@ -39,7 +39,7 @@
 0/z_index = 0
 
 [node name="Map" type="TileMap" groups=[
-"map",
+"Map",
 ]]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )

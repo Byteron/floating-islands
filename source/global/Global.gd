@@ -16,8 +16,8 @@ func _load_constructions():
 
 
 func get_map():
-	return get_tree().get_nodes_in_group("map")[0]
+	return get_tree().get_nodes_in_group("Map")[0]
 
 
 func get_camera():
-	return get_tree().get_nodes_in_group("camera")[0]
+	return get_tree().get_nodes_in_group("Camera")[0]

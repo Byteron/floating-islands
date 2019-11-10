@@ -30,8 +30,7 @@ resource_min = 100
 resource_max = 200
 min_island_size = 12
 
-[node name="GameCam" parent="." groups=[
-] instance=ExtResource( 2 )]
+[node name="GameCam" parent="." instance=ExtResource( 2 )]
 position = Vector2( 181.21, 112.422 )
 current = true
 speed = 600

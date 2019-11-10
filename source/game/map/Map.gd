@@ -24,6 +24,7 @@ export (Resource) var IslandPacked
 export (int) var island_count = 100
 export (int) var max_island_offset = 10				# Offset for placing island
 export (int) var min_island_size = 5
+export (float) var process_time = 0.5				# Time given to physic engine to place islands
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
@@ -37,7 +38,7 @@ func _ready() -> void:
 	_place_islands()
 
 	# Wait for physic engine to finish positioning islands
-	yield(get_tree().create_timer(1.0), "timeout")
+	yield(get_tree().create_timer(process_time), "timeout")
 
 	_generate_islands()
 	_generate_resources()
