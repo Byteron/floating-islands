@@ -50,7 +50,7 @@ func _place_islands() -> void:
 	for id in range(island_count):
 		var island = IslandPacked.instance()
 		island.id = id
-		island.position = (size * Global.TILE_SIZE / 2) + Vector2(
+		island.position = (get_extents() / 2) + Vector2(
 			-max_island_offset + randi() % (max_island_offset * 2),
 			-max_island_offset + randi() % (max_island_offset * 2)
 		)
@@ -259,6 +259,13 @@ func get_tile_type(position: Vector2) -> int:
 		return Tile.TYPE.LAND
 
 	return Tile.TYPE.VOID
+
+
+func get_extents() -> Vector2:
+	"""
+	World size of the map
+	"""
+	return size * Global.TILE_SIZE
 
 
 

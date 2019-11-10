@@ -108,3 +108,4 @@ margin_top = 2.0
 margin_right = 70.0
 margin_bottom = 70.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
+[connection signal="gui_input" from="HUD/MarginContainer/Minimap" to="HUD/MarginContainer/Minimap" method="_on_Minimap_gui_input"]
