@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://source/game/map/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://source/camera/GameCam.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/game/interface/Interface.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/game/Game.gd" type="Script" id=4]
+[ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node2D" groups=[
 "Game",
@@ -21,6 +22,8 @@ color = Color( 0.321569, 0.2, 0.247059, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Player" parent="." instance=ExtResource( 5 )]
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
 size = Vector2( 200, 200 )

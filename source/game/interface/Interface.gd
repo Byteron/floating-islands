@@ -1,11 +1,16 @@
 extends CanvasLayer
 class_name Interface
 
+onready var construction_buttons := $HUD/ConstuctionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var constructions := $HUD/Constuctions
+
+onready var resource_label := $HUD/Panel/MarginContainer/CenterContainer/HBoxContainer/ResourceLabel as Label
 
 func _ready() -> void:
 	_add_construction_buttons()
+
+func update_player(player: Player):
+	resource_label.text = "Resources: %d" % player.resources
 
 func _add_construction_buttons():
 	for key in Global.constructions:
@@ -14,7 +19,7 @@ func _add_construction_buttons():
 		button.name = c.name
 		button.text = c.name
 		button.connect("pressed", self, "_on_ConstructionButton_pressed", [ c ])
-		constructions.add_child(button)
+		construction_buttons.add_child(button)
 
 func highlight_lands(tiles: Array):
 	clear_highlights()
