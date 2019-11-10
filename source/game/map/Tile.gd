@@ -1,6 +1,8 @@
 extends Object
 class_name Tile
 
+signal resource_depleted(cell)
+
 enum TYPE { LAND, VOID }
 
 var type := 0						# Type of terrain
@@ -17,6 +19,20 @@ func _init(_position: Vector2, _type, _island: Node):
 	position = _position
 	type = _type
 	island = _island
+
+
+func mine(amount: int) -> int:
+	var prev = resources
+	resources = clamp(resources - amount, 0, resources)
+
+	if not has_resources():
+		emit_signal("resource_depleted", position)
+
+	return prev - resources
+
+
+func has_resources() -> bool:
+	return resources > 0
 
 
 func get_world_position():

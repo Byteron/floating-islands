@@ -90,6 +90,7 @@ func _generate_resources():
 			assert(resource_min > 0) # Could create empty deposit otherwise
 			tile.resources = (randi() % (resource_max - resource_min)) + resource_min
 			resource_overlay.set_cellv(tile.position, RES_INDEX)
+			tile.connect("resource_depleted", self, "_on_Tile_resource_depleted")
 
 
 func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
@@ -197,10 +198,8 @@ func remove_tile_selector() -> void:
 func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
-	construction.initialize(data)
+	construction.initialize(data, tile)
 	construction.global_position = tile.get_world_position() + cell_size / 2
-
-	tile.construction = construction
 
 
 func _print_info():
@@ -210,3 +209,8 @@ func _print_info():
 			island.size(),
 			island.get_resource_count(self)]
 		)
+
+
+func _on_Tile_resource_depleted(cell: Vector2) -> void:
+	print("Map._on_Tile_resource_depleted called")
+	resource_overlay.set_cellv(cell, TileMap.INVALID_CELL)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://source/game/map/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://source/camera/GameCam.tscn" type="PackedScene" id=2]
 [ext_resource path="res://source/game/interface/Interface.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/game/Game.gd" type="Script" id=4]
+[ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node2D" groups=[
 "Game",
@@ -22,7 +23,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Player" parent="." instance=ExtResource( 5 )]
+
 [node name="Map" parent="." instance=ExtResource( 1 )]
+min_island_size = 12
+noise_amplitude = 100
+noise_shrink = 3
+noise_offset = -0.3
+resource_min = 100
+resource_max = 200
 
 [node name="GameCam" parent="." instance=ExtResource( 2 )]
 position = Vector2( 181.21, 112.422 )
