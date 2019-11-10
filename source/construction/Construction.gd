@@ -33,7 +33,14 @@ func mine() -> void:
 		var mined : int = tile.mine(miner_amount)
 		get_tree().call_group("Player", "add_resources", mined)
 	else:
+		for n_tile in tile.neighbors:
+			if n_tile.has_resources():
+				var mined : int = n_tile.mine(miner_amount)
+				get_tree().call_group("Player", "add_resources", mined)
+				return
+
 		mine_timer.stop()
+
 
 func _on_MineTimer_timeout() -> void:
 	mine()
