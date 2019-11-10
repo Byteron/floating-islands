@@ -23,9 +23,6 @@ __meta__ = {
 }
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
-noise_amplitude = 2
-noise_shrink = 4
-noise_offset = -0.2
 
 [node name="GameCam" parent="." instance=ExtResource( 2 )]
 position = Vector2( 181.21, 112.422 )

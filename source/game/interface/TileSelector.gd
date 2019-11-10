@@ -11,7 +11,7 @@ static func instance():
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("LMB"):
-		var tile = map.get_tile(get_global_mouse_position())
+		var tile = map.get_tile_from_world_position(get_global_mouse_position())
 		if tile and tile.type == Tile.TYPE.LAND:
 			selected_tile = tile
 			print("Tile Selected: ", tile)
