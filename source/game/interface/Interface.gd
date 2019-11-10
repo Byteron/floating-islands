@@ -11,13 +11,14 @@ func _ready() -> void:
 
 func update_player(player: Player):
 	resource_label.text = "Resources: %d" % player.resources
+	for button in construction_buttons.get_children():
+		button.disabled = button.data.cost > player.resources
 
 func _add_construction_buttons():
 	for key in Global.constructions:
 		var c = Global.constructions[key]
-		var button = Button.new()
-		button.name = c.name
-		button.text = c.name
+		var button = ConstructionButton.new()
+		button.data = c
 		button.connect("pressed", self, "_on_ConstructionButton_pressed", [ c ])
 		construction_buttons.add_child(button)
 

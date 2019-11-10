@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://source/construction/Construction.gd"
 }, {
+"base": "Button",
+"class": "ConstructionButton",
+"language": "GDScript",
+"path": "res://source/game/interface/ConstructionButton.gd"
+}, {
 "base": "Resource",
 "class": "ConstructionData",
 "language": "GDScript",
@@ -61,6 +66,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Construction": "",
+"ConstructionButton": "",
 "ConstructionData": "",
 "GameCam": "",
 "Interface": "",
