@@ -31,7 +31,6 @@ resource_max = 200
 min_island_size = 12
 
 [node name="GameCam" parent="." groups=[
-"camera",
 ] instance=ExtResource( 2 )]
 position = Vector2( 181.21, 112.422 )
 current = true

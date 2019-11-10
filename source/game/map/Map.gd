@@ -130,7 +130,7 @@ func _setup_start_tiles():
 		var tile = tiles[cell]
 		connectors[cell] = tile
 
-	get_tree().call_group("GameCam", "set_global_position", start_island.global_position)
+	Global.get_camera().set_global_position(start_island.global_position)
 
 
 func _get_neighbor_cells(position: Vector2) -> Array:
