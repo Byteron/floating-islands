@@ -8,6 +8,7 @@ var VOID_INDEX := tile_set.find_tile_by_name("Void")
 var tile_selector : TileSelector = null
 
 var tiles := {}
+var connectors := {}
 
 export var size = Vector2(64, 64)
 
@@ -19,13 +20,15 @@ export var resource_amplitude := 2
 export var resource_shrink := 8
 export(float, -1, 1) var resource_offset := -0.3
 
-onready var resource_overlay := $Resources as TileMap
-onready var construction_container := $ConstructionContainer as Node2D
-
 export (Resource) var IslandPacked
 export (int) var island_count = 100
 export (int) var max_island_offset = 10				# Offset for placing island
 export (int) var min_island_size = 5
+
+onready var rails_overlay := $Rails as TileMap
+onready var resource_overlay := $Resources as TileMap
+onready var construction_container := $ConstructionContainer as Node2D
+onready var island_container := $Islands as Node2D
 
 
 func _ready() -> void:
@@ -39,7 +42,7 @@ func _ready() -> void:
 	_generate_islands()
 	_generate_resources()
 	_generate_neighbors()
-
+	_setup_start_tiles()
 	#_print_info()
 
 
@@ -55,14 +58,14 @@ func _place_islands() -> void:
 			-max_island_offset + randi() % (max_island_offset * 2)
 		)
 
-		$Islands.add_child(island)
+		island_container.add_child(island)
 
 
 func _generate_islands() -> void:
 	"""
 	Generate visual island representation in the tilemap
 	"""
-	for island in $Islands.get_children():
+	for island in island_container.get_children():
 		# Remove out of bound islands
 		var position = world_to_map(island.position)
 		if not Rect2(Vector2(), size).has_point(position):
@@ -74,7 +77,7 @@ func _generate_islands() -> void:
 		# Remove small islands
 		if island.size() < min_island_size:
 			island.remove(self)
-			$Islands.remove_child(island)
+			island_container.remove_child(island)
 
 
 func _generate_resources():
@@ -86,7 +89,7 @@ func _generate_resources():
 	noise.octaves = 1
 	noise.period = 20
 
-	for island in $Islands.get_children():
+	for island in island_container.get_children():
 		for position in island.tiles_position:
 			var tile = get_tile(position)
 			if not tile:
@@ -120,6 +123,16 @@ func _generate_neighbors() -> void:
 		tile.neighbors = neighbors
 
 
+func _setup_start_tiles():
+	var start_island := get_random_island()
+
+	for cell in start_island.tiles_position:
+		var tile = tiles[cell]
+		connectors[cell] = tile
+
+	get_tree().call_group("GameCam", "set_global_position", start_island.global_position)
+
+
 func _get_neighbor_cells(position: Vector2) -> Array:
 	var neighbors := []
 	neighbors.append(position + Vector2(+1, -1))
@@ -132,6 +145,13 @@ func _get_neighbor_cells(position: Vector2) -> Array:
 	neighbors.append(position + Vector2(-1, -1))
 	return neighbors
 
+func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
+	var neighbors := []
+	neighbors.append(position + Vector2(+1, 0))
+	neighbors.append(position + Vector2(0, +1))
+	neighbors.append(position + Vector2(0, -1))
+	neighbors.append(position + Vector2(-1, 0))
+	return neighbors
 
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
@@ -144,8 +164,9 @@ func create_tile(position: Vector2, type, island: Node) -> bool:
 	tiles[position] = Tile.new(position, type, island)
 
 	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
-	set_cellv(position, LAND_INDEX)
-	update_bitmask_area(position)
+	if type == Tile.TYPE.LAND:
+		set_cellv(position, LAND_INDEX)
+		update_bitmask_area(position)
 
 	return true
 
@@ -158,6 +179,8 @@ func remove_tile(position: Vector2) -> void:
 
 	set_cellv(position, VOID_INDEX)
 
+func get_random_island() -> Island:
+	return island_container.get_children()[randi() % island_container.get_child_count()]
 
 func get_tile(position: Vector2) -> Tile:
 	"""
@@ -237,6 +260,28 @@ func remove_tile_selector() -> void:
 
 
 func add_contruction(tile: Tile, data: ConstructionData) -> void:
+	if data.is_connector:
+		_add_connection(tile)
+	else:
+		_add_building(tile, data)
+
+
+func _add_connection(tile: Tile) -> void:
+
+	rails_overlay.set_cellv(tile.position, 0)
+	rails_overlay.update_bitmask_area(tile.position)
+	connectors[tile.position] = tile
+
+	for n_cell in _get_non_diagonal_neighbor_cells(tile.position):
+		if not tiles.has(n_cell):
+			if create_tile(n_cell, Tile.TYPE.CONNECTOR, null):
+				var n_tile = get_tile(n_cell)
+				connectors[n_tile.position] = n_tile
+		else:
+			var n_tile = tiles[n_cell]
+			connectors[n_tile.position] = n_tile
+
+func _add_building(tile: Tile, data: ConstructionData):
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
 	construction.initialize(data, tile)
@@ -248,7 +293,13 @@ func get_tile_type(position: Vector2) -> int:
 	Give the type of entity at the given position (road, building, land, ...)
 	"""
 	# Check building layer first
-	# TODO
+	for construction in construction_container.get_children():
+		if world_to_map(construction.global_position) == position:
+			return Tile.TYPE.BUILDING
+
+	# Check connector layer
+	if rails_overlay.get_cellv(position) != TileMap.INVALID_CELL:
+			return Tile.TYPE.CONNECTOR
 
 	# Then resource layer
 	if resource_overlay.get_cellv(position) == RES_INDEX:
@@ -270,7 +321,7 @@ func get_extents() -> Vector2:
 
 
 func _print_info():
-	for island in $Islands.get_children():
+	for island in island_container.get_children():
 		print("Island %d -> Size: %d, Resources: %d" % [
 			island.id,
 			island.size(),

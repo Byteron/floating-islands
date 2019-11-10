@@ -5,7 +5,8 @@ var COLORS = [
 	Color.black,
 	Color.red,
 	Color.white,
-	Color( 0.321569, 0.2, 0.247059, 1 )
+	Color( 0.321569, 0.2, 0.247059, 1 ),
+	Color.purple
 ]
 
 

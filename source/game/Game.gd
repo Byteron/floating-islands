@@ -16,10 +16,21 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func place_construction(data: ConstructionData):
+	interface.highlight_connected_tiles(map.connectors.values())
+
 	var tile_selector := map.new_tile_selector()
 	yield(tile_selector, "tile_selected")
-	if tile_selector.selected_tile:
-		player.resources -= data.cost
-		map.add_contruction(tile_selector.selected_tile, data)
+
+	if tile_selector.selected_tile and not map.connectors.values().has(tile_selector.selected_tile):
+		pass
+
+	elif tile_selector.selected_tile and not tile_selector.selected_tile.construction:
+		if tile_selector.selected_tile.type == Tile.TYPE.CONNECTOR and not data.is_connector:
+			pass
+		else:
+			player.resources -= data.cost
+			map.add_contruction(tile_selector.selected_tile, data)
+
 	map.remove_tile_selector()
+	interface.clear_highlights()
 	call_deferred("set_process_unhandled_input", true)

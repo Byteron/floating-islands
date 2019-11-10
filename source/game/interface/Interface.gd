@@ -25,6 +25,14 @@ func _add_construction_buttons():
 		button.connect("pressed", self, "_on_ConstructionButton_pressed", [ c ])
 		construction_buttons.add_child(button)
 
+func highlight_connected_tiles(tiles: Array):
+	clear_highlights()
+
+	for tile in tiles:
+		var h := TileHighlighter.instance() as TileHighlighter
+		highlight_container.add_child(h)
+		h.rect_global_position = tile.get_world_position()
+		h.modulate = Color("66FF33")
 
 func highlight_lands(tiles: Array):
 	clear_highlights()
@@ -46,7 +54,7 @@ func clear_highlights():
 
 
 func _on_Generate_pressed() -> void:
-	get_tree().reload_current_scene()
+	var __ = get_tree().reload_current_scene()
 
 
 func _on_ConstructionButton_pressed(data: ConstructionData):
