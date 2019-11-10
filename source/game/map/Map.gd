@@ -128,7 +128,10 @@ func _spawn_player():
 	# Otherwise, its possible to get an island with no plain tile in it
 	assert(min_island_size >= 6)
 
-	for position in start_island.tiles_position:
+	var positions = start_island.tiles_position
+	positions.shuffle()
+
+	for position in positions:
 		var tile = get_tile(position)
 		if not tile:
 			continue
