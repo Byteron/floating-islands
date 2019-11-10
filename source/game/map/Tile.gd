@@ -8,6 +8,7 @@ enum TYPE { LAND, VOID }
 var type := 0						# Type of terrain
 var position : Vector2 = Vector2()	# Cell position in the tilemap
 var island : Node = null			# Which island this belongs to
+var neighbors: Array = []			# List of adjacent tiles
 
 # warning-ignore:unused_class_variable
 var resources : int = 0

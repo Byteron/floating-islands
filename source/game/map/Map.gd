@@ -36,6 +36,7 @@ func _ready() -> void:
 
 	_generate_islands()
 	_generate_resources()
+	_generate_neighbors()
 
 	#_print_info()
 
@@ -96,6 +97,32 @@ func _generate_resources():
 func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
 	var value = noise.get_noise_2dv(cell * factor) + resource_offset
 	return RES_INDEX if value * resource_amplitude > 0 else TileMap.INVALID_CELL
+
+
+func _generate_neighbors() -> void:
+	"""
+	Pre-computation of the list of neighbors for every tile
+	"""
+	for tile in tiles.values():
+		var n_cells = _get_neighbor_cells(tile.position)
+		var neighbors := []
+		for n_cell in n_cells:
+			if tiles.has(n_cell):
+				neighbors.append(tiles[n_cell])
+		tile.neighbors = neighbors
+
+
+func _get_neighbor_cells(position: Vector2) -> Array:
+	var neighbors := []
+	neighbors.append(position + Vector2(+1, -1))
+	neighbors.append(position + Vector2(+1, 0))
+	neighbors.append(position + Vector2(+1, +1))
+	neighbors.append(position + Vector2(0, +1))
+	neighbors.append(position + Vector2(0, -1))
+	neighbors.append(position + Vector2(-1, +1))
+	neighbors.append(position + Vector2(-1, 0))
+	neighbors.append(position + Vector2(-1, -1))
+	return neighbors
 
 
 func create_tile(position: Vector2, type, island: Node) -> void:
