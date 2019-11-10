@@ -69,26 +69,6 @@ func _generate_islands() -> void:
 			$Islands.remove_child(island)
 
 
-func create_tile(position: Vector2, type) -> void:
-	"""
-	Adds a tile at the given location, replacing any existing one
-	"""
-	tiles[position] = Tile.new(position, type)
-
-	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
-	set_cellv(position, LAND_INDEX)
-	update_bitmask_area(position)
-
-
-func remove_tile(position: Vector2) -> void:
-	"""
-	Remove the tile at the given coordinates
-	"""
-	tiles.erase(position)
-
-	set_cellv(position, VOID_INDEX)
-
-
 func _generate_resources():
 	"""
 	Add resource deposit randomly using simplex noise
@@ -113,6 +93,26 @@ func _generate_resources():
 			resource_overlay.set_cellv(tile.position, RES_INDEX)
 
 
+func create_tile(position: Vector2, type, island: Node) -> void:
+	"""
+	Adds a tile at the given location, replacing any existing one
+	"""
+	tiles[position] = Tile.new(position, type, island)
+
+	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
+	set_cellv(position, LAND_INDEX)
+	update_bitmask_area(position)
+
+
+func remove_tile(position: Vector2) -> void:
+	"""
+	Remove the tile at the given coordinates
+	"""
+	tiles.erase(position)
+
+	set_cellv(position, VOID_INDEX)
+
+
 func get_tile(position: Vector2) -> Tile:
 	"""
 	Get tile at the given tile coordinates
@@ -128,6 +128,34 @@ func get_tile_from_world_position(position: Vector2) -> Tile:
 	Get tile at the given world coordinates
 	"""
 	return get_tile(world_to_map(position))
+
+
+func get_island(world_position: Vector2) -> Node:
+	"""
+	Get the island at the given world coordinates
+	"""
+	var tile = get_tile_from_world_position(world_position)
+	if tile:
+		return tile.island
+
+	return null
+
+
+func get_island_tiles(world_position: Vector2) -> Array:
+	"""
+	Get all tiles of the island at the given coordinates
+	"""
+	var island = get_island(world_position)
+	if island:
+		var tiles = []
+		for position in island.tiles_position:
+			var tile = get_tile(position)
+			if tile:
+				tiles.append(tile)
+
+		return tiles
+
+	return []
 
 
 func world_to_world(world_position: Vector2) -> Vector2:

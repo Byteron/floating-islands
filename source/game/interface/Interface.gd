@@ -23,7 +23,7 @@ func highlight_lands(tiles: Array):
 		if tile.type == Tile.TYPE.LAND:
 			var h := TileHighlighter.instance() as TileHighlighter
 			highlight_container.add_child(h)
-			h.rect_global_position = tile.position
+			h.rect_global_position = tile.position * Global.TILE_SIZE
 
 			if tile.resources:
 				h.modulate = Color("FFAA00")

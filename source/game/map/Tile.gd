@@ -3,27 +3,17 @@ class_name Tile
 
 enum TYPE { LAND, VOID }
 
-var type := 0
-var position := Vector2()
+var type := 0						# Type of terrain
+var position : Vector2 = Vector2()	# Cell position in the tilemap
+var island : Node = null			# Which island this belongs to
 
-var resources := 0
-
+# warning-ignore:unused_class_variable
+var resources : int = 0
+# warning-ignore:unused_class_variable
 var construction : Construction = null
 
-var neighbors := []
 
-
-func _init(_position: Vector2, _type):
+func _init(_position: Vector2, _type, _island: Node):
 	position = _position
 	type = _type
-
-
-func is_surrounded_by_land() -> bool:
-	if neighbors.size() < 8:
-		return false
-
-	for n in neighbors:
-		if n.type != TYPE.LAND:
-			return false
-
-	return true
+	island = _island

@@ -33,11 +33,14 @@ func generate(map: TileMap) -> void:
 			var world_position = position + local_position
 			var cell_position = map.world_to_map(world_position)
 
-			map.create_tile(cell_position, Tile.TYPE.LAND)
+			map.create_tile(cell_position, Tile.TYPE.LAND, self)
 			tiles_position.append(cell_position)
 
 
 func remove(map: TileMap):
+	"""
+	Remove the island from the tilemap
+	"""
 	for position in tiles_position:
 		map.remove_tile(position)
 
