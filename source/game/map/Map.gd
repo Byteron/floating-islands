@@ -9,6 +9,8 @@ var tile_selector : TileSelector = null
 
 var tiles := {}
 
+export var size = Vector2(64, 64)
+
 export var resource_min := 200
 export var resource_max := 8000
 
@@ -48,7 +50,7 @@ func _place_islands() -> void:
 	for id in range(island_count):
 		var island = IslandPacked.instance()
 		island.id = id
-		island.position = Vector2(
+		island.position = (size * Global.TILE_SIZE / 2) + Vector2(
 			-max_island_offset + randi() % (max_island_offset * 2),
 			-max_island_offset + randi() % (max_island_offset * 2)
 		)
@@ -61,6 +63,12 @@ func _generate_islands() -> void:
 	Generate visual island representation in the tilemap
 	"""
 	for island in $Islands.get_children():
+		# Remove out of bound islands
+		var position = world_to_map(island.position)
+		if not Rect2(Vector2(), size).has_point(position):
+			$Islands.remove_child(island)
+			continue
+
 		island.generate(self)
 
 		# Remove small islands
@@ -125,15 +133,21 @@ func _get_neighbor_cells(position: Vector2) -> Array:
 	return neighbors
 
 
-func create_tile(position: Vector2, type, island: Node) -> void:
+func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
 	Adds a tile at the given location, replacing any existing one
+	Returns true on success
 	"""
+	if not Rect2(Vector2(), size).has_point(position):
+		return false
+
 	tiles[position] = Tile.new(position, type, island)
 
 	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
 	set_cellv(position, LAND_INDEX)
 	update_bitmask_area(position)
+
+	return true
 
 
 func remove_tile(position: Vector2) -> void:
@@ -227,6 +241,25 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	construction_container.add_child(construction)
 	construction.initialize(data, tile)
 	construction.global_position = tile.get_world_position() + cell_size / 2
+
+
+func get_tile_type(position: Vector2) -> int:
+	"""
+	Give the type of entity at the given position (road, building, land, ...)
+	"""
+	# Check building layer first
+	# TODO
+
+	# Then resource layer
+	if resource_overlay.get_cellv(position) == RES_INDEX:
+		return Tile.TYPE.RESOURCE
+
+	# Lastly, terrain layer
+	if get_cellv(position) == LAND_INDEX:
+		return Tile.TYPE.LAND
+
+	return Tile.TYPE.VOID
+
 
 
 func _print_info():

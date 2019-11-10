@@ -17,7 +17,9 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[node name="Map" type="TileMap"]
+[node name="Map" type="TileMap" groups=[
+"map",
+]]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
