@@ -11,6 +11,8 @@ var cell := Vector2()
 
 var resources := 0
 
+var construction : Construction = null
+
 var neighbors := []
 
 func get_isle() -> Isle:

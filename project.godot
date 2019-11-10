@@ -48,6 +48,11 @@ _global_script_classes=[ {
 "class": "TileHighlighter",
 "language": "GDScript",
 "path": "res://source/game/interface/TileHighlighter.gd"
+}, {
+"base": "Control",
+"class": "TileSelector",
+"language": "GDScript",
+"path": "res://source/game/interface/TileSelector.gd"
 } ]
 _global_script_class_icons={
 "Construction": "",
@@ -57,7 +62,8 @@ _global_script_class_icons={
 "Isle": "",
 "Map": "",
 "Tile": "",
-"TileHighlighter": ""
+"TileHighlighter": "",
+"TileSelector": ""
 }
 
 [application]

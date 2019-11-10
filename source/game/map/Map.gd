@@ -1,11 +1,11 @@
 extends TileMap
 class_name Map
 
-# const
+const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only has that one tile
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 var VOID_INDEX := tile_set.find_tile_by_name("Void")
 
-var RES_INDEX := 0
+var tile_selector : TileSelector = null
 
 var tiles := {}
 var isles := []
@@ -23,7 +23,10 @@ export var resource_max := 8000
 export var resource_amplitude := 2
 export var resource_shrink := 8
 export(float, -1, 1) var resource_offset := -0.3
-onready var resources := $Resources as TileMap
+
+onready var resource_overlay := $Resources as TileMap
+
+onready var construction_container := $ConstructionContainer as Node2D
 
 func _ready() -> void:
 	_generate_tiles()
@@ -32,6 +35,12 @@ func _ready() -> void:
 	_generate_resources()
 	_build_terrain()
 	_print_info()
+
+func world_to_world(world_position: Vector2) -> Vector2:
+	return map_to_world(world_to_map(world_position))
+
+func world_to_world_centered(world_position: Vector2) -> Vector2:
+	return world_to_world(world_position) + cell_size / 2
 
 func map_to_world_centered(cell: Vector2) -> Vector2:
 	return map_to_world(cell) + cell_size / 2
@@ -52,6 +61,34 @@ func get_isle(world_position: Vector2) -> Isle:
 
 	var tile = tiles[cell]
 	return tile.get_isle()
+
+func new_tile_selector() -> TileSelector:
+	remove_tile_selector()
+	tile_selector = TileSelector.instance() as TileSelector
+	tile_selector.map = self
+	add_child(tile_selector)
+	print("Selector Added")
+	return tile_selector
+
+func remove_tile_selector() -> void:
+
+	if not tile_selector:
+		return
+
+	remove_child(tile_selector)
+	tile_selector.queue_free()
+	tile_selector = null
+	print("Selector Removed")
+
+func add_contruction(tile: Tile, data: ConstructionData) -> void:
+
+	var construction = Construction.instance()
+	construction_container.add_child(construction)
+	construction.initialize(data)
+	construction.global_position = tile.position + cell_size / 2
+
+	tile.construction = construction
+	print("Contruction Placed")
 
 func _generate_tiles():
 	randomize()
@@ -142,7 +179,7 @@ func _build_terrain():
 		update_bitmask_area(tile.cell)
 
 		if tile.resources:
-			resources.set_cellv(tile.cell, RES_INDEX)
+			resource_overlay.set_cellv(tile.cell, RES_INDEX)
 
 func _print_info():
 	var idx := 1

@@ -29,3 +29,5 @@ noise_offset = 0.0
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
+
+[node name="ConstructionContainer" type="Node2D" parent="."]

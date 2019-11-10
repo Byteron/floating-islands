@@ -5,7 +5,9 @@
 [ext_resource path="res://source/game/interface/Interface.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/game/Game.gd" type="Script" id=4]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" groups=[
+"Game",
+]]
 script = ExtResource( 4 )
 
 [node name="Background" type="CanvasLayer" parent="."]

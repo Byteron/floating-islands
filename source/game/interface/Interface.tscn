@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
+[ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
@@ -21,9 +22,25 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -71.0
-margin_top = -20.0
+margin_left = -48.0
+margin_top = -18.0
+margin_right = -2.0
+margin_bottom = -2.0
+theme = ExtResource( 2 )
 text = "Generate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Constuctions" type="HBoxContainer" parent="HUD"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = -18.0
+margin_right = 22.0
+margin_bottom = -2.0
+theme = ExtResource( 2 )
+custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
