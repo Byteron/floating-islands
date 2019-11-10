@@ -13,6 +13,7 @@ var isles := []
 export var size := Vector2(40, 40)
 export var min_isle_size := 7
 
+# warning-ignore:unused_class_variable
 export var noise_amplitude := 2
 export var noise_shrink := 4
 export(float, -1, 1) var noise_offset := -0.2
@@ -28,13 +29,33 @@ onready var resource_overlay := $Resources as TileMap
 
 onready var construction_container := $ConstructionContainer as Node2D
 
+export (Resource) var IslandPacked
+export (int) var island_count = 100
+export (int) var max_island_offset = 10				# Offset for placing island collider
+
+
 func _ready() -> void:
-	_generate_tiles()
-	_generate_neighbors()
-	_remove_dwarve_isles()
-	_generate_resources()
-	_build_terrain()
-	_print_info()
+	randomize()
+	generate_islands()
+
+
+func generate_islands() -> void:
+	for __ in range(island_count):
+		var island = IslandPacked.instance()
+		island.position = Vector2(
+			-max_island_offset + randi() % (max_island_offset * 2),
+			-max_island_offset + randi() % (max_island_offset * 2)
+		)
+
+		$Islands.add_child(island)
+
+	# Wait for physic engine to finish
+	yield(get_tree().create_timer(1.0), "timeout")
+
+	# Generate each island
+	for island in $Islands.get_children():
+		island.generate(self)
+
 
 func world_to_world(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
@@ -52,15 +73,6 @@ func get_tile(world_position: Vector2) -> Tile:
 		return null
 
 	return tiles[cell]
-
-func get_isle(world_position: Vector2) -> Isle:
-	var cell = world_to_map(world_position)
-
-	if not tiles.has(cell):
-		return null
-
-	var tile = tiles[cell]
-	return tile.get_isle()
 
 func new_tile_selector() -> TileSelector:
 	remove_tile_selector()

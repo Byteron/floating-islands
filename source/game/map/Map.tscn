@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=1]
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=2]
 [ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=3]
+[ext_resource path="res://source/game/map/Island.tscn" type="PackedScene" id=4]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Resource"
@@ -21,9 +22,7 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 1 )
-noise_amplitude = 1
-noise_shrink = 1
-noise_offset = 0.0
+IslandPacked = ExtResource( 4 )
 
 [node name="Resources" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -31,3 +30,5 @@ cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="ConstructionContainer" type="Node2D" parent="."]
+
+[node name="Islands" type="Node2D" parent="."]

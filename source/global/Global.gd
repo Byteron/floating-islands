@@ -1,5 +1,6 @@
 extends Node
 
+var TILE_SIZE: int = 16
 var constructions := {}
 
 func _ready() -> void:
