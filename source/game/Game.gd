@@ -22,7 +22,7 @@ func place_construction(data: ConstructionData):
 	"""
 	# Adds selection UI
 	var tile_selector := map.new_tile_selector()
-	interface.highlight_connected_tiles(map.connectors.values())
+	interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
 
@@ -35,7 +35,7 @@ func place_construction(data: ConstructionData):
 	call_deferred("set_process_unhandled_input", true)
 
 	# Cannot build there or nothing selected
-	if not tile or not map.connectors.values().has(tile):
+	if not tile or not map.valid_construction_sites.values().has(tile):
 		return
 
 	# Already occupied

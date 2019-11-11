@@ -6,6 +6,8 @@ Handle a rail logic
 
 var adjacent_connectors := []
 var tile := null		# Tile on which this connector is
+# warning-ignore:unused_class_variable
+var connected_to_storage: bool = false
 
 
 func _init(_tile: Tile):
@@ -20,21 +22,8 @@ func update_adjacent_connectors():
 	Update list of neighbor connectors
 	"""
 	adjacent_connectors = []
-	for neighbor in tile.neighbors:
+	for neighbor in tile.direct_neighbors:
 		# Can't use "is Connector" in Connector :(
 		if neighbor.construction and neighbor.construction.get_class() == "Connector":
 			adjacent_connectors.append(neighbor)
-
-
-func is_connected_to_storage() -> bool:
-	# Check adjacent buildings
-	for neighbor in tile.neighbors:
-		if neighbor.construction and neighbor.construction.get_id() == "Storage":
-			return true
-
-	# Check adjacent connectors
-	for connector in adjacent_connectors:
-		if connector.is_connected_to_storage():
-			return true
-
-	return false
+			neighbor.update_adjacent_connectors()

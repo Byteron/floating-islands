@@ -7,7 +7,7 @@ var miner_amount := 0
 var is_miner := false
 var tile = null # class Tile, cyclic dependency
 var data		# Construction data
-var connected_to_storage = false	# Does not produce until linked to a storage
+var connected_to_storage: bool = false	# Does not produce until linked to a storage
 
 onready var mine_timer := $MineTimer as Timer
 onready var sprite := $Sprite as Sprite
@@ -30,25 +30,9 @@ func initialize(_data: ConstructionData, _tile):
 	if is_miner:
 		mine_timer.start(data.miner_tick_time)
 
-	check_connection()
-
 
 func get_id() -> String:
 	return data.id
-
-
-func check_connection():
-	"""
-	Check if a storage is connected to trigger mining or not
-	"""
-	connected_to_storage = false
-
-	for neighbor in tile.neighbors:
-		var construction = neighbor.construction
-		if construction and construction is Connector:
-			connected_to_storage = construction.is_connected_to_storage()
-			if connected_to_storage:
-				break
 
 
 func mine() -> void:

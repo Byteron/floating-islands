@@ -43,6 +43,7 @@ func _ready() -> void:
 	yield(get_tree().create_timer(process_time), "timeout")
 
 	_generate_islands()
+	_generate_void()
 	_generate_resources()
 	_generate_neighbors()
 	_spawn_player()
@@ -83,6 +84,20 @@ func _generate_islands() -> void:
 			island_container.remove_child(island)
 
 
+func _generate_void() -> void:
+	"""
+	Generate every possible tile not used
+	"""
+	for x in range(size.x):
+		for y in range(size.y):
+			var position = Vector2(x, y)
+			if tiles.has(position):
+				continue
+
+			if not create_tile(position, Tile.TYPE.VOID, null):
+				print("mega meh")
+
+
 func _generate_resources():
 	"""
 	Add resource deposit randomly using simplex noise
@@ -119,6 +134,7 @@ func _generate_neighbors() -> void:
 	"""
 	for tile in tiles.values():
 		tile.neighbors = _get_tiles(_get_neighbor_cells(tile.position))
+		tile.direct_neighbors = _get_tiles(_get_non_diagonal_neighbor_cells(tile.position))
 
 
 func _spawn_player():
@@ -295,22 +311,18 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	tile.construction = construction
 
 	# Adds neighboring tiles to available construction places
-	for cell in _get_non_diagonal_neighbor_cells(tile.position):
-		var neighbor_tile = get_tile(cell)
-		if not neighbor_tile:
-			var result = create_tile(cell, Tile.TYPE.VOID, null)
-			assert(result) # Check cell position if that happens
-
+	for neighbor in tile.direct_neighbors:
 		# If there is a building or a rail, cannot be built on
-		var type = get_tile_type(cell)
+		var type = get_tile_type(neighbor.position)
 		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
 			continue
 
-		neighbor_tile = get_tile(cell)
-		connectors[cell] = neighbor_tile
+		valid_construction_sites[neighbor.position] = neighbor
 
 	# Remove that tile from possible constructions
-	var __ = connectors.erase(tile.position)
+	var __ = valid_construction_sites.erase(tile.position)
+
+	update_connections()
 
 
 func _add_connection(tile: Tile) -> Connector:
@@ -330,6 +342,38 @@ func _add_building(tile: Tile, data: ConstructionData) -> Construction:
 	construction.global_position = tile.get_world_position()
 
 	return construction
+
+
+func update_connections():
+	# Disconnects everybody
+	for connector in connectors.values():
+		connector.connected_to_storage = false
+
+	for construction in construction_container.get_children():
+		construction.connected_to_storage = false
+
+	# For every storage
+	for construction in construction_container.get_children():
+		if not construction.get_id() == "Storage":
+			continue
+
+		construction.connected_to_storage = true
+		_propagate_connection(construction)
+
+
+func _propagate_connection(construction: Object):
+	"""
+	Propagate connected status to all neighbors of neighbors and so on
+	"""
+	for neighbor in construction.tile.direct_neighbors:
+		if neighbor.construction:
+			# Already processed
+			if neighbor.construction.connected_to_storage:
+				continue
+
+			neighbor.construction.connected_to_storage = true
+			if neighbor.construction is Connector:
+				_propagate_connection(neighbor.construction)
 
 
 func get_tile_type(position: Vector2) -> int:
