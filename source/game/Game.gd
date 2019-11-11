@@ -47,7 +47,6 @@ func remove_construction():
 	map.remove_tile_selector()
 
 	enable_user_selection()
-	call_deferred("set_process_unhandled_input", true)
 
 	map.remove_construction(tile)
 
@@ -73,7 +72,7 @@ func place_construction(data: ConstructionData):
 	map.remove_tile_selector()
 	interface.clear_highlights()
 
-	call_deferred("set_process_unhandled_input", true)
+	enable_user_selection()
 
 	# Cannot build there or nothing selected
 	if not tile or not map.valid_construction_sites.values().has(tile):
