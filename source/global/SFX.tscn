@@ -17,3 +17,9 @@ script = ExtResource( 2 )
 stream = ExtResource( 3 )
 volume_db = -20.0
 pitch_scale = 2.0
+
+[node name="Destroy" type="Node" parent="."]
+script = ExtResource( 2 )
+stream = ExtResource( 3 )
+volume_db = -20.0
+pitch_scale = 0.6

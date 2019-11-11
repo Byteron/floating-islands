@@ -35,6 +35,8 @@ func remove_construction():
 
 	map.remove_construction(tile)
 
+	SFX.play_sfx("Destroy")
+
 
 func place_construction(data: ConstructionData):
 	"""

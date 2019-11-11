@@ -70,5 +70,6 @@ func _make_popup(value: int) -> void:
 	get_tree().current_scene.add_child(popup)
 	SFX.play_sfx("Mine")
 
+
 func _on_MineTimer_timeout() -> void:
 	mine()
