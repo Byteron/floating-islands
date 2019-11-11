@@ -1,14 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
 [ext_resource path="res://source/game/interface/Minimap.tscn" type="PackedScene" id=3]
+[ext_resource path="res://source/game/interface/ConstructionButton.tscn" type="PackedScene" id=4]
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
 ]]
 follow_viewport_enable = true
 script = ExtResource( 1 )
+construction_button = ExtResource( 4 )
 
 [node name="HighlightContainer" type="Control" parent="."]
 __meta__ = {
