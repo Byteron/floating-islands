@@ -15,11 +15,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		interface.clear_highlights()
 
 
+func disable_user_selection():
+	"""
+	Disable selection and camera move
+	"""
+	set_process_unhandled_input(false)
+	get_tree().call_group("Tooltip", "hide")
+
+
+func enable_user_selection():
+	"""
+	Enables selection and camera move
+	"""
+	call_deferred("set_process_unhandled_input", true)
+
+
 func remove_construction():
 	"""
 	Handle selection of what to remove
 	"""
-	set_process_unhandled_input(false)
+	disable_user_selection()
 
 	# Adds selection UI
 	var tile_selector := map.new_tile_selector(Vector2(1, 1))
@@ -31,7 +46,7 @@ func remove_construction():
 	# Remove specific UI
 	map.remove_tile_selector()
 
-	call_deferred("set_process_unhandled_input", true)
+	enable_user_selection()
 
 	map.remove_construction(tile)
 
@@ -43,7 +58,7 @@ func place_construction(data: ConstructionData):
 	Handle positioning of a specific construction
 	Does the required check for possible contruction
 	"""
-	set_process_unhandled_input(false)
+	disable_user_selection()
 
 	# Adds selection UI
 	var tile_selector := map.new_tile_selector(data.size)
@@ -57,7 +72,7 @@ func place_construction(data: ConstructionData):
 	map.remove_tile_selector()
 	interface.clear_highlights()
 
-	call_deferred("set_process_unhandled_input", true)
+	enable_user_selection()
 
 	# Cannot build there or nothing selected
 	if not tile or not map.valid_construction_sites.values().has(tile):

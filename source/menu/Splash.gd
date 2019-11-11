@@ -1,5 +1,6 @@
 extends Control
 
+# warning-ignore:unused_class_variable
 var delay := 0.0
 
 onready var tween := $Tween as Tween
@@ -9,8 +10,8 @@ onready var topic := $Topic
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		tween.stop_all()
-		var __ = get_tree().change_scene("res://source/menu/TitleScreen.tscn")
+		var __ = tween.stop_all()
+		__ = get_tree().change_scene("res://source/menu/TitleScreen.tscn")
 
 
 func _ready() -> void:
