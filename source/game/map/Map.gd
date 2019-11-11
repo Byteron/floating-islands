@@ -9,6 +9,7 @@ var tile_selector : TileSelector = null
 
 var tiles := {}
 var connectors := {}				# List of all rails
+# warning-ignore:unused_class_variable
 var valid_construction_sites := {}	# Where player is allowed to build
 
 export var size = Vector2(64, 64)
@@ -312,12 +313,14 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	var __ = connectors.erase(tile.position)
 
 
-func _add_connection(tile: Tile) -> Object:
+func _add_connection(tile: Tile) -> Connector:
 	rails_overlay.set_cellv(tile.position, 0)
 	rails_overlay.update_bitmask_area(tile.position)
-	connectors[tile.position] = tile
 
-	return tile
+	var connector = Connector.new(tile)
+	connectors[tile.position] = connector
+
+	return connector
 
 
 func _add_building(tile: Tile, data: ConstructionData) -> Construction:

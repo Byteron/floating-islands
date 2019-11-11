@@ -6,6 +6,8 @@ var miner_amount := 0
 
 var is_miner := false
 var tile = null # class Tile, cyclic dependency
+var data		# Construction data
+var connected_to_storage = false	# Does not produce until linked to a storage
 
 onready var mine_timer := $MineTimer as Timer
 onready var sprite := $Sprite as Sprite
@@ -15,8 +17,9 @@ static func instance():
 	return load("res://source/construction/Construction.tscn").instance()
 
 
-func initialize(data: ConstructionData, _tile):
+func initialize(_data: ConstructionData, _tile):
 	self.tile = _tile
+	self.data = _data
 
 	name = data.name
 	sprite.texture = data.texture
@@ -27,8 +30,31 @@ func initialize(data: ConstructionData, _tile):
 	if is_miner:
 		mine_timer.start(data.miner_tick_time)
 
+	check_connection()
+
+
+func get_id() -> String:
+	return data.id
+
+
+func check_connection():
+	"""
+	Check if a storage is connected to trigger mining or not
+	"""
+	connected_to_storage = false
+
+	for neighbor in tile.neighbors:
+		var construction = neighbor.construction
+		if construction and construction is Connector:
+			connected_to_storage = construction.is_connected_to_storage()
+			if connected_to_storage:
+				break
+
 
 func mine() -> void:
+	if not connected_to_storage:
+		return
+
 	if tile.has_resources():
 		var mined : int = tile.mine(miner_amount)
 		get_tree().call_group("Player", "add_resources", mined)
@@ -43,12 +69,14 @@ func mine() -> void:
 
 		mine_timer.stop()
 
+
 func _make_popup(value: int) -> void:
 	var popup := PopupLabel.instance() as PopupLabel
 	popup.text = "+%d" % value
 	popup.color = Color("00FF00")
 	popup.rect_global_position = global_position
 	get_tree().current_scene.add_child(popup)
+
 
 func _on_MineTimer_timeout() -> void:
 	mine()
