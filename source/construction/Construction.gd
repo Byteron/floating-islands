@@ -30,9 +30,11 @@ func initialize(_data: ConstructionData, _tiles: Array):
 	is_miner = data.is_miner
 	miner_radius = data.miner_radius
 	miner_amount = data.miner_mine_amount
+
 	if is_miner:
 		mine_timer.start(data.miner_tick_time)
 
+	add_to_group(_data.id)
 
 func get_id() -> String:
 	return data.id
