@@ -27,3 +27,7 @@ export var miner_mine_amount := 20
 
 # warning-ignore:unused_class_variable
 export var texture : Texture = null
+export var texture_inactive : Texture = null
+
+# warning-ignore:unused_class_variable
+export var texture_offset := Vector2()
