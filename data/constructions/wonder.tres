@@ -5,16 +5,16 @@
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
-region = Rect2( 32, 16, 16, 16 )
+region = Rect2( 64, 0, 64, 48 )
 
 [resource]
 script = ExtResource( 1 )
-id = "Construction"
-name = "Construction"
-cost = 100
-is_miner = true
+id = "Wonder"
+name = "Wonder"
+cost = 500
+is_miner = false
 is_connector = false
 miner_radius = 1
-miner_tick_time = 4
-miner_mine_amount = 10
+miner_tick_time = 5
+miner_mine_amount = 20
 texture = SubResource( 1 )
