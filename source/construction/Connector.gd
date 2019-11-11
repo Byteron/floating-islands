@@ -16,6 +16,11 @@ func get_tiles():
 	return [tile]
 
 
+func get_class():
+	# Required because of ciclyc depandency not handled in GDScript
+	return "Connector"
+
+
 func _init(_tile: Tile):
 	assert(_tile) # Assume all tiles have valid neighbors list
 

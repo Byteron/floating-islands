@@ -45,3 +45,21 @@ func get_world_position():
 	Give the tile position as world coordinates
 	"""
 	return position * Global.TILE_SIZE
+
+
+func has_connector() -> bool:
+	"""
+	Check that a connector is on that tile
+	"""
+	return construction and construction.get_class() == "Connector"
+
+
+func is_adjacent_to_connector() -> bool:
+	"""
+	Check this has some connector next to it
+	"""
+	for tile in direct_neighbors:
+		if tile.has_connector():
+			return true
+
+	return false

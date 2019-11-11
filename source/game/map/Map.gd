@@ -333,11 +333,21 @@ func remove_construction(tile: Tile):
 
 	var construction = tile.construction
 
+	# Cannot remove last storage
+	if construction.data.is_storage:
+		var storage_count = 0
+		for building in construction_container.get_children():
+			if building.data.is_storage:
+				storage_count += 1
+
+		if storage_count <= 1:
+			return
+
 	for construction_tile in construction.tiles:
 		construction_tile.construction = null
 
-		# TODO: Check adjacent to rail first
-		valid_construction_sites[construction_tile.position] = construction_tile
+		if construction_tile.is_adjacent_to_connector():
+			valid_construction_sites[construction_tile.position] = construction_tile
 
 	if construction is Construction:
 		_remove_building(construction)
