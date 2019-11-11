@@ -31,17 +31,17 @@ func play() -> void:
 		_randomize(new_player)
 		new_player.play()
 
-func _randomize(player: AudioStreamPlayer) -> void:
+func _randomize(_player: AudioStreamPlayer) -> void:
 	randomize()
 
 	if randomize_volume_db:
-		player.volume_db = rand_range(volume_db - randomize_volume_db, volume_db + randomize_volume_db)
+		_player.volume_db = rand_range(volume_db - randomize_volume_db, volume_db + randomize_volume_db)
 
 	if randomize_pitch_scale:
-		player.pitch_scale = rand_range(pitch_scale - randomize_pitch_scale, pitch_scale + randomize_pitch_scale)
+		_player.pitch_scale = rand_range(pitch_scale - randomize_pitch_scale, pitch_scale + randomize_pitch_scale)
 
 	if streams:
-		player.stream = streams[randi() % streams.size()]
+		_player.stream = streams[randi() % streams.size()]
 
 func _new_player() -> AudioStreamPlayer:
 	var new_player = AudioStreamPlayer.new()
@@ -51,5 +51,5 @@ func _new_player() -> AudioStreamPlayer:
 	new_player.pitch_scale = pitch_scale
 	return new_player
 
-func _on_AudioStreamPlayer_finished(player: AudioStreamPlayer) -> void:
-	player.queue_free()
+func _on_AudioStreamPlayer_finished(_player: AudioStreamPlayer) -> void:
+	_player.queue_free()

@@ -21,6 +21,6 @@ func _get_children_recursive(node: Node, children: Array) -> Array:
 		if child is Sound:
 			children.append(child)
 		else:
-			_get_children_recursive(child, children)
+			var __ = _get_children_recursive(child, children)
 
 	return children

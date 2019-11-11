@@ -1,9 +1,10 @@
 extends CanvasLayer
 class_name Interface
 
+export (Resource) var construction_button
+
 onready var construction_buttons := $HUD/ConstuctionButtons
 onready var highlight_container := $HighlightContainer as Control
-
 onready var resource_label := $HUD/Panel/MarginContainer/CenterContainer/HBoxContainer/ResourceLabel as Label
 
 
@@ -20,9 +21,11 @@ func update_player(player: Player):
 func _add_construction_buttons():
 	for key in Global.constructions:
 		var c = Global.constructions[key]
-		var button = ConstructionButton.new()
+		var button = construction_button.instance()
 		button.data = c
 		button.connect("pressed", self, "_on_ConstructionButton_pressed", [ c ])
+		button.connect("mouse_entered", self, "_on_ConstructionButton_mouse_entered", [ button ])
+		button.connect("mouse_exited", self, "_on_ConstructionButton_mouse_exited", [ button ])
 		construction_buttons.add_child(button)
 
 func highlight_connected_tiles(tiles: Array):
@@ -59,6 +62,14 @@ func _on_Generate_pressed() -> void:
 
 func _on_ConstructionButton_pressed(data: ConstructionData):
 	get_tree().call_group("Game", "place_construction", data)
+
+
+func _on_ConstructionButton_mouse_entered(button: Button):
+	button.show_tooltip()
+
+
+func _on_ConstructionButton_mouse_exited(button: Button):
+	button.hide_tooltip()
 
 
 func _on_Remove_pressed():
