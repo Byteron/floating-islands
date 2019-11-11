@@ -334,7 +334,7 @@ func remove_construction(tile: Tile):
 	var construction = tile.construction
 
 	# Cannot remove last storage
-	if construction.data.is_storage:
+	if construction is Construction and construction.data.is_storage:
 		var storage_count = 0
 		for building in construction_container.get_children():
 			if building.data.is_storage:
@@ -420,9 +420,6 @@ func _remove_connection(tile: Tile):
 
 	rails_overlay.set_cellv(tile.position, EMPTY)
 	rails_overlay.update_bitmask_area(tile.position)
-
-	for connector in connectors[tile.position].adjacent_connectors:
-		connector.update_adjacent_connectors()
 
 	var __ = connectors.erase(tile.position)
 
