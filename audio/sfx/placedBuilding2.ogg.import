@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/placedBuilding2.ogg-c5fc2b27871f47260e6b2a91ab2d06cd.oggstr"
+
+[deps]
+
+source_file="res://audio/sfx/placedBuilding2.ogg"
+dest_files=[ "res://.import/placedBuilding2.ogg-c5fc2b27871f47260e6b2a91ab2d06cd.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -9,15 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Connector",
+"language": "GDScript",
+"path": "res://source/construction/Connector.gd"
+}, {
 "base": "Node2D",
 "class": "Construction",
 "language": "GDScript",
 "path": "res://source/construction/Construction.gd"
-}, {
-"base": "Button",
-"class": "ConstructionButton",
-"language": "GDScript",
-"path": "res://source/game/interface/ConstructionButton.gd"
 }, {
 "base": "Resource",
 "class": "ConstructionData",
@@ -45,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://source/game/map/Map.gd"
 }, {
 "base": "Node",
+"class": "MusicBooth",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/MusicBooth.gd"
+}, {
+"base": "Node",
 "class": "Player",
 "language": "GDScript",
 "path": "res://source/player/Player.gd"
@@ -52,7 +57,27 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "PopupLabel",
 "language": "GDScript",
-"path": "res://source/interface/PopupLabel.gd"
+"path": "res://source/game/interface/PopupLabel.gd"
+}, {
+"base": "Node",
+"class": "Song",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/Song.gd"
+}, {
+"base": "Node",
+"class": "Sound",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/sfx/Sound.gd"
+}, {
+"base": "Node",
+"class": "SoundBooth",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/sfx/SoundBooth.gd"
+}, {
+"base": "Node",
+"class": "StingerContainer",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/containers/StingerContainer.gd"
 }, {
 "base": "Object",
 "class": "Tile",
@@ -68,32 +93,45 @@ _global_script_classes=[ {
 "class": "TileSelector",
 "language": "GDScript",
 "path": "res://source/game/interface/TileSelector.gd"
+}, {
+"base": "Node",
+"class": "TrackContainer",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/containers/TrackContainer.gd"
 } ]
 _global_script_class_icons={
+"Connector": "",
 "Construction": "",
-"ConstructionButton": "",
 "ConstructionData": "",
 "GameCam": "",
 "Interface": "",
 "Island": "",
 "Map": "",
+"MusicBooth": "",
 "Player": "",
 "PopupLabel": "",
+"Song": "",
+"Sound": "",
+"SoundBooth": "",
+"StingerContainer": "",
 "Tile": "",
 "TileHighlighter": "",
-"TileSelector": ""
+"TileSelector": "",
+"TrackContainer": ""
 }
 
 [application]
 
 config/name="Floating Islands"
-run/main_scene="res://source/menu/TitleScreen.tscn"
+run/main_scene="res://source/menu/Splash.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Loader="*res://source/global/Loader.gd"
 Global="*res://source/global/Global.gd"
+Music="*res://source/global/Music.tscn"
+SFX="*res://source/global/SFX.tscn"
 
 [display]
 
@@ -103,6 +141,10 @@ window/size/test_width=1280
 window/size/test_height=720
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "audio_booth" )
 
 [importer_defaults]
 
@@ -126,6 +168,10 @@ texture={
 "stream": false,
 "svg/scale": 1.0
 }
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
+}
 
 [input]
 
@@ -137,6 +183,11 @@ LMB={
 RMB={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+shift={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
  ]
 }
 

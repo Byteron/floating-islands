@@ -8,11 +8,19 @@ var viewport_extents := Vector2()
 
 export var speed := 2000
 
+
 func _input(event: InputEvent) -> void:
 	_handle_mouse(event)
 
+
 func _ready() -> void:
 	viewport_extents = get_viewport_rect().size / 2
+
+	var limit_tolerance := Global.TILE_SIZE * 3
+	limit_left = -limit_tolerance
+	limit_top = -limit_tolerance
+	limit_right = Global.get_map().get_extents().x + limit_tolerance
+	limit_bottom = Global.get_map().get_extents().y + limit_tolerance
 
 func _process(delta: float) -> void:
 	_handle_keyboard_scroll(delta)

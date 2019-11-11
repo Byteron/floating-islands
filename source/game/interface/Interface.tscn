@@ -1,13 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
+[ext_resource path="res://source/game/interface/Minimap.tscn" type="PackedScene" id=3]
+[ext_resource path="res://source/game/interface/ConstructionButton.tscn" type="PackedScene" id=4]
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
 ]]
 follow_viewport_enable = true
 script = ExtResource( 1 )
+construction_button = ExtResource( 4 )
 
 [node name="HighlightContainer" type="Control" parent="."]
 __meta__ = {
@@ -18,10 +21,10 @@ __meta__ = {
 layer = 2
 
 [node name="Generate" type="Button" parent="HUD"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.996714
+anchor_top = 0.604538
+anchor_right = 0.996714
+anchor_bottom = 0.604538
 margin_left = -48.0
 margin_top = -18.0
 margin_right = -2.0
@@ -29,7 +32,22 @@ margin_bottom = -2.0
 theme = ExtResource( 2 )
 text = "Generate"
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
+}
+
+[node name="Remove" type="Button" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -88.9268
+margin_top = -18.0
+margin_right = -72.9268
+margin_bottom = -2.0
+theme = ExtResource( 2 )
+text = "X"
+__meta__ = {
+"_edit_use_anchors_": true
 }
 
 [node name="ConstuctionButtons" type="HBoxContainer" parent="HUD"]
@@ -83,4 +101,29 @@ margin_bottom = 14.0
 
 [node name="ResourceLabel" type="Label" parent="HUD/Panel/MarginContainer/CenterContainer/HBoxContainer"]
 margin_bottom = 12.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -72.0
+margin_top = -72.0
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Minimap" parent="HUD/MarginContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 70.0
+margin_bottom = 70.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
+[connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
+[connection signal="gui_input" from="HUD/MarginContainer/Minimap" to="HUD/MarginContainer/Minimap" method="_on_Minimap_gui_input"]
