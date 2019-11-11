@@ -72,7 +72,7 @@ func _generate_islands() -> void:
 	for island in island_container.get_children():
 		# Remove out of bound islands
 		var position = world_to_map(island.position)
-		if not Rect2(Vector2(), size).has_point(position):
+		if not _is_cell_on_map(position):
 			$Islands.remove_child(island)
 			continue
 
@@ -198,12 +198,35 @@ func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
 	return neighbors
 
 
+func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: ConstructionData) -> Array:
+	var building_positions := []
+	var corners := []
+	var neighbors := []
+
+	for y in data.size.y:
+		for x in data.size.x:
+			print(Vector2(x, y))
+			building_positions.append(position + Vector2(x, y))
+
+	corners.append(position + Vector2(-1, -1))
+	corners.append(position + Vector2(data.size.x, data.size.y))
+	corners.append(position + Vector2(-1, data.size.y))
+	corners.append(position + Vector2(data.size.x, -1))
+
+	for y in range(-1, data.size.y + 1):
+		for x in range(-1, data.size.x + 1):
+			print(Vector2(x, y))
+			var cell = position + Vector2(x, y)
+			if not building_positions.has(cell) and not corners.has(cell):
+				neighbors.append(cell)
+	return neighbors
+
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
 	Adds a tile at the given location, replacing any existing one
 	Returns true on success
 	"""
-	if not Rect2(Vector2(), size).has_point(position):
+	if not _is_cell_on_map(position):
 		return false
 
 	tiles[position] = Tile.new(position, type, island)
@@ -281,10 +304,11 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func new_tile_selector() -> TileSelector:
+func new_tile_selector(_size: Vector2) -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
+	tile_selector.size = _size
 	add_child(tile_selector)
 	return tile_selector
 
@@ -308,7 +332,22 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	else:
 		construction = _add_building(tile, data)
 
-	tile.construction = construction
+	# Update tile constructions from building size
+	for y in data.size.y:
+		for x in data.size.x:
+			var c_cell = tile.position + Vector2(x, y)
+			var c_tile = get_tile(c_cell)
+			assert(c_tile)
+			c_tile.construction = construction
+
+			# Remove that tile from possible constructions
+			var __ = valid_construction_sites.erase(c_cell)
+
+	update_connections()
+
+	# bail when construction is placed, only rails should add builable tiles
+	if not data.is_connector and not data.is_storage:
+		return
 
 	# Adds neighboring tiles to available construction places
 	for neighbor in tile.direct_neighbors:
@@ -318,11 +357,6 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 			continue
 
 		valid_construction_sites[neighbor.position] = neighbor
-
-	# Remove that tile from possible constructions
-	var __ = valid_construction_sites.erase(tile.position)
-
-	update_connections()
 
 
 func _add_connection(tile: Tile) -> Connector:
@@ -418,6 +452,10 @@ func _print_info():
 			island.size(),
 			island.get_resource_count(self)]
 		)
+
+
+func _is_cell_on_map(cell: Vector2) -> bool:
+	return Rect2(Vector2(), size).has_point(cell)
 
 
 func _on_Tile_resource_depleted(cell: Vector2) -> void:

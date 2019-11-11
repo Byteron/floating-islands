@@ -21,7 +21,7 @@ func place_construction(data: ConstructionData):
 	Does the required check for possible contruction
 	"""
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector()
+	var tile_selector := map.new_tile_selector(data.size)
 	interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
@@ -57,3 +57,7 @@ func place_construction(data: ConstructionData):
 
 	player.resources -= data.cost
 	map.add_contruction(tile_selector.selected_tile, data)
+
+	if Input.is_action_pressed("shift"):
+		set_process_unhandled_input(false)
+		place_construction(data)
