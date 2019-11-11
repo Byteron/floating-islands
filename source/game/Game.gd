@@ -57,3 +57,7 @@ func place_construction(data: ConstructionData):
 
 	player.resources -= data.cost
 	map.add_contruction(tile_selector.selected_tile, data)
+
+	if Input.is_action_pressed("shift"):
+		set_process_unhandled_input(false)
+		place_construction(data)
