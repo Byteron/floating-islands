@@ -5,8 +5,8 @@ var miner_radius := 0
 var miner_amount := 0
 
 var is_miner := false
-var tile = null # class Tile, cyclic dependency
-var data		# Construction data
+var tiles: Array = []
+var data: ConstructionData				# Construction data
 var connected_to_storage: bool = false	# Does not produce until linked to a storage
 
 onready var mine_timer := $MineTimer as Timer
@@ -17,8 +17,11 @@ static func instance():
 	return load("res://source/construction/Construction.tscn").instance()
 
 
-func initialize(_data: ConstructionData, _tile):
-	self.tile = _tile
+func initialize(_data: ConstructionData, _tiles: Array):
+	"""
+	Expect construction data and list of tiles affected by this build
+	"""
+	self.tiles = _tiles
 	self.data = _data
 
 	name = data.name
@@ -39,17 +42,18 @@ func mine() -> void:
 	if not connected_to_storage:
 		return
 
-	if tile.has_resources():
-		var mined : int = tile.mine(miner_amount)
-		get_tree().call_group("Player", "add_resources", mined)
-		_make_popup(mined)
-	else:
-		for n_tile in tile.neighbors:
-			if n_tile.has_resources():
-				var mined : int = n_tile.mine(miner_amount)
-				get_tree().call_group("Player", "add_resources", mined)
-				_make_popup(mined)
-				return
+	for tile in tiles:
+		if tile.has_resources():
+			var mined : int = tile.mine(miner_amount)
+			get_tree().call_group("Player", "add_resources", mined)
+			_make_popup(mined)
+		else:
+			for n_tile in tile.neighbors:
+				if n_tile.has_resources():
+					var mined : int = n_tile.mine(miner_amount)
+					get_tree().call_group("Player", "add_resources", mined)
+					_make_popup(mined)
+					return
 
 		mine_timer.stop()
 

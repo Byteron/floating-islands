@@ -6,8 +6,13 @@ Handle a rail logic
 
 var adjacent_connectors := []
 var tile := null		# Tile on which this connector is
+var tiles setget , get_tiles
 # warning-ignore:unused_class_variable
 var connected_to_storage: bool = false
+
+
+func get_tiles():
+	return [tile]
 
 
 func _init(_tile: Tile):

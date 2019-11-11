@@ -323,26 +323,37 @@ func remove_tile_selector() -> void:
 	tile_selector = null
 
 
-func add_contruction(tile: Tile, data: ConstructionData) -> void:
+func remove_construction():
+	pass
+
+
+func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	"""
 	Adds a construction on the given tile
 	"""
-	var construction = null
-	if data.is_connector:
-		construction = _add_connection(tile)
-	else:
-		construction = _add_building(tile, data)
-
-	# Update tile constructions from building size
+	# Gather all affected tiles
+	var tiles = []
 	for y in data.size.y:
 		for x in data.size.x:
-			var c_cell = tile.position + Vector2(x, y)
-			var c_tile = get_tile(c_cell)
-			assert(c_tile)
-			c_tile.construction = construction
+			var position = origin.position + Vector2(x, y)
+			var tile = get_tile(position)
+			assert(tile)
 
-			# Remove that tile from possible constructions
-			var __ = valid_construction_sites.erase(c_cell)
+			tiles.append(tile)
+
+	# Place the building
+	var construction = null
+	if data.is_connector:
+		construction = _add_connection(origin)
+	else:
+		construction = _add_building(origin, tiles, data)
+
+	# Update tile constructions from building size
+	for tile in tiles:
+		tile.construction = construction
+
+		# Remove that tile from possible constructions
+		var __ = valid_construction_sites.erase(tile.position)
 
 	update_connections()
 
@@ -351,13 +362,14 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 		return
 
 	# Adds neighboring tiles to available construction places
-	for neighbor in tile.direct_neighbors:
-		# If there is a building or a rail, cannot be built on
-		var type = get_tile_type(neighbor.position)
-		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
-			continue
+	for tile in tiles:
+		for neighbor in tile.direct_neighbors:
+			# If there is a building or a rail, cannot be built on
+			var type = get_tile_type(neighbor.position)
+			if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
+				continue
 
-		valid_construction_sites[neighbor.position] = neighbor
+			valid_construction_sites[neighbor.position] = neighbor
 
 
 func _add_connection(tile: Tile) -> Connector:
@@ -370,11 +382,11 @@ func _add_connection(tile: Tile) -> Connector:
 	return connector
 
 
-func _add_building(tile: Tile, data: ConstructionData) -> Construction:
+func _add_building(origin: Tile, tiles: Array, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
-	construction.initialize(data, tile)
-	construction.global_position = tile.get_world_position()
+	construction.initialize(data, tiles)
+	construction.global_position = origin.get_world_position()
 
 	return construction
 
@@ -400,15 +412,16 @@ func _propagate_connection(construction: Object):
 	"""
 	Propagate connected status to all neighbors of neighbors and so on
 	"""
-	for neighbor in construction.tile.direct_neighbors:
-		if neighbor.construction:
-			# Already processed
-			if neighbor.construction.connected_to_storage:
-				continue
+	for tile in construction.tiles:
+		for neighbor in tile.direct_neighbors:
+			if neighbor.construction:
+				# Already processed
+				if neighbor.construction.connected_to_storage:
+					continue
 
-			neighbor.construction.connected_to_storage = true
-			if neighbor.construction is Connector:
-				_propagate_connection(neighbor.construction)
+				neighbor.construction.connected_to_storage = true
+				if neighbor.construction is Connector:
+					_propagate_connection(neighbor.construction)
 
 
 func get_tile_type(position: Vector2) -> int:
