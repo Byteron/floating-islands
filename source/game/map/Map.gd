@@ -327,6 +327,11 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 
 	# Adds neighboring tiles to available construction places
 	for cell in _get_non_diagonal_construction_neighbor_cells(tile.position, data):
+
+		# ignore tiles that are outside of the map
+		if not _is_cell_on_map(cell):
+			continue
+
 		var neighbor_tile = get_tile(cell)
 		if not neighbor_tile:
 			var result = create_tile(cell, Tile.TYPE.VOID, null)
@@ -400,6 +405,8 @@ func _print_info():
 			island.get_resource_count(self)]
 		)
 
+func _is_cell_on_map(cell: Vector2) -> bool:
+	return cell.x > -1 and cell.x < size.x and cell.y > -1 and cell.y < size.y
 
 func _on_Tile_resource_depleted(cell: Vector2) -> void:
 	"""
