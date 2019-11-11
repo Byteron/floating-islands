@@ -15,11 +15,34 @@ func _unhandled_input(event: InputEvent) -> void:
 		interface.clear_highlights()
 
 
+func remove_construction():
+	"""
+	Handle selection of what to remove
+	"""
+	set_process_unhandled_input(false)
+
+	# Adds selection UI
+	var tile_selector := map.new_tile_selector(Vector2(1, 1))
+
+	yield(tile_selector, "tile_selected")
+
+	var tile = tile_selector.selected_tile
+
+	# Remove specific UI
+	map.remove_tile_selector()
+
+	call_deferred("set_process_unhandled_input", true)
+
+	map.remove_construction(tile_selector.selected_tile)
+
+
 func place_construction(data: ConstructionData):
 	"""
 	Handle positioning of a specific construction
 	Does the required check for possible contruction
 	"""
+	set_process_unhandled_input(false)
+
 	# Adds selection UI
 	var tile_selector := map.new_tile_selector(data.size)
 	interface.highlight_connected_tiles(map.valid_construction_sites.values())

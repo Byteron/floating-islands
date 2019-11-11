@@ -1,6 +1,7 @@
 extends TileMap
 class_name Map
 
+const EMPTY := -1
 const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only has that one tile
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 var VOID_INDEX := tile_set.find_tile_by_name("Void")
@@ -323,8 +324,27 @@ func remove_tile_selector() -> void:
 	tile_selector = null
 
 
-func remove_construction():
-	pass
+func remove_construction(tile: Tile):
+	"""
+	Remove any construction on the given tile
+	"""
+	if not tile.construction:
+		return
+
+	var construction = tile.construction
+
+	for construction_tile in construction.tiles:
+		construction_tile.construction = null
+
+		# TODO: Check adjacent to rail first
+		valid_construction_sites[construction_tile.position] = construction_tile
+
+	if construction is Construction:
+		_remove_building(construction)
+	else:
+		_remove_connection(tile)
+
+	update_connections()
 
 
 func add_contruction(origin: Tile, data: ConstructionData) -> void:
@@ -382,6 +402,21 @@ func _add_connection(tile: Tile) -> Connector:
 	return connector
 
 
+func _remove_connection(tile: Tile):
+	"""
+	Remove a rail and update adjacent rails connections
+	"""
+	assert(tile.construction == null) # Tile status should be updated upfront
+
+	rails_overlay.set_cellv(tile.position, EMPTY)
+	rails_overlay.update_bitmask_area(tile.position)
+
+	for connector in connectors[tile.position].adjacent_connectors:
+		connector.update_adjacent_connectors()
+
+	connectors.erase(tile.position)
+
+
 func _add_building(origin: Tile, tiles: Array, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
@@ -389,6 +424,11 @@ func _add_building(origin: Tile, tiles: Array, data: ConstructionData) -> Constr
 	construction.global_position = origin.get_world_position()
 
 	return construction
+
+
+func _remove_building(construction: Construction):
+	construction_container.remove_child(construction)
+	construction.queue_free()
 
 
 func update_connections():
