@@ -11,7 +11,7 @@ onready var tween := $Tween
 
 
 static func instance():
-	return load("res://source/interface/PopupLabel.tscn").instance()
+	return load("res://source/game/interface/PopupLabel.tscn").instance()
 
 
 func _ready() -> void:
