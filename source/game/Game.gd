@@ -15,6 +15,28 @@ func _unhandled_input(event: InputEvent) -> void:
 		interface.clear_highlights()
 
 
+func _ready() -> void:
+	SFX.set_sfx_volume("FactoryLoop", 0)
+	SFX.play_sfx("FactoryLoop")
+
+
+func _process(delta: float) -> void:
+	_process_factory_loop_volume()
+
+
+func _process_factory_loop_volume() -> void:
+	var radius := 64 # 3 tiles
+	var mouse_position := get_global_mouse_position()
+	var volume := 0.0
+
+	var miners := get_tree().get_nodes_in_group("Miner")
+	for miner in miners:
+		var distance = mouse_position.distance_to(miner.global_position)
+		var temp = clamp(0.8 - distance / radius, 0, 1)
+		volume = max(volume, temp)
+
+	SFX.set_sfx_volume("FactoryLoop", volume)
+
 func disable_user_selection():
 	"""
 	Disable selection and camera move
