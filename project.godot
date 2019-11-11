@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "PopupLabel",
 "language": "GDScript",
-"path": "res://source/interface/PopupLabel.gd"
+"path": "res://source/game/interface/PopupLabel.gd"
 }, {
 "base": "Node",
 "class": "Song",
