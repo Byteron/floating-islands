@@ -1,7 +1,6 @@
 extends TileMap
 class_name Map
 
-const EMPTY := -1
 const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only has that one tile
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 var VOID_INDEX := tile_set.find_tile_by_name("Void")
@@ -418,7 +417,7 @@ func _remove_connection(tile: Tile):
 	"""
 	assert(tile.construction == null) # Tile status should be updated upfront
 
-	rails_overlay.set_cellv(tile.position, EMPTY)
+	rails_overlay.set_cellv(tile.position, TileMap.INVALID_CELL)
 	rails_overlay.update_bitmask_area(tile.position)
 
 	var __ = connectors.erase(tile.position)
