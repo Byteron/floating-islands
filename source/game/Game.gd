@@ -21,7 +21,7 @@ func place_construction(data: ConstructionData):
 	Does the required check for possible contruction
 	"""
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector()
+	var tile_selector := map.new_tile_selector(data.size)
 	interface.highlight_connected_tiles(map.connectors.values())
 
 	yield(tile_selector, "tile_selected")

@@ -9,9 +9,14 @@ export var name := ""
 export var cost := 100
 
 # warning-ignore:unused_class_variable
+export var size := Vector2(1, 1)
+
+# warning-ignore:unused_class_variable
 export var is_miner := false
 # warning-ignore:unused_class_variable
 export var is_connector := false
+# warning-ignore:unused_class_variable
+export var is_storage := false
 
 # warning-ignore:unused_class_variable
 export var miner_radius := 1

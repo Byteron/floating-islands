@@ -179,6 +179,28 @@ func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
 	neighbors.append(position + Vector2(-1, 0))
 	return neighbors
 
+func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: ConstructionData) -> Array:
+	var building_positions := []
+	var corners := []
+	var neighbors := []
+
+	for y in data.size.y:
+		for x in data.size.x:
+			print(Vector2(x, y))
+			building_positions.append(position + Vector2(x, y))
+
+	corners.append(position + Vector2(-1, -1))
+	corners.append(position + Vector2(data.size.x, data.size.y))
+	corners.append(position + Vector2(-1, data.size.y))
+	corners.append(position + Vector2(data.size.x, -1))
+
+	for y in range(-1, data.size.y + 1):
+		for x in range(-1, data.size.x + 1):
+			print(Vector2(x, y))
+			var cell = position + Vector2(x, y)
+			if not building_positions.has(cell) and not corners.has(cell):
+				neighbors.append(cell)
+	return neighbors
 
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
@@ -263,10 +285,11 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func new_tile_selector() -> TileSelector:
+func new_tile_selector(size: Vector2) -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
+	tile_selector.size = size
 	add_child(tile_selector)
 	return tile_selector
 
@@ -290,10 +313,20 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	else:
 		construction = _add_building(tile, data)
 
-	tile.construction = construction
+	for y in data.size.y:
+		for x in data.size.x:
+			var c_cell = tile.position + Vector2(x, y)
+			var c_tile = tiles[c_cell]
+			c_tile.construction = construction
+			# Remove that tile from possible constructions
+			connectors.erase(c_cell)
+
+	# bail when construction is placed, only rails should add builable tiles
+	if not data.is_connector and not data.is_storage:
+		return
 
 	# Adds neighboring tiles to available construction places
-	for cell in _get_non_diagonal_neighbor_cells(tile.position):
+	for cell in _get_non_diagonal_construction_neighbor_cells(tile.position, data):
 		var neighbor_tile = get_tile(cell)
 		if not neighbor_tile:
 			var result = create_tile(cell, Tile.TYPE.VOID, null)
@@ -306,9 +339,6 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 
 		neighbor_tile = get_tile(cell)
 		connectors[cell] = neighbor_tile
-
-	# Remove that tile from possible constructions
-	var __ = connectors.erase(tile.position)
 
 
 func _add_connection(tile: Tile) -> Object:
@@ -326,7 +356,6 @@ func _add_building(tile: Tile, data: ConstructionData) -> Construction:
 	construction.global_position = tile.get_world_position()
 
 	return construction
-
 
 func get_tile_type(position: Vector2) -> int:
 	"""
