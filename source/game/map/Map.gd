@@ -69,7 +69,7 @@ func _generate_islands() -> void:
 	for island in island_container.get_children():
 		# Remove out of bound islands
 		var position = world_to_map(island.position)
-		if not Rect2(Vector2(), size).has_point(position):
+		if not _is_cell_on_map(position):
 			$Islands.remove_child(island)
 			continue
 
@@ -207,7 +207,7 @@ func create_tile(position: Vector2, type, island: Node) -> bool:
 	Adds a tile at the given location, replacing any existing one
 	Returns true on success
 	"""
-	if not Rect2(Vector2(), size).has_point(position):
+	if not _is_cell_on_map(position):
 		return false
 
 	tiles[position] = Tile.new(position, type, island)
@@ -406,7 +406,7 @@ func _print_info():
 		)
 
 func _is_cell_on_map(cell: Vector2) -> bool:
-	return cell.x > -1 and cell.x < size.x and cell.y > -1 and cell.y < size.y
+	return Rect2(Vector2(), size).has_point(cell)
 
 func _on_Tile_resource_depleted(cell: Vector2) -> void:
 	"""
