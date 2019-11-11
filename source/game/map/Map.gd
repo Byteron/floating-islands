@@ -10,6 +10,8 @@ var tile_selector : TileSelector = null
 var tiles := {}
 var connectors := {}
 
+export var size = Vector2(64, 64)
+
 export var resource_min := 200
 export var resource_max := 8000
 
@@ -22,6 +24,7 @@ export (Resource) var IslandPacked
 export (int) var island_count = 100
 export (int) var max_island_offset = 10				# Offset for placing island
 export (int) var min_island_size = 5
+export (float) var process_time = 0.5				# Time given to physic engine to place islands
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
@@ -35,7 +38,7 @@ func _ready() -> void:
 	_place_islands()
 
 	# Wait for physic engine to finish positioning islands
-	yield(get_tree().create_timer(1.0), "timeout")
+	yield(get_tree().create_timer(process_time), "timeout")
 
 	_generate_islands()
 	_generate_resources()
@@ -51,7 +54,7 @@ func _place_islands() -> void:
 	for id in range(island_count):
 		var island = IslandPacked.instance()
 		island.id = id
-		island.position = Vector2(
+		island.position = (get_extents() / 2) + Vector2(
 			-max_island_offset + randi() % (max_island_offset * 2),
 			-max_island_offset + randi() % (max_island_offset * 2)
 		)
@@ -64,6 +67,12 @@ func _generate_islands() -> void:
 	Generate visual island representation in the tilemap
 	"""
 	for island in island_container.get_children():
+		# Remove out of bound islands
+		var position = world_to_map(island.position)
+		if not Rect2(Vector2(), size).has_point(position):
+			$Islands.remove_child(island)
+			continue
+
 		island.generate(self)
 
 		# Remove small islands
@@ -122,7 +131,7 @@ func _setup_start_tiles():
 		var tile = tiles[cell]
 		connectors[cell] = tile
 
-	get_tree().call_group("GameCam", "set_global_position", start_island.global_position)
+	Global.get_camera().set_global_position(start_island.global_position)
 
 
 func _get_neighbor_cells(position: Vector2) -> Array:
@@ -145,16 +154,22 @@ func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
 	neighbors.append(position + Vector2(-1, 0))
 	return neighbors
 
-func create_tile(position: Vector2, type, island: Node) -> void:
+func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
 	Adds a tile at the given location, replacing any existing one
+	Returns true on success
 	"""
+	if not Rect2(Vector2(), size).has_point(position):
+		return false
+
 	tiles[position] = Tile.new(position, type, island)
 
 	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
 	if type == Tile.TYPE.LAND:
 		set_cellv(position, LAND_INDEX)
 		update_bitmask_area(position)
+
+	return true
 
 
 func remove_tile(position: Vector2) -> void:
@@ -260,9 +275,9 @@ func _add_connection(tile: Tile) -> void:
 
 	for n_cell in _get_non_diagonal_neighbor_cells(tile.position):
 		if not tiles.has(n_cell):
-			create_tile(n_cell, Tile.TYPE.CONNECTOR, null)
-			var n_tile = get_tile(n_cell)
-			connectors[n_tile.position] = n_tile
+			if create_tile(n_cell, Tile.TYPE.CONNECTOR, null):
+				var n_tile = get_tile(n_cell)
+				connectors[n_tile.position] = n_tile
 		else:
 			var n_tile = tiles[n_cell]
 			connectors[n_tile.position] = n_tile
@@ -272,6 +287,38 @@ func _add_building(tile: Tile, data: ConstructionData):
 	construction_container.add_child(construction)
 	construction.initialize(data, tile)
 	construction.global_position = tile.get_world_position() + cell_size / 2
+
+
+func get_tile_type(position: Vector2) -> int:
+	"""
+	Give the type of entity at the given position (road, building, land, ...)
+	"""
+	# Check building layer first
+	for construction in construction_container.get_children():
+		if world_to_map(construction.global_position) == position:
+			return Tile.TYPE.BUILDING
+
+	# Check connector layer
+	if rails_overlay.get_cellv(position) != TileMap.INVALID_CELL:
+			return Tile.TYPE.CONNECTOR
+
+	# Then resource layer
+	if resource_overlay.get_cellv(position) == RES_INDEX:
+		return Tile.TYPE.RESOURCE
+
+	# Lastly, terrain layer
+	if get_cellv(position) == LAND_INDEX:
+		return Tile.TYPE.LAND
+
+	return Tile.TYPE.VOID
+
+
+func get_extents() -> Vector2:
+	"""
+	World size of the map
+	"""
+	return size * Global.TILE_SIZE
+
 
 
 func _print_info():

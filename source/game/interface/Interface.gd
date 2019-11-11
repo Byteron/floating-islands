@@ -54,7 +54,7 @@ func clear_highlights():
 
 
 func _on_Generate_pressed() -> void:
-	get_tree().reload_current_scene()
+	var __ = get_tree().reload_current_scene()
 
 
 func _on_ConstructionButton_pressed(data: ConstructionData):
