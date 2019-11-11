@@ -10,7 +10,7 @@ func set_cost(value: int):
 	label.text = str(-value)
 
 
-func _input(event):
+func _input(_event):
 	# Follow mouse cursor
 	rect_global_position = get_global_mouse_position()
 
