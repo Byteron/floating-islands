@@ -138,7 +138,7 @@ func _spawn_player():
 		if tile.neighbors.size() < 8:
 			continue
 
-		add_contruction(tile, Global.constructions["Construction"])
+		add_contruction(tile, Global.constructions["Storage"])
 
 		Global.get_camera().set_global_position(start_island.global_position)
 		break
