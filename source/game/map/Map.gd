@@ -8,7 +8,9 @@ var VOID_INDEX := tile_set.find_tile_by_name("Void")
 var tile_selector : TileSelector = null
 
 var tiles := {}
-var connectors := {}
+var connectors := {}				# List of all rails
+# warning-ignore:unused_class_variable
+var valid_construction_sites := {}	# Where player is allowed to build
 
 export var size = Vector2(64, 64)
 
@@ -41,6 +43,7 @@ func _ready() -> void:
 	yield(get_tree().create_timer(process_time), "timeout")
 
 	_generate_islands()
+	_generate_void()
 	_generate_resources()
 	_generate_neighbors()
 	_spawn_player()
@@ -81,6 +84,20 @@ func _generate_islands() -> void:
 			island_container.remove_child(island)
 
 
+func _generate_void() -> void:
+	"""
+	Generate every possible tile not used
+	"""
+	for x in range(size.x):
+		for y in range(size.y):
+			var position = Vector2(x, y)
+			if tiles.has(position):
+				continue
+
+			if not create_tile(position, Tile.TYPE.VOID, null):
+				print("mega meh")
+
+
 func _generate_resources():
 	"""
 	Add resource deposit randomly using simplex noise
@@ -117,6 +134,7 @@ func _generate_neighbors() -> void:
 	"""
 	for tile in tiles.values():
 		tile.neighbors = _get_tiles(_get_neighbor_cells(tile.position))
+		tile.direct_neighbors = _get_tiles(_get_non_diagonal_neighbor_cells(tile.position))
 
 
 func _spawn_player():
@@ -179,6 +197,7 @@ func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
 	neighbors.append(position + Vector2(-1, 0))
 	return neighbors
 
+
 func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: ConstructionData) -> Array:
 	var building_positions := []
 	var corners := []
@@ -201,6 +220,7 @@ func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: Cons
 			if not building_positions.has(cell) and not corners.has(cell):
 				neighbors.append(cell)
 	return neighbors
+
 
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
@@ -285,11 +305,11 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func new_tile_selector(size: Vector2) -> TileSelector:
+func new_tile_selector(_size: Vector2) -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
-	tile_selector.size = size
+	tile_selector.size = _size
 	add_child(tile_selector)
 	return tile_selector
 
@@ -303,64 +323,152 @@ func remove_tile_selector() -> void:
 	tile_selector = null
 
 
-func add_contruction(tile: Tile, data: ConstructionData) -> void:
+func remove_construction(tile: Tile):
+	"""
+	Remove any construction on the given tile
+	"""
+	if not tile.construction:
+		return
+
+	var construction = tile.construction
+
+	# Cannot remove last storage
+	if construction is Construction and construction.data.is_storage:
+		var storage_count = 0
+		for building in construction_container.get_children():
+			if building.data.is_storage:
+				storage_count += 1
+
+		if storage_count <= 1:
+			return
+
+	for construction_tile in construction.tiles:
+		construction_tile.construction = null
+
+		if construction_tile.is_adjacent_to_connector():
+			valid_construction_sites[construction_tile.position] = construction_tile
+
+	if construction is Construction:
+		_remove_building(construction)
+	else:
+		_remove_connection(tile)
+
+	update_connections()
+
+
+func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	"""
 	Adds a construction on the given tile
 	"""
-	var construction = null
-	if data.is_connector:
-		construction = _add_connection(tile)
-	else:
-		construction = _add_building(tile, data)
-
+	# Gather all affected tiles
+	var affected_tiles = []
 	for y in data.size.y:
 		for x in data.size.x:
-			var c_cell = tile.position + Vector2(x, y)
-			var c_tile = tiles[c_cell]
-			c_tile.construction = construction
-			# Remove that tile from possible constructions
-			connectors.erase(c_cell)
+			var position = origin.position + Vector2(x, y)
+			var tile = get_tile(position)
+			assert(tile)
+
+			affected_tiles.append(tile)
+
+	# Place the building
+	var construction = null
+	if data.is_connector:
+		construction = _add_connection(origin)
+	else:
+		construction = _add_building(origin, affected_tiles, data)
+
+	# Update tile constructions from building size
+	for tile in affected_tiles:
+		tile.construction = construction
+
+		# Remove that tile from possible constructions
+		var __ = valid_construction_sites.erase(tile.position)
+
+	update_connections()
 
 	# bail when construction is placed, only rails should add builable tiles
 	if not data.is_connector and not data.is_storage:
 		return
 
 	# Adds neighboring tiles to available construction places
-	for cell in _get_non_diagonal_construction_neighbor_cells(tile.position, data):
+	for tile in affected_tiles:
+		for neighbor in tile.direct_neighbors:
+			# If there is a building or a rail, cannot be built on
+			var type = get_tile_type(neighbor.position)
+			if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
+				continue
 
-		# ignore tiles that are outside of the map
-		if not _is_cell_on_map(cell):
-			continue
-
-		var neighbor_tile = get_tile(cell)
-		if not neighbor_tile:
-			var result = create_tile(cell, Tile.TYPE.VOID, null)
-			assert(result) # Check cell position if that happens
-
-		# If there is a building or a rail, cannot be built on
-		var type = get_tile_type(cell)
-		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
-			continue
-
-		neighbor_tile = get_tile(cell)
-		connectors[cell] = neighbor_tile
+			valid_construction_sites[neighbor.position] = neighbor
 
 
-func _add_connection(tile: Tile) -> Object:
+func _add_connection(tile: Tile) -> Connector:
 	rails_overlay.set_cellv(tile.position, 0)
 	rails_overlay.update_bitmask_area(tile.position)
-	connectors[tile.position] = tile
 
-	return tile
+	var connector = Connector.new(tile)
+	connectors[tile.position] = connector
+
+	return connector
 
 
-func _add_building(tile: Tile, data: ConstructionData) -> Construction:
+func _remove_connection(tile: Tile):
+	"""
+	Remove a rail and update adjacent rails connections
+	"""
+	assert(tile.construction == null) # Tile status should be updated upfront
+
+	rails_overlay.set_cellv(tile.position, TileMap.INVALID_CELL)
+	rails_overlay.update_bitmask_area(tile.position)
+
+	var __ = connectors.erase(tile.position)
+
+
+func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
-	construction.initialize(data, tile)
-	construction.global_position = tile.get_world_position()
+	construction.initialize(data, affected_tiles)
+	construction.global_position = origin.get_world_position()
 
 	return construction
+
+
+func _remove_building(construction: Construction):
+	construction_container.remove_child(construction)
+	construction.queue_free()
+
+
+func update_connections():
+	# Disconnects everybody
+	for connector in connectors.values():
+		connector.connected_to_storage = false
+
+	for construction in construction_container.get_children():
+		construction.connected_to_storage = false
+
+	# For every storage
+	for construction in construction_container.get_children():
+		if not construction.get_id() == "Storage":
+			continue
+
+		construction.connected_to_storage = true
+		_propagate_connection(construction)
+
+
+func _propagate_connection(construction: Object):
+	"""
+	Propagate connected status to all neighbors of neighbors and so on
+	"""
+	for tile in construction.tiles:
+		for neighbor in tile.direct_neighbors:
+			if neighbor.construction:
+				# Already processed
+				if neighbor.construction.connected_to_storage:
+					continue
+
+				neighbor.construction.connected_to_storage = true
+				if neighbor.construction is Connector:
+					_propagate_connection(neighbor.construction)
+
 
 func get_tile_type(position: Vector2) -> int:
 	"""
@@ -405,8 +513,10 @@ func _print_info():
 			island.get_resource_count(self)]
 		)
 
+
 func _is_cell_on_map(cell: Vector2) -> bool:
 	return Rect2(Vector2(), size).has_point(cell)
+
 
 func _on_Tile_resource_depleted(cell: Vector2) -> void:
 	"""

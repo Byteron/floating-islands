@@ -19,16 +19,31 @@ __meta__ = {
 layer = 2
 
 [node name="Generate" type="Button" parent="HUD"]
-anchor_left = 0.778051
-anchor_top = 1.00162
-anchor_right = 0.778051
-anchor_bottom = 1.00162
+anchor_left = 0.996714
+anchor_top = 0.604538
+anchor_right = 0.996714
+anchor_bottom = 0.604538
 margin_left = -48.0
 margin_top = -18.0
 margin_right = -2.0
 margin_bottom = -2.0
 theme = ExtResource( 2 )
 text = "Generate"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Remove" type="Button" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -88.9268
+margin_top = -18.0
+margin_right = -72.9268
+margin_bottom = -2.0
+theme = ExtResource( 2 )
+text = "X"
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -108,4 +123,5 @@ margin_top = 2.0
 margin_right = 70.0
 margin_bottom = 70.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
+[connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="gui_input" from="HUD/MarginContainer/Minimap" to="HUD/MarginContainer/Minimap" method="_on_Minimap_gui_input"]

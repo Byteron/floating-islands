@@ -17,6 +17,6 @@ is_miner = true
 is_connector = false
 is_storage = false
 miner_radius = 1
-miner_tick_time = 4
+miner_tick_time = 1
 miner_mine_amount = 10
 texture = SubResource( 1 )

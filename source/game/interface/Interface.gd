@@ -58,5 +58,8 @@ func _on_Generate_pressed() -> void:
 
 
 func _on_ConstructionButton_pressed(data: ConstructionData):
-	get_tree().call_group("Game", "set_process_unhandled_input", false)
 	get_tree().call_group("Game", "place_construction", data)
+
+
+func _on_Remove_pressed():
+	get_tree().call_group("Game", "remove_construction")
