@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Connector",
+"language": "GDScript",
+"path": "res://source/construction/Connector.gd"
+}, {
 "base": "Node2D",
 "class": "Construction",
 "language": "GDScript",
@@ -70,6 +75,7 @@ _global_script_classes=[ {
 "path": "res://source/game/interface/TileSelector.gd"
 } ]
 _global_script_class_icons={
+"Connector": "",
 "Construction": "",
 "ConstructionButton": "",
 "ConstructionData": "",

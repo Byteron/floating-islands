@@ -8,7 +8,8 @@ var VOID_INDEX := tile_set.find_tile_by_name("Void")
 var tile_selector : TileSelector = null
 
 var tiles := {}
-var connectors := {}
+var connectors := {}				# List of all rails
+var valid_construction_sites := {}	# Where player is allowed to build
 
 export var size = Vector2(64, 64)
 
