@@ -221,6 +221,7 @@ func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: Cons
 				neighbors.append(cell)
 	return neighbors
 
+
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
 	Adds a tile at the given location, replacing any existing one
