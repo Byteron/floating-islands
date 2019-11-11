@@ -33,7 +33,7 @@ func remove_construction():
 
 	call_deferred("set_process_unhandled_input", true)
 
-	map.remove_construction(tile_selector.selected_tile)
+	map.remove_construction(tile)
 
 
 func place_construction(data: ConstructionData):
@@ -79,7 +79,7 @@ func place_construction(data: ConstructionData):
 		return
 
 	player.resources -= data.cost
-	map.add_contruction(tile_selector.selected_tile, data)
+	map.add_contruction(tile, data)
 
 	if Input.is_action_pressed("shift"):
 		set_process_unhandled_input(false)

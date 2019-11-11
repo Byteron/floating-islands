@@ -6,6 +6,7 @@ Handle a rail logic
 
 var adjacent_connectors := []
 var tile := null		# Tile on which this connector is
+# warning-ignore:unused_class_variable
 var tiles setget , get_tiles
 # warning-ignore:unused_class_variable
 var connected_to_storage: bool = false

@@ -42,19 +42,23 @@ func mine() -> void:
 	if not connected_to_storage:
 		return
 
+	# Get target deposit
+	var mining_on = null
 	for tile in tiles:
 		if tile.has_resources():
-			var mined : int = tile.mine(miner_amount)
-			get_tree().call_group("Player", "add_resources", mined)
-			_make_popup(mined)
-		else:
-			for n_tile in tile.neighbors:
-				if n_tile.has_resources():
-					var mined : int = n_tile.mine(miner_amount)
-					get_tree().call_group("Player", "add_resources", mined)
-					_make_popup(mined)
-					return
+			mining_on = tile
+			break
 
+		for n_tile in tile.neighbors:
+			if n_tile.has_resources():
+				mining_on = n_tile
+				break
+
+	if mining_on:
+		var mined : int = mining_on.mine(miner_amount)
+		get_tree().call_group("Player", "add_resources", mined)
+		_make_popup(mined)
+	else:
 		mine_timer.stop()
 
 

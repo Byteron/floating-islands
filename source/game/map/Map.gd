@@ -352,24 +352,24 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	Adds a construction on the given tile
 	"""
 	# Gather all affected tiles
-	var tiles = []
+	var affected_tiles = []
 	for y in data.size.y:
 		for x in data.size.x:
 			var position = origin.position + Vector2(x, y)
 			var tile = get_tile(position)
 			assert(tile)
 
-			tiles.append(tile)
+			affected_tiles.append(tile)
 
 	# Place the building
 	var construction = null
 	if data.is_connector:
 		construction = _add_connection(origin)
 	else:
-		construction = _add_building(origin, tiles, data)
+		construction = _add_building(origin, affected_tiles, data)
 
 	# Update tile constructions from building size
-	for tile in tiles:
+	for tile in affected_tiles:
 		tile.construction = construction
 
 		# Remove that tile from possible constructions
@@ -382,7 +382,7 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 		return
 
 	# Adds neighboring tiles to available construction places
-	for tile in tiles:
+	for tile in affected_tiles:
 		for neighbor in tile.direct_neighbors:
 			# If there is a building or a rail, cannot be built on
 			var type = get_tile_type(neighbor.position)
@@ -414,13 +414,13 @@ func _remove_connection(tile: Tile):
 	for connector in connectors[tile.position].adjacent_connectors:
 		connector.update_adjacent_connectors()
 
-	connectors.erase(tile.position)
+	var __ = connectors.erase(tile.position)
 
 
-func _add_building(origin: Tile, tiles: Array, data: ConstructionData) -> Construction:
+func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
-	construction.initialize(data, tiles)
+	construction.initialize(data, affected_tiles)
 	construction.global_position = origin.get_world_position()
 
 	return construction
