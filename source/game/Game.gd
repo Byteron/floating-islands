@@ -35,6 +35,8 @@ func remove_construction():
 
 	map.remove_construction(tile)
 
+	SFX.play_sfx("Destroy")
+
 
 func place_construction(data: ConstructionData):
 	"""
@@ -80,6 +82,8 @@ func place_construction(data: ConstructionData):
 
 	player.resources -= data.cost
 	map.add_contruction(tile, data)
+
+	SFX.play_sfx("Build")
 
 	if Input.is_action_pressed("shift"):
 		set_process_unhandled_input(false)

@@ -68,6 +68,7 @@ func _make_popup(value: int) -> void:
 	popup.color = Color("00FF00")
 	popup.rect_global_position = global_position
 	get_tree().current_scene.add_child(popup)
+	SFX.play_sfx("Mine")
 
 
 func _on_MineTimer_timeout() -> void:
