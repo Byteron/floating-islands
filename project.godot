@@ -45,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://source/game/map/Map.gd"
 }, {
 "base": "Node",
+"class": "MusicBooth",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/MusicBooth.gd"
+}, {
+"base": "Node",
 "class": "Player",
 "language": "GDScript",
 "path": "res://source/player/Player.gd"
@@ -53,6 +58,26 @@ _global_script_classes=[ {
 "class": "PopupLabel",
 "language": "GDScript",
 "path": "res://source/interface/PopupLabel.gd"
+}, {
+"base": "Node",
+"class": "Song",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/Song.gd"
+}, {
+"base": "Node",
+"class": "Sound",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/sfx/Sound.gd"
+}, {
+"base": "Node",
+"class": "SoundBooth",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/sfx/SoundBooth.gd"
+}, {
+"base": "Node",
+"class": "StingerContainer",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/containers/StingerContainer.gd"
 }, {
 "base": "Object",
 "class": "Tile",
@@ -68,6 +93,11 @@ _global_script_classes=[ {
 "class": "TileSelector",
 "language": "GDScript",
 "path": "res://source/game/interface/TileSelector.gd"
+}, {
+"base": "Node",
+"class": "TrackContainer",
+"language": "GDScript",
+"path": "res://addons/audio_booth/source/music/containers/TrackContainer.gd"
 } ]
 _global_script_class_icons={
 "Construction": "",
@@ -77,11 +107,17 @@ _global_script_class_icons={
 "Interface": "",
 "Island": "",
 "Map": "",
+"MusicBooth": "",
 "Player": "",
 "PopupLabel": "",
+"Song": "",
+"Sound": "",
+"SoundBooth": "",
+"StingerContainer": "",
 "Tile": "",
 "TileHighlighter": "",
-"TileSelector": ""
+"TileSelector": "",
+"TrackContainer": ""
 }
 
 [application]
@@ -94,6 +130,8 @@ config/icon="res://icon.png"
 
 Loader="*res://source/global/Loader.gd"
 Global="*res://source/global/Global.gd"
+Music="*res://source/global/Music.tscn"
+SFX="*res://source/global/SFX.tscn"
 
 [display]
 
@@ -103,6 +141,10 @@ window/size/test_width=1280
 window/size/test_height=720
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "audio_booth" )
 
 [importer_defaults]
 
