@@ -305,7 +305,7 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 		var neighbor_tile = get_tile(cell)
 		if not neighbor_tile:
 			var result = create_tile(cell, Tile.TYPE.VOID, null)
-			assert(result)
+			assert(result) # Check cell position if that happens
 
 		# If there is a building or a rail, cannot be built on
 		var type = get_tile_type(cell)
