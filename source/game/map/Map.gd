@@ -23,7 +23,7 @@ export(float, -1, 1) var resource_offset := -0.3
 export (Resource) var IslandPacked
 export (int) var island_count = 100
 export (int) var max_island_offset = 10				# Offset for placing island
-export (int) var min_island_size = 5
+export (int) var min_island_size = 6
 export (float) var process_time = 0.5				# Time given to physic engine to place islands
 
 onready var rails_overlay := $Rails as TileMap
@@ -43,7 +43,7 @@ func _ready() -> void:
 	_generate_islands()
 	_generate_resources()
 	_generate_neighbors()
-	_setup_start_tiles()
+	_spawn_player()
 	#_print_info()
 
 
@@ -116,22 +116,46 @@ func _generate_neighbors() -> void:
 	Pre-computation of the list of neighbors for every tile
 	"""
 	for tile in tiles.values():
-		var n_cells = _get_neighbor_cells(tile.position)
-		var neighbors := []
-		for n_cell in n_cells:
-			if tiles.has(n_cell):
-				neighbors.append(tiles[n_cell])
-		tile.neighbors = neighbors
+		tile.neighbors = _get_tiles(_get_neighbor_cells(tile.position))
 
 
-func _setup_start_tiles():
+func _spawn_player():
+	"""
+	Choose a starting island and adds a first building on it
+	"""
 	var start_island := get_random_island()
 
-	for cell in start_island.tiles_position:
-		var tile = tiles[cell]
-		connectors[cell] = tile
+	# Otherwise, its possible to get an island with no plain tile in it
+	assert(min_island_size >= 6)
 
-	Global.get_camera().set_global_position(start_island.global_position)
+	start_island.tiles_position.shuffle()
+	for position in start_island.tiles_position:
+		var tile = get_tile(position)
+		if not tile:
+			continue
+
+		# Want a tile that is more or less central to that island
+		if tile.neighbors.size() < 8:
+			continue
+
+		add_contruction(tile, Global.constructions["Construction"])
+
+		Global.get_camera().set_global_position(start_island.global_position)
+		break
+
+
+func _get_tiles(positions: Array) -> Array:
+	"""
+	Get a list of tiles from an array of position
+	"""
+	var result = []
+
+	for position in positions:
+		var tile = get_tile(position)
+		if tile:
+			result.append(tile)
+
+	return result
 
 
 func _get_neighbor_cells(position: Vector2) -> Array:
@@ -146,6 +170,7 @@ func _get_neighbor_cells(position: Vector2) -> Array:
 	neighbors.append(position + Vector2(-1, -1))
 	return neighbors
 
+
 func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
 	var neighbors := []
 	neighbors.append(position + Vector2(+1, 0))
@@ -153,6 +178,7 @@ func _get_non_diagonal_neighbor_cells(position: Vector2) -> Array:
 	neighbors.append(position + Vector2(0, -1))
 	neighbors.append(position + Vector2(-1, 0))
 	return neighbors
+
 
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""
@@ -180,8 +206,10 @@ func remove_tile(position: Vector2) -> void:
 
 	set_cellv(position, VOID_INDEX)
 
+
 func get_random_island() -> Island:
 	return island_container.get_children()[randi() % island_container.get_child_count()]
+
 
 func get_tile(position: Vector2) -> Tile:
 	"""
@@ -261,26 +289,38 @@ func remove_tile_selector() -> void:
 
 
 func add_contruction(tile: Tile, data: ConstructionData) -> void:
+	"""
+	Adds a construction on the given tile
+	"""
 	if data.is_connector:
 		_add_connection(tile)
 	else:
 		_add_building(tile, data)
 
+	# Adds neighboring tiles to available construction places
+	for cell in _get_non_diagonal_neighbor_cells(tile.position):
+		var neighbor_tile = get_tile(cell)
+		if not neighbor_tile:
+			var result = create_tile(cell, Tile.TYPE.VOID, null)
+			assert(result)
+
+		# If there is a building or a rail, cannot be built on
+		var type = get_tile_type(cell)
+		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
+			continue
+
+		neighbor_tile = get_tile(cell)
+		connectors[cell] = neighbor_tile
+
+	# Remove that tile from possible constructions
+	var __ = connectors.erase(tile.position)
+
 
 func _add_connection(tile: Tile) -> void:
-
 	rails_overlay.set_cellv(tile.position, 0)
 	rails_overlay.update_bitmask_area(tile.position)
 	connectors[tile.position] = tile
 
-	for n_cell in _get_non_diagonal_neighbor_cells(tile.position):
-		if not tiles.has(n_cell):
-			if create_tile(n_cell, Tile.TYPE.CONNECTOR, null):
-				var n_tile = get_tile(n_cell)
-				connectors[n_tile.position] = n_tile
-		else:
-			var n_tile = tiles[n_cell]
-			connectors[n_tile.position] = n_tile
 
 func _add_building(tile: Tile, data: ConstructionData):
 	var construction = Construction.instance()
@@ -331,5 +371,7 @@ func _print_info():
 
 
 func _on_Tile_resource_depleted(cell: Vector2) -> void:
-	print("Map._on_Tile_resource_depleted called")
+	"""
+	Remove the depleted resource from the map
+	"""
 	resource_overlay.set_cellv(cell, TileMap.INVALID_CELL)

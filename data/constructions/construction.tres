@@ -13,6 +13,7 @@ id = "Construction"
 name = "Construction"
 cost = 100
 is_miner = true
+is_connector = false
 miner_radius = 1
 miner_tick_time = 4
 miner_mine_amount = 10
