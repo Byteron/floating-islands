@@ -14,4 +14,5 @@ script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = SubResource( 1 )
+centered = false
 [connection signal="timeout" from="MineTimer" to="." method="_on_MineTimer_timeout"]

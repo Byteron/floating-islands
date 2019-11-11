@@ -263,14 +263,6 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func world_to_world_centered(world_position: Vector2) -> Vector2:
-	return snap_position(world_position) + cell_size / 2
-
-
-func map_to_world_centered(cell: Vector2) -> Vector2:
-	return map_to_world(cell) + cell_size / 2
-
-
 func new_tile_selector() -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
@@ -331,7 +323,7 @@ func _add_building(tile: Tile, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
 	construction.initialize(data, tile)
-	construction.global_position = tile.get_world_position() + cell_size / 2
+	construction.global_position = tile.get_world_position()
 
 	return construction
 
