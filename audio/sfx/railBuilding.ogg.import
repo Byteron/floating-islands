@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/railBuilding.ogg-099118ad4939acdd39a8055a2990131a.oggstr"
+
+[deps]
+
+source_file="res://audio/sfx/railBuilding.ogg"
+dest_files=[ "res://.import/railBuilding.ogg-099118ad4939acdd39a8055a2990131a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

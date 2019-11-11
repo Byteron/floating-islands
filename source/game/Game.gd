@@ -98,7 +98,10 @@ func place_construction(data: ConstructionData):
 	player.resources -= data.cost
 	map.add_contruction(tile, data)
 
-	SFX.play_sfx("Build")
+	if data.id == "Rail":
+		SFX.play_sfx("BuildRail")
+	else:
+		SFX.play_sfx("BuildBuilding")
 
 	if Input.is_action_pressed("shift"):
 		set_process_unhandled_input(false)
