@@ -1,5 +1,7 @@
 extends Control
 
+var dummy := 0.0
+
 onready var tween := $Tween as Tween
 onready var logo := $Logo
 onready var topic := $Topic
@@ -7,6 +9,7 @@ onready var topic := $Topic
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
+		tween.stop_all()
 		var __ = get_tree().change_scene("res://source/menu/TitleScreen.tscn")
 
 
@@ -17,16 +20,17 @@ func _ready() -> void:
 
 
 func _animate() -> void:
-	yield(get_tree().create_timer(1), "timeout")
+	var __ = tween.interpolate_property(self, "dummy", 0, 1, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 
-	var __ = tween.interpolate_property(logo, "modulate:a", 0, 1, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	__ = tween.interpolate_property(logo, "modulate:a", 0, 1, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 1)
 	__ = tween.interpolate_property(logo, "modulate:a", 1, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 2)
 
-	__ = tween.interpolate_property(topic, "modulate:a", 0, 1, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 4)
-	__ = tween.interpolate_property(topic, "modulate:a", 1, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 6)
+	__ = tween.interpolate_property(topic, "modulate:a", 0, 1, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 5)
+	__ = tween.interpolate_property(topic, "modulate:a", 1, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 7)
 
 	__ = tween.start()
 
-	yield(get_tree().create_timer(8), "timeout")
+	__ = tween.interpolate_property(self, "dummy", 0, 1, 1, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 8)
 
-	__ = get_tree().change_scene("res://source/menu/TitleScreen.tscn")
+func _on_Tween_tween_all_completed() -> void:
+	var __ = get_tree().change_scene("res://source/menu/TitleScreen.tscn")
