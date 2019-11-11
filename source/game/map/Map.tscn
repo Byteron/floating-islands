@@ -1,13 +1,13 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://source/game/map/Map.gd" type="Script" id=1]
-[ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=2]
-[ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=3]
-[ext_resource path="res://source/game/map/Island.tscn" type="PackedScene" id=4]
+[ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=1]
+[ext_resource path="res://source/game/map/Map.gd" type="Script" id=2]
+[ext_resource path="res://source/game/map/Island.tscn" type="PackedScene" id=3]
+[ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=4]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Resource"
-0/texture = ExtResource( 3 )
+0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 96, 32, 16, 16 )
@@ -19,7 +19,7 @@
 
 [sub_resource type="TileSet" id=2]
 0/name = "Rail"
-0/texture = ExtResource( 3 )
+0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 80, 80 )
@@ -41,11 +41,11 @@
 [node name="Map" type="TileMap" groups=[
 "Map",
 ]]
-tile_set = ExtResource( 2 )
+tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-script = ExtResource( 1 )
-IslandPacked = ExtResource( 4 )
+script = ExtResource( 2 )
+IslandPacked = ExtResource( 3 )
 
 [node name="Resources" type="TileMap" parent="."]
 tile_set = SubResource( 1 )

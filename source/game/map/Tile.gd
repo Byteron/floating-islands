@@ -14,7 +14,7 @@ var neighbors: Array = []			# List of adjacent tiles
 # warning-ignore:unused_class_variable
 var resources : int = 0
 # warning-ignore:unused_class_variable
-var construction : Construction = null
+var construction : Object = null
 
 
 func _init(_position: Vector2, _type, _island: Node):

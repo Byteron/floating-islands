@@ -292,17 +292,20 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	"""
 	Adds a construction on the given tile
 	"""
+	var construction = null
 	if data.is_connector:
-		_add_connection(tile)
+		construction = _add_connection(tile)
 	else:
-		_add_building(tile, data)
+		construction = _add_building(tile, data)
+
+	tile.construction = construction
 
 	# Adds neighboring tiles to available construction places
 	for cell in _get_non_diagonal_neighbor_cells(tile.position):
 		var neighbor_tile = get_tile(cell)
 		if not neighbor_tile:
 			var result = create_tile(cell, Tile.TYPE.VOID, null)
-			assert(result)
+			assert(result) # Check cell position if that happens
 
 		# If there is a building or a rail, cannot be built on
 		var type = get_tile_type(cell)
@@ -316,31 +319,39 @@ func add_contruction(tile: Tile, data: ConstructionData) -> void:
 	var __ = connectors.erase(tile.position)
 
 
-func _add_connection(tile: Tile) -> void:
+func _add_connection(tile: Tile) -> Object:
 	rails_overlay.set_cellv(tile.position, 0)
 	rails_overlay.update_bitmask_area(tile.position)
 	connectors[tile.position] = tile
 
+	return tile
 
-func _add_building(tile: Tile, data: ConstructionData):
+
+func _add_building(tile: Tile, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
 	construction.initialize(data, tile)
 	construction.global_position = tile.get_world_position() + cell_size / 2
+
+	return construction
 
 
 func get_tile_type(position: Vector2) -> int:
 	"""
 	Give the type of entity at the given position (road, building, land, ...)
 	"""
-	# Check building layer first
-	for construction in construction_container.get_children():
-		if world_to_map(construction.global_position) == position:
+	# Check building and connector layer first
+	var tile = get_tile(position)
+	if tile and tile.construction:
+		if tile.construction is Construction:
 			return Tile.TYPE.BUILDING
+		else:
+			return Tile.TYPE.CONNECTOR
 
 	# Check connector layer
+	# Should not be necessary, can be removed if performance is issue
 	if rails_overlay.get_cellv(position) != TileMap.INVALID_CELL:
-			return Tile.TYPE.CONNECTOR
+		return Tile.TYPE.CONNECTOR
 
 	# Then resource layer
 	if resource_overlay.get_cellv(position) == RES_INDEX:
@@ -358,7 +369,6 @@ func get_extents() -> Vector2:
 	World size of the map
 	"""
 	return size * Global.TILE_SIZE
-
 
 
 func _print_info():

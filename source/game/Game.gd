@@ -16,21 +16,44 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func place_construction(data: ConstructionData):
+	"""
+	Handle positioning of a specific construction
+	Does the required check for possible contruction
+	"""
+	# Adds selection UI
+	var tile_selector := map.new_tile_selector()
 	interface.highlight_connected_tiles(map.connectors.values())
 
-	var tile_selector := map.new_tile_selector()
 	yield(tile_selector, "tile_selected")
 
-	if tile_selector.selected_tile and not map.connectors.values().has(tile_selector.selected_tile):
-		pass
+	var tile = tile_selector.selected_tile
 
-	elif tile_selector.selected_tile and not tile_selector.selected_tile.construction:
-		if tile_selector.selected_tile.type == Tile.TYPE.CONNECTOR and not data.is_connector:
-			pass
-		else:
-			player.resources -= data.cost
-			map.add_contruction(tile_selector.selected_tile, data)
-
+	# Remove specific UI
 	map.remove_tile_selector()
 	interface.clear_highlights()
+
 	call_deferred("set_process_unhandled_input", true)
+
+	# Cannot build there or nothing selected
+	if not tile or not map.connectors.values().has(tile):
+		return
+
+	# Already occupied
+	if tile.construction:
+		return
+
+	# Not enough resources
+	if player.resources < data.cost:
+		return
+
+	# Cant build on top of building or connector or void
+	var type = map.get_tile_type(tile.position)
+	if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
+		return
+
+	# No building on the void
+	if not data.is_connector and type == Tile.TYPE.VOID:
+		return
+
+	player.resources -= data.cost
+	map.add_contruction(tile_selector.selected_tile, data)
