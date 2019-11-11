@@ -3,7 +3,7 @@ class_name Player
 
 var resources := 0 setget _set_resources
 
-export var start_resources := 1000000
+export var start_resources := 1000
 
 
 func _ready() -> void:
