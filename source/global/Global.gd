@@ -33,5 +33,13 @@ func get_map():
 	return get_tree().get_nodes_in_group("Map")[0]
 
 
+func get_player():
+	return get_tree().get_nodes_in_group("Player")[0]
+
+
 func get_camera():
 	return get_tree().get_nodes_in_group("Camera")[0]
+
+
+func get_game():
+	return get_tree().get_nodes_in_group("Game")[0]

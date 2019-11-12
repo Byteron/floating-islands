@@ -381,11 +381,13 @@ func remove_tile_selector() -> void:
 func remove_construction(tile: Tile):
 	"""
 	Remove any construction on the given tile
+	Returns removed ConstructionData or nothing if error or connector
 	"""
 	if not tile or not tile.construction:
 		return
 
 	var construction = tile.construction
+	var data = construction.data
 
 	# Cannot remove last storage
 	if construction.data.is_storage:
@@ -415,6 +417,8 @@ func remove_construction(tile: Tile):
 		_remove_connector(tile)
 
 	update_connections()
+
+	return data
 
 
 func add_contruction(origin: Tile, data: ConstructionData) -> void:
@@ -505,7 +509,8 @@ func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) 
 
 func _remove_building(construction: Construction):
 	buildings.remove_child(construction)
-	_remove_rail(construction.tile)
+	for tile in construction.tiles:
+		_remove_rail(tile)
 	construction.queue_free()
 
 
