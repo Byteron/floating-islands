@@ -3,9 +3,6 @@
 [ext_resource path="res://source/game/interface/PopupLabel.gd" type="Script" id=1]
 [ext_resource path="res://graphics/fonts/poco/Poco.ttf" type="DynamicFontData" id=2]
 
-
-
-
 [sub_resource type="DynamicFont" id=1]
 size = 10
 outline_size = 1
