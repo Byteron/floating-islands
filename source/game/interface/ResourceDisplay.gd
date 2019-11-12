@@ -2,14 +2,26 @@ extends Control
 
 var resource : ResourceData = null
 
+export var resource_id : String = ""
+export var hide_empty : bool = false
+
 onready var icon = $MarginContainer/Icon
 onready var label = $ValueLabel
 
 
-func set_resource(_resource: ResourceData):
-	resource = _resource
-	icon.texture = resource.icon
+func _ready():
+	assert(resource_id != "")
+	assert(Global.resources.has(resource_id))
+
+	icon.texture = Global.resources[resource_id].icon
 
 
-func set_value(value: int):
-	label.set_text(str(value))
+func set_value(resources: Dictionary):
+	assert(resources.has(resource_id))
+	label.set_text(str(resources[resource_id]))
+
+	if hide_empty:
+		if resources[resource_id] == 0:
+			hide()
+	else:
+		show()

@@ -17,9 +17,10 @@ func add_resource(id: String, amount: int) -> void:
 	_set_resource(id, _resources[id] + amount)
 
 
-func buy(cost) -> bool:
-	if can_afford(cost):
-		return use_resource("basic_alloy", cost)
+func buy(costs: Dictionary) -> bool:
+	if can_afford(costs):
+		for id in costs:
+			return use_resource(id, costs[id])
 
 	return false
 
@@ -41,12 +42,19 @@ func get_resource(id: String) -> int:
 	return _resources[id]
 
 
-func can_afford(cost) -> bool:
+func get_resources() -> Dictionary:
+	return _resources
+
+
+func can_afford(costs: Dictionary) -> bool:
 	"""
 	Check the player can afford the given costs
 	"""
-	return has_resource("basic_alloy", cost)
+	var has_enough = true
+	for id in costs:
+		 has_enough = has_enough and has_resource(id, costs[id])
 
+	return has_enough
 
 func has_resource(id: String, amount: int) -> bool:
 	return get_resource(id) >= amount

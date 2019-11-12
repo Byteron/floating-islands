@@ -5,26 +5,24 @@ export (Resource) var construction_button
 
 onready var construction_buttons := $HUD/ConstuctionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var basic_alloy_display := $HUD/Panel/MarginContainer/CenterContainer/ResourceContainer/basic_alloy
-onready var special_alloy_display := $HUD/Panel/MarginContainer/CenterContainer/ResourceContainer/special_alloy
+onready var basic_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/basic_alloy
+onready var special_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/special_alloy
 
 
 func _ready() -> void:
 	_add_construction_buttons()
-
-	basic_alloy_display.set_resource(Global.resources["basic_alloy"])
-	special_alloy_display.set_resource(Global.resources["special_alloy"])
 
 
 func update_player(player: Player):
 	"""
 	Update interface based on change occuring in player
 	"""
-	basic_alloy_display.set_value(player.get_resource("basic_alloy"))
-	special_alloy_display.set_value(player.get_resource("special_alloy"))
+	var resources = player.get_resources()
+	basic_alloy_display.set_value(resources)
+	special_alloy_display.set_value(resources)
 
 	for button in construction_buttons.get_children():
-		button.disabled = not player.can_afford(button.data.cost)
+		button.disabled = not player.can_afford(button.data.get_costs())
 
 
 func _add_construction_buttons():

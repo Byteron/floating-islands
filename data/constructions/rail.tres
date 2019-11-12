@@ -6,7 +6,8 @@
 script = ExtResource( 1 )
 id = "Connector"
 name = "Rail"
-cost = 10
+cost_basic_alloy = 10
+cost_special_alloy = 0
 size = Vector2( 1, 1 )
 is_miner = false
 is_connector = true
