@@ -1,6 +1,8 @@
 extends TileMap
 class_name Map
 
+onready var BASIC_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("basic_alloy")
+onready var SPECIAL_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("special_alloy")
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 
 var tile_selector : TileSelector = null
@@ -109,7 +111,6 @@ func _generate_basic_alloy():
 	"""
 	Add resource deposit randomly using simplex noise
 	"""
-	var BASIC_ALLOY_INDEX = resource_overlay.tile_set.find_tile_by_name("basic_alloy")
 	var noise := OpenSimplexNoise.new()
 	noise.seed = randi()
 	noise.octaves = 1
@@ -135,7 +136,6 @@ func _generate_special_alloy():
 	Add resource deposit using random land position far enough from start island
 	deposit amount depends on distance from spawn
 	"""
-	var SPECIAL_ALLOY_INDEX = resource_overlay.tile_set.find_tile_by_name("special_alloy")
 	var deposit_count = 0
 	var loop_count = 0
 	var max_trials = 10000
@@ -156,7 +156,6 @@ func _generate_special_alloy():
 			continue
 
 		tile.deposit.id = "special_alloy"
-		print(deposit_count, ": ", tile.position, ": ", tile.deposit.amount)
 		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
 		deposit_count += 1
 
@@ -548,8 +547,10 @@ func get_tile_type(position: Vector2) -> int:
 		return Tile.TYPE.CONNECTOR
 
 	# Then resource layer
-	if resource_overlay.get_cellv(position) != TileMap.INVALID_CELL:
-		return Tile.TYPE.RESOURCE
+	if resource_overlay.get_cellv(position) == BASIC_ALLOY_INDEX:
+		return Tile.TYPE.BASIC_ALLOY
+	if resource_overlay.get_cellv(position) == SPECIAL_ALLOY_INDEX:
+		return Tile.TYPE.SPECIAL_ALLOY
 
 	# Lastly, terrain layer
 	if get_cellv(position) == LAND_INDEX:
