@@ -13,6 +13,7 @@ var selected_cell := Vector2()
 
 var size := Vector2(1, 1)
 var map = null
+var is_void_valid = false
 
 
 static func instance():
@@ -44,5 +45,5 @@ func _process(_delta: float) -> void:
 	rect_global_position = map.snap_position(get_global_mouse_position())
 
 	color_rect.color = invalid_color
-	if map.is_area_available(cell, size):
+	if map.is_area_available(cell, size, is_void_valid):
 		color_rect.color = valid_color

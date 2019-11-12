@@ -90,7 +90,7 @@ func place_construction(data: ConstructionData):
 	disable_user_selection()
 
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector(data.size)
+	var tile_selector := map.new_tile_selector(data.size, data.is_connector)
 	interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
@@ -105,7 +105,8 @@ func place_construction(data: ConstructionData):
 	enable_user_selection()
 
 	# Cannot build there or nothing selected
-	if not tile or not map.valid_construction_sites.values().has(tile):
+	var is_void_valid = data.is_connector
+	if not tile or not map.is_area_available(tile.position, data.size, is_void_valid):
 		return
 
 	# Already occupied

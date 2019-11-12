@@ -360,11 +360,12 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func new_tile_selector(_size: Vector2) -> TileSelector:
+func new_tile_selector(_size: Vector2, is_void_valid=false) -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
 	tile_selector.size = _size
+	tile_selector.is_void_valid = is_void_valid
 	add_child(tile_selector)
 	return tile_selector
 
@@ -551,6 +552,9 @@ func is_area_available(position: Vector2, size: Vector2, is_void_valid: bool=fal
 	"""
 	Tells wether or not player can build on given position
 	"""
+	if not valid_construction_sites.has(position):
+		return false
+
 	for x in size.x:
 		for y in size.y:
 			var cell = position + Vector2(x, y)
