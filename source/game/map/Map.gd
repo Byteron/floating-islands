@@ -5,6 +5,7 @@ const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only h
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 var VOID_INDEX := tile_set.find_tile_by_name("Void")
 
+
 var tile_selector : TileSelector = null
 
 var tiles := {}
@@ -33,6 +34,7 @@ onready var resource_overlay := $Resources as TileMap
 onready var construction_container := $ConstructionContainer as Node2D
 onready var island_container := $Islands as Node2D
 
+onready var RAIL_INDEX := rails_overlay.tile_set.find_tile_by_name("Rail")
 
 func _ready() -> void:
 	randomize()
@@ -409,8 +411,14 @@ func _add_connection(tile: Tile) -> Connector:
 
 	return connector
 
+
 func _add_rail(tile: Tile) -> void:
-	rails_overlay.set_cellv(tile.position, 0)
+	rails_overlay.set_cellv(tile.position, RAIL_INDEX)
+	rails_overlay.update_bitmask_area(tile.position)
+
+
+func _remove_rail(tile: Tile) -> void:
+	rails_overlay.set_cellv(tile.position, TileMap.INVALID_CELL)
 	rails_overlay.update_bitmask_area(tile.position)
 
 
@@ -429,7 +437,7 @@ func _remove_connection(tile: Tile):
 func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
 	var construction = Construction.instance()
 	construction_container.add_child(construction)
-	construction.initialize(data, affected_tiles)
+	construction.initialize(data, origin, affected_tiles)
 	construction.global_position = origin.get_world_position()
 
 	return construction
@@ -437,6 +445,7 @@ func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) 
 
 func _remove_building(construction: Construction):
 	construction_container.remove_child(construction)
+	_remove_rail(construction.origin)
 	construction.queue_free()
 
 

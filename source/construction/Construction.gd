@@ -8,7 +8,10 @@ var miner_radius := 0
 var miner_amount := 0
 
 var is_miner := false
+
+var origin : Tile = null
 var tiles: Array = []
+
 var data: ConstructionData				# Construction data
 var connected_to_storage: bool = false setget _set_connected_to_storage	# Does not produce until linked to a storage
 
@@ -20,10 +23,11 @@ static func instance():
 	return load("res://source/construction/Construction.tscn").instance()
 
 
-func initialize(_data: ConstructionData, _tiles: Array):
+func initialize(_data: ConstructionData, _origin: Tile, _tiles: Array):
 	"""
 	Expect construction data and list of tiles affected by this build
 	"""
+	self.origin = _origin
 	self.tiles = _tiles
 	self.data = _data
 
