@@ -374,6 +374,7 @@ func remove_construction(tile: Tile):
 		return
 
 	var construction = tile.construction
+	var data = construction.data
 
 	# Cannot remove last storage
 	if construction.data.is_storage:
@@ -397,10 +398,8 @@ func remove_construction(tile: Tile):
 		if construction_tile.is_adjacent_to_connector():
 			valid_construction_sites[construction_tile.position] = construction_tile
 
-	var data = null
 	if construction is Building:
 		_remove_building(construction)
-		data = construction.data
 	else:
 		_remove_connector(tile)
 

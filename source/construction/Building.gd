@@ -64,19 +64,13 @@ func mine() -> void:
 	if mining_on:
 		var mined : int = mining_on.mine(miner_amount)
 		get_tree().call_group("Player", "add_resource", data.target_resource, mined)
-		Global.get_game().display_resource_popup(mined, global_position)
+		Global.get_game().display_resource_popup(
+			mined, data.target_resource,
+			global_position,
+			data.size * Global.TILE_SIZE / 2
+		)
 	else:
 		mine_timer.stop()
-
-
-func _make_popup(value: int) -> void:
-	var popup := PopupLabel.instance() as PopupLabel
-	popup.text = "+%d" % value
-	popup.color = Color("00FF00")
-	popup.texture = Global.resources[data.target_resource].icon
-	popup.rect_global_position = global_position + Vector2(Global.TILE_SIZE, Global.TILE_SIZE) * data.size / 2
-	get_tree().current_scene.add_child(popup)
-	SFX.play_sfx("Mine")
 
 
 func _on_MineTimer_timeout() -> void:

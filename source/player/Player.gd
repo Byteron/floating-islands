@@ -1,15 +1,9 @@
 extends Node
 class_name Player
 
-<<<<<<< HEAD
-var resources := 0 setget _set_resources
-
-export var start_resources := 1000
+var _resources := {}
 # warning-ignore:unused_class_variable
 export(float, 0, 1) var refund_percentage := 0.75
-=======
-var _resources := {}
->>>>>>> d8fe55a50ca3490d4a7bfe294b16e78d1647ea81
 
 
 func _ready() -> void:
@@ -17,6 +11,14 @@ func _ready() -> void:
 		_resources[resource.id] = resource.start_value
 
 	get_tree().call_group("Interface", "update_player", self)
+
+
+func refund(costs: Dictionary):
+	"""
+	Give multiple ressources at once
+	"""
+	for id in costs:
+		(add_resource(id, costs[id]))
 
 
 func add_resource(id: String, amount: int) -> void:
@@ -28,7 +30,8 @@ func add_resource(id: String, amount: int) -> void:
 func buy(costs: Dictionary) -> bool:
 	if can_afford(costs):
 		for id in costs:
-			return use_resource(id, costs[id])
+			assert(use_resource(id, costs[id]))
+		return true
 
 	return false
 
