@@ -198,7 +198,7 @@ func _spawn_player():
 			continue
 
 		# Want a tile that is more or less central to that island
-		if tile.neighbors.size() < 8:
+		if not tile.is_surounded_by_land():
 			continue
 
 		add_contruction(tile, Global.constructions["Storage"])

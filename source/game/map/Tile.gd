@@ -81,3 +81,11 @@ func is_adjacent_to_connector() -> bool:
 			return true
 
 	return false
+
+
+func is_surounded_by_land() -> bool:
+	for tile in neighbors:
+		if tile.type == TYPE.VOID:
+			return false
+
+	return true
