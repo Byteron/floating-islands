@@ -3,7 +3,14 @@
 [ext_resource path="res://source/game/interface/TileSelector.gd" type="Script" id=1]
 
 [node name="TileSelector" type="Control"]
+modulate = Color( 1, 1, 1, 0.490196 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+valid_color = Color( 0, 1, 0, 1 )
+invalid_color = Color( 1, 0, 0, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0

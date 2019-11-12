@@ -198,7 +198,7 @@ func _spawn_player():
 			continue
 
 		# Want a tile that is more or less central to that island
-		if tile.neighbors.size() < 8:
+		if not tile.is_surounded_by_land():
 			continue
 
 		add_contruction(tile, Global.constructions["Storage"])
@@ -360,11 +360,12 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func new_tile_selector(_size: Vector2) -> TileSelector:
+func new_tile_selector(_size: Vector2, is_void_valid=false) -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
 	tile_selector.size = _size
+	tile_selector.is_void_valid = is_void_valid
 	add_child(tile_selector)
 	return tile_selector
 
@@ -547,13 +548,38 @@ func _propagate_connection(construction: Object):
 					_propagate_connection(neighbor.construction)
 
 
+func is_area_available(position: Vector2, size: Vector2, is_void_valid: bool=false) -> bool:
+	"""
+	Tells wether or not player can build on given position
+	"""
+	var has_valid_construction_site = false
+
+	for x in size.x:
+		for y in size.y:
+			var cell = position + Vector2(x, y)
+
+			if valid_construction_sites.has(cell):
+				has_valid_construction_site = true
+
+			var type = get_tile_type(cell)
+			if type == Tile.TYPE.VOID and not is_void_valid:
+				return false
+			if type == Tile.TYPE.CONNECTOR or type == Tile.TYPE.BUILDING:
+				return false
+
+	return has_valid_construction_site
+
+
 func get_tile_type(position: Vector2) -> int:
 	"""
 	Give the type of entity at the given position (road, building, land, ...)
 	"""
 	# Check building and connector layer first
 	var tile = get_tile(position)
-	if tile and tile.construction:
+	if not tile:
+		return Tile.TYPE.INVALID
+
+	if tile.construction:
 		if tile.construction is Building:
 			return Tile.TYPE.BUILDING
 		else:

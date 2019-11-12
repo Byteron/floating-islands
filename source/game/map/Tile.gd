@@ -3,7 +3,7 @@ class_name Tile
 
 signal resource_depleted(cell)
 
-enum TYPE { BUILDING, BASIC_ALLOY, SPECIAL_ALLOY, LAND, VOID, CONNECTOR }
+enum TYPE { INVALID=-1, BUILDING, BASIC_ALLOY, SPECIAL_ALLOY, LAND, VOID, CONNECTOR }
 
 var type := 0						# Type of terrain
 var position : Vector2 = Vector2()	# Cell position in the tilemap
@@ -81,3 +81,11 @@ func is_adjacent_to_connector() -> bool:
 			return true
 
 	return false
+
+
+func is_surounded_by_land() -> bool:
+	for tile in neighbors:
+		if tile.type == TYPE.VOID:
+			return false
+
+	return true
