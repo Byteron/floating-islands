@@ -94,8 +94,7 @@ func _generate_void() -> void:
 			if tiles.has(position):
 				continue
 
-			if not create_tile(position, Tile.TYPE.VOID, null):
-				print("mega meh")
+			assert(create_tile(position, Tile.TYPE.VOID, null))
 
 
 func _generate_resources():
@@ -205,7 +204,6 @@ func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: Cons
 
 	for y in data.size.y:
 		for x in data.size.x:
-			print(Vector2(x, y))
 			building_positions.append(position + Vector2(x, y))
 
 	corners.append(position + Vector2(-1, -1))
@@ -215,7 +213,6 @@ func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: Cons
 
 	for y in range(-1, data.size.y + 1):
 		for x in range(-1, data.size.x + 1):
-			print(Vector2(x, y))
 			var cell = position + Vector2(x, y)
 			if not building_positions.has(cell) and not corners.has(cell):
 				neighbors.append(cell)

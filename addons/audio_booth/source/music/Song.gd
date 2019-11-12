@@ -14,6 +14,7 @@ var beats_per_second := 0.0
 var current_beat := 0
 var last_beat := -1
 
+# warning-ignore:unused_class_variable
 var current_bar := 0
 
 export var tempo := 0.0
@@ -33,12 +34,15 @@ func _ready() -> void:
 	beats_per_second = 60.0 / tempo
 
 	for container in stinger_containers:
+# warning-ignore:return_value_discarded
 		connect(container.tick_type, container, "tick")
 
 	tween.name = "Tween"
+# warning-ignore:return_value_discarded
 	tween.connect("tween_completed", self, "_on_Tween_tween_completed")
 	add_child(tween)
 
+# warning-ignore:unused_argument
 func _process(delta: float) -> void:
 
 	time = core.get_playback_position()
@@ -137,13 +141,18 @@ func _set_volume_db(value) -> void:
 
 func _fade_in(player: AudioStreamPlayer, fade_time: float) -> void:
 	player.volume_db = -60
+# warning-ignore:return_value_discarded
 	tween.interpolate_property(player, "volume_db", -60.0, volume_db, fade_time, Tween.TRANS_QUINT, Tween.EASE_OUT)
+# warning-ignore:return_value_discarded
 	tween.start()
 
 func _fade_out(player: AudioStreamPlayer, fade_time: float) -> void:
+# warning-ignore:return_value_discarded
 	tween.interpolate_property(player, "volume_db", volume_db, -60.0, fade_time, Tween.TRANS_QUINT, Tween.EASE_IN)
+# warning-ignore:return_value_discarded
 	tween.start()
 
+# warning-ignore:unused_argument
 func _on_Tween_tween_completed(object: Object, key: NodePath) -> void:
 
 	if object is AudioStreamPlayer and object.volume_db == -60.0:
