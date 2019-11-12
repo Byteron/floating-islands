@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
 [ext_resource path="res://source/game/interface/Minimap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/game/interface/ConstructionButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://source/game/interface/ResourceDisplay.tscn" type="PackedScene" id=5]
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
@@ -88,19 +89,23 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="HUD/Panel/MarginContainer"]
 margin_left = 2.0
 margin_right = 314.0
-margin_bottom = 16.0
+margin_bottom = 19.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Panel/MarginContainer/CenterContainer"]
-margin_left = 156.0
-margin_top = 2.0
-margin_right = 156.0
-margin_bottom = 14.0
+[node name="ResourceContainer" type="HBoxContainer" parent="HUD/Panel/MarginContainer/CenterContainer"]
+margin_left = 34.0
+margin_right = 278.0
+margin_bottom = 19.0
 
-[node name="ResourceLabel" type="Label" parent="HUD/Panel/MarginContainer/CenterContainer/HBoxContainer"]
-margin_bottom = 12.0
+[node name="basic_alloy" parent="HUD/Panel/MarginContainer/CenterContainer/ResourceContainer" instance=ExtResource( 5 )]
+margin_bottom = 19.0
+
+[node name="special_alloy" parent="HUD/Panel/MarginContainer/CenterContainer/ResourceContainer" instance=ExtResource( 5 )]
+margin_left = 124.0
+margin_right = 244.0
+margin_bottom = 19.0
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
 anchor_left = 1.0
