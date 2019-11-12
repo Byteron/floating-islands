@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://source/resource/ResourceData.gd" type="Script" id=1]
+[ext_resource path="res://graphics/images/tiles/Dirt_Ground_Tile.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 16, 80, 16, 16 )
+
+[resource]
+script = ExtResource( 1 )
+id = "special_alloy"
+name = "Special Alloys"
+icon = SubResource( 1 )
+start_value = 0
