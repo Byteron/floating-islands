@@ -1,9 +1,13 @@
 [gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://source/construction/ConstructionData.gd" type="Script" id=1]
-[ext_resource path="res://graphics/images/buildings/Special_Resource_Miner_01.png" type="Texture" id=2]
-[ext_resource path="res://graphics/images/buildings/Special_Resource_Miner_02.png" type="Texture" id=3]
-[ext_resource path="res://graphics/images/buildings/Special_Resource_Miner_Inactive.png" type="Texture" id=4]
+[ext_resource path="res://graphics/images/buildings/refinery/0.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/buildings/refinery/1.png" type="Texture" id=3]
+[ext_resource path="res://graphics/images/buildings/refinery/inactive.png" type="Texture" id=4]
+
+
+
+
 
 [sub_resource type="AnimatedTexture" id=1]
 frames = 2
