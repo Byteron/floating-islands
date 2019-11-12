@@ -12,10 +12,11 @@ static func instance():
 	return load("res://source/construction/Building.tscn").instance()
 
 
-func init(_data: ConstructionData, _tiles: Array):
+func init(_data: ConstructionData, _tile: Tile, _tiles: Array):
 	"""
 	Expect construction data and list of tiles affected by this build
 	"""
+	self.tile = _tile
 	self.tiles = _tiles
 	self.data = _data
 

@@ -13,6 +13,7 @@ var miner_amount := 0
 
 # warning-ignore:unused_class_variable
 var is_miner := false
+var tile := null		# Origin of this building
 var tiles: Array = [] setget , get_tiles
 var data: ConstructionData				# Construction data
 var connected_to_storage: bool = false setget _set_connected_to_storage	# Does not produce until linked to a storage

@@ -1,8 +1,19 @@
-[gd_resource type="TileSet" load_steps=2 format=2]
+[gd_resource type="TileSet" load_steps=3 format=2]
 
 [ext_resource path="res://graphics/images/tiles/Dirt_Ground_Tile.png" type="Texture" id=1]
+[ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=3]
 
 [resource]
+4/name = "Void1"
+4/texture = ExtResource( 3 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 96, 0, 16, 16 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shapes = [  ]
+4/z_index = 0
 5/name = "Land"
 5/texture = ExtResource( 1 )
 5/tex_offset = Vector2( 0, 0 )

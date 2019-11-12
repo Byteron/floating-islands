@@ -5,6 +5,7 @@ const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only h
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 var VOID_INDEX := tile_set.find_tile_by_name("Void")
 
+
 var tile_selector : TileSelector = null
 
 var tiles := {}
@@ -33,6 +34,7 @@ onready var resource_overlay := $Resources as TileMap
 onready var buildings := $Buildings as Node2D
 onready var islands := $Islands as Node2D
 
+onready var RAIL_INDEX := rails_overlay.tile_set.find_tile_by_name("Rail")
 
 func _ready() -> void:
 	randomize()
@@ -377,6 +379,7 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	# Update tile constructions from building size
 	for tile in affected_tiles:
 		tile.construction = construction
+		_add_rail(tile)
 
 		# Remove that tile from possible constructions
 		var __ = valid_construction_sites.erase(tile.position)
@@ -398,14 +401,23 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 			valid_construction_sites[neighbor.position] = neighbor
 
 
-func _add_connector(tile: Tile, data: ConstructionData) -> Connector:
-	rails_overlay.set_cellv(tile.position, 0)
-	rails_overlay.update_bitmask_area(tile.position)
+func _add_connector(tile: Tile) -> Connector:
+	_add_rail(tile)
 
 	var connector = Connector.new(data, tile)
 	connectors[tile.position] = connector
 
 	return connector
+
+
+func _add_rail(tile: Tile) -> void:
+	rails_overlay.set_cellv(tile.position, RAIL_INDEX)
+	rails_overlay.update_bitmask_area(tile.position)
+
+
+func _remove_rail(tile: Tile) -> void:
+	rails_overlay.set_cellv(tile.position, TileMap.INVALID_CELL)
+	rails_overlay.update_bitmask_area(tile.position)
 
 
 func _remove_connector(tile: Tile):
@@ -422,7 +434,7 @@ func _remove_connector(tile: Tile):
 
 func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
 	var construction = Building.instance()
-	construction.init(data, affected_tiles)
+	construction.init(data, origin, affected_tiles)
 	buildings.add_child(construction)
 	construction.global_position = origin.get_world_position()
 
@@ -431,6 +443,7 @@ func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) 
 
 func _remove_building(construction: Construction):
 	buildings.remove_child(construction)
+	_remove_rail(construction.tile)
 	construction.queue_free()
 
 
