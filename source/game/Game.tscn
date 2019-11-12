@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://source/game/map/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://source/camera/GameCam.tscn" type="PackedScene" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://graphics/images/tiles/void.png" type="Texture" id=6]
 [ext_resource path="res://graphics/images/tiles/void2.png" type="Texture" id=7]
 [ext_resource path="res://graphics/images/tiles/void3.png" type="Texture" id=8]
-[ext_resource path="res://source/game/interface/PopupLabel.tscn" type="PackedScene" id=9]
 
 [node name="Game" type="Node2D" groups=[
 "Game",
@@ -76,9 +75,3 @@ current = true
 speed = 600
 
 [node name="Interface" parent="." instance=ExtResource( 3 )]
-
-[node name="PopupLabel" parent="." instance=ExtResource( 9 )]
-margin_left = 43.45
-margin_top = 79.38
-margin_right = 43.45
-margin_bottom = 79.38
