@@ -3,7 +3,7 @@ extends Node2D
 onready var player := $Player as Player
 
 onready var map := $Map as Map
-onready var interface := $Interface as Interface
+onready var interface := $Interface
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -70,7 +70,14 @@ func remove_construction():
 
 	enable_user_selection()
 
-	map.remove_construction(tile)
+	var data = map.remove_construction(tile)
+	if data:
+		var costs = {}
+		for id in data.get_costs():
+			costs[id] = player.refund_percentage * data.get_costs()[id]
+
+		display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
+		Global.get_player().refund(costs)
 
 	SFX.play_sfx("Destroy")
 
@@ -89,6 +96,7 @@ func place_construction(data: ConstructionData):
 	yield(tile_selector, "tile_selected")
 
 	var tile = tile_selector.selected_tile
+	var costs = data.get_costs()
 
 	# Remove specific UI
 	map.remove_tile_selector()
@@ -105,7 +113,7 @@ func place_construction(data: ConstructionData):
 		return
 
 	# Not enough resources
-	if not player.can_afford(data.get_costs()):
+	if not player.can_afford(costs):
 		return
 
 	# Cant build on top of building or connector or void
@@ -117,7 +125,8 @@ func place_construction(data: ConstructionData):
 	if not data.is_connector and type == Tile.TYPE.VOID:
 		return
 
-	assert(player.buy(data.get_costs()))
+	display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
+	assert(player.buy(costs))
 	map.add_contruction(tile, data)
 
 	if data.id == "Rail":
@@ -128,3 +137,39 @@ func place_construction(data: ConstructionData):
 	if Input.is_action_pressed("shift"):
 		set_process_unhandled_input(false)
 		place_construction(data)
+
+
+func display_costs_popup(costs: Dictionary, loose: bool, position: Vector2, offset: Vector2=Vector2()) -> void:
+	"""
+	Display multiple costs at once
+	loose: True if this is taken from Player, false is its added to player
+	"""
+	var local_offset = Vector2()
+	for id in costs:
+		var value = costs[id]
+		if loose:
+			value *= -1
+
+		if value != 0:
+			display_resource_popup(value, id, position, offset + local_offset)
+			local_offset.y += 16
+
+
+func display_resource_popup(value: int, resource_id: String, position: Vector2, offset: Vector2=Vector2()) -> void:
+	"""
+	Displays a popup showing production/consumption of resource slowly fadding away
+	"""
+	var popup := PopupLabel.instance() as PopupLabel
+	popup.texture = Global.resources[resource_id].icon
+
+	if value >= 0:
+		popup.text = "+%d" % value
+		popup.color = Color("00FF00")
+		# TODO: Nothing to do here
+		SFX.play_sfx("Mine")
+	else:
+		popup.text = "%d" % value
+		popup.color = Color("FF0000")
+
+	popup.rect_global_position = position + offset
+	add_child(popup)
