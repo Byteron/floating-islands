@@ -1,13 +1,16 @@
 extends Node2D
 class_name Construction
 
+var texture_active : Texture = null
+var texture_inactive : Texture = null
+
 var miner_radius := 0
 var miner_amount := 0
 
 var is_miner := false
 var tiles: Array = []
 var data: ConstructionData				# Construction data
-var connected_to_storage: bool = false	# Does not produce until linked to a storage
+var connected_to_storage: bool = false setget _set_connected_to_storage	# Does not produce until linked to a storage
 
 onready var mine_timer := $MineTimer as Timer
 onready var sprite := $Sprite as Sprite
@@ -25,14 +28,23 @@ func initialize(_data: ConstructionData, _tiles: Array):
 	self.data = _data
 
 	name = data.name
+
+	texture_active = data.texture
 	sprite.texture = data.texture
+
+	if data.texture_inactive:
+		texture_inactive = data.texture_inactive
+
+	sprite.offset = data.texture_offset
 
 	is_miner = data.is_miner
 	miner_radius = data.miner_radius
 	miner_amount = data.miner_mine_amount
+
 	if is_miner:
 		mine_timer.start(data.miner_tick_time)
 
+	add_to_group(_data.id)
 
 func get_id() -> String:
 	return data.id
@@ -70,6 +82,14 @@ func _make_popup(value: int) -> void:
 	get_tree().current_scene.add_child(popup)
 	SFX.play_sfx("Mine")
 
+
+func _set_connected_to_storage(value: bool) -> void:
+	connected_to_storage = value
+
+	if value and texture_active:
+		sprite.texture = texture_active
+	elif not value and texture_inactive:
+		sprite.texture = texture_inactive
 
 func _on_MineTimer_timeout() -> void:
 	mine()
