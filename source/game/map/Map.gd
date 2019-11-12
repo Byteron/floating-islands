@@ -547,13 +547,32 @@ func _propagate_connection(construction: Object):
 					_propagate_connection(neighbor.construction)
 
 
+func is_area_available(position: Vector2, size: Vector2, is_void_valid: bool=false) -> bool:
+	"""
+	Tells wether or not player can build on given position
+	"""
+	for x in size.x:
+		for y in size.y:
+			var cell = position + Vector2(x, y)
+			var type = get_tile_type(cell)
+			if type == Tile.TYPE.VOID and not is_void_valid:
+				return false
+			if type == Tile.TYPE.CONNECTOR or type == Tile.TYPE.BUILDING:
+				return false
+
+	return true
+
+
 func get_tile_type(position: Vector2) -> int:
 	"""
 	Give the type of entity at the given position (road, building, land, ...)
 	"""
 	# Check building and connector layer first
 	var tile = get_tile(position)
-	if tile and tile.construction:
+	if not tile:
+		return Tile.TYPE.INVALID
+
+	if tile.construction:
 		if tile.construction is Building:
 			return Tile.TYPE.BUILDING
 		else:

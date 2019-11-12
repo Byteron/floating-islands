@@ -2,6 +2,7 @@ extends Control
 
 export var margin = 2
 var COLORS = {
+	Tile.TYPE.INVALID: Color.black,
 	Tile.TYPE.VOID: Color.black,
 	Tile.TYPE.LAND: Color.lightgray,
 	Tile.TYPE.BUILDING: Color( 0.321569, 0.2, 0.247059, 1 ),
