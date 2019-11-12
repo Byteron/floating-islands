@@ -13,6 +13,7 @@ var miner_amount := 0
 
 # warning-ignore:unused_class_variable
 var is_miner := false
+# warning-ignore:unused_class_variable
 var tile : Tile = null		# Origin of this building
 var tiles: Array = [] setget , get_tiles
 var data: ConstructionData				# Construction data

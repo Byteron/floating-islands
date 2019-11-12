@@ -3,7 +3,6 @@ class_name Map
 
 const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only has that one tile
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
-var VOID_INDEX := tile_set.find_tile_by_name("Void")
 
 
 var tile_selector : TileSelector = null
@@ -348,7 +347,7 @@ func remove_construction(tile: Tile):
 		# Check neighbor are still valid construction places
 		for tile in construction_tile.direct_neighbors:
 			if valid_construction_sites.has(tile.position) and not tile.is_adjacent_to_connector():
-				valid_construction_sites.erase(tile.position)
+				var __ = valid_construction_sites.erase(tile.position)
 
 		if construction_tile.is_adjacent_to_connector():
 			valid_construction_sites[construction_tile.position] = construction_tile
