@@ -552,19 +552,22 @@ func is_area_available(position: Vector2, size: Vector2, is_void_valid: bool=fal
 	"""
 	Tells wether or not player can build on given position
 	"""
-	if not valid_construction_sites.has(position):
-		return false
+	var has_valid_construction_site = false
 
 	for x in size.x:
 		for y in size.y:
 			var cell = position + Vector2(x, y)
+
+			if valid_construction_sites.has(cell):
+				has_valid_construction_site = true
+
 			var type = get_tile_type(cell)
 			if type == Tile.TYPE.VOID and not is_void_valid:
 				return false
 			if type == Tile.TYPE.CONNECTOR or type == Tile.TYPE.BUILDING:
 				return false
 
-	return true
+	return has_valid_construction_site
 
 
 func get_tile_type(position: Vector2) -> int:
