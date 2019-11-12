@@ -5,10 +5,6 @@
 [ext_resource path="res://graphics/images/buildings/miner/1.png" type="Texture" id=3]
 [ext_resource path="res://graphics/images/buildings/miner/inactive.png" type="Texture" id=4]
 
-
-
-
-
 [sub_resource type="AnimatedTexture" id=1]
 frames = 2
 frame_0/texture = ExtResource( 2 )

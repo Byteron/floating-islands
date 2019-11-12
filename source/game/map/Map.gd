@@ -30,8 +30,8 @@ export (float) var process_time = 0.5				# Time given to physic engine to place 
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
-onready var construction_container := $ConstructionContainer as Node2D
-onready var island_container := $Islands as Node2D
+onready var buildings := $Buildings as Node2D
+onready var islands := $Islands as Node2D
 
 
 func _ready() -> void:
@@ -47,7 +47,6 @@ func _ready() -> void:
 	_generate_resources()
 	_generate_neighbors()
 	_spawn_player()
-	#_print_info()
 
 
 func _place_islands() -> void:
@@ -62,14 +61,14 @@ func _place_islands() -> void:
 			-max_island_offset + randi() % (max_island_offset * 2)
 		)
 
-		island_container.add_child(island)
+		islands.add_child(island)
 
 
 func _generate_islands() -> void:
 	"""
 	Generate visual island representation in the tilemap
 	"""
-	for island in island_container.get_children():
+	for island in islands.get_children():
 		# Remove out of bound islands
 		var position = world_to_map(island.position)
 		if not _is_cell_on_map(position):
@@ -81,7 +80,7 @@ func _generate_islands() -> void:
 		# Remove small islands
 		if island.size() < min_island_size:
 			island.remove(self)
-			island_container.remove_child(island)
+			islands.remove_child(island)
 
 
 func _generate_void() -> void:
@@ -106,7 +105,7 @@ func _generate_resources():
 	noise.octaves = 1
 	noise.period = 20
 
-	for island in island_container.get_children():
+	for island in islands.get_children():
 		for position in island.tiles_position:
 			var tile = get_tile(position)
 			if not tile:
@@ -247,7 +246,7 @@ func remove_tile(position: Vector2) -> void:
 
 
 func get_random_island() -> Island:
-	return island_container.get_children()[randi() % island_container.get_child_count()]
+	return islands.get_children()[randi() % islands.get_child_count()]
 
 
 func get_tile(position: Vector2) -> Tile:
@@ -324,15 +323,15 @@ func remove_construction(tile: Tile):
 	"""
 	Remove any construction on the given tile
 	"""
-	if not tile.construction:
+	if not tile or not tile.construction:
 		return
 
 	var construction = tile.construction
 
 	# Cannot remove last storage
-	if construction is Construction and construction.data.is_storage:
+	if construction.data.is_storage:
 		var storage_count = 0
-		for building in construction_container.get_children():
+		for building in buildings.get_children():
 			if building.data.is_storage:
 				storage_count += 1
 
@@ -345,10 +344,10 @@ func remove_construction(tile: Tile):
 		if construction_tile.is_adjacent_to_connector():
 			valid_construction_sites[construction_tile.position] = construction_tile
 
-	if construction is Construction:
+	if construction is Building:
 		_remove_building(construction)
 	else:
-		_remove_connection(tile)
+		_remove_connector(tile)
 
 	update_connections()
 
@@ -370,7 +369,7 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	# Place the building
 	var construction = null
 	if data.is_connector:
-		construction = _add_connection(origin)
+		construction = _add_connector(origin, data)
 	else:
 		construction = _add_building(origin, affected_tiles, data)
 
@@ -398,17 +397,17 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 			valid_construction_sites[neighbor.position] = neighbor
 
 
-func _add_connection(tile: Tile) -> Connector:
+func _add_connector(tile: Tile, data: ConstructionData) -> Connector:
 	rails_overlay.set_cellv(tile.position, 0)
 	rails_overlay.update_bitmask_area(tile.position)
 
-	var connector = Connector.new(tile)
+	var connector = Connector.new(data, tile)
 	connectors[tile.position] = connector
 
 	return connector
 
 
-func _remove_connection(tile: Tile):
+func _remove_connector(tile: Tile):
 	"""
 	Remove a rail and update adjacent rails connections
 	"""
@@ -421,16 +420,16 @@ func _remove_connection(tile: Tile):
 
 
 func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
-	var construction = Construction.instance()
-	construction_container.add_child(construction)
-	construction.initialize(data, affected_tiles)
+	var construction = Building.instance()
+	construction.init(data, affected_tiles)
+	buildings.add_child(construction)
 	construction.global_position = origin.get_world_position()
 
 	return construction
 
 
 func _remove_building(construction: Construction):
-	construction_container.remove_child(construction)
+	buildings.remove_child(construction)
 	construction.queue_free()
 
 
@@ -439,11 +438,11 @@ func update_connections():
 	for connector in connectors.values():
 		connector.connected_to_storage = false
 
-	for construction in construction_container.get_children():
+	for construction in buildings.get_children():
 		construction.connected_to_storage = false
 
 	# For every storage
-	for construction in construction_container.get_children():
+	for construction in buildings.get_children():
 		if not construction.get_id() == "Storage":
 			continue
 
@@ -500,15 +499,6 @@ func get_extents() -> Vector2:
 	World size of the map
 	"""
 	return size * Global.TILE_SIZE
-
-
-func _print_info():
-	for island in island_container.get_children():
-		print("Island %d -> Size: %d, Resources: %d" % [
-			island.id,
-			island.size(),
-			island.get_resource_count(self)]
-		)
 
 
 func _is_cell_on_map(cell: Vector2) -> bool:

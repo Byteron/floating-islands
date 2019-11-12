@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
-id = "Rail"
+id = "Connector"
 name = "Rail"
 cost = 10
 size = Vector2( 1, 1 )

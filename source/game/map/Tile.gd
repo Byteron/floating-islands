@@ -51,7 +51,10 @@ func has_connector() -> bool:
 	"""
 	Check that a connector is on that tile
 	"""
-	return construction and construction.get_class() == "Connector"
+	if construction:
+		return construction.get_class() == "Connector" or construction.get_class() == "Storage"
+
+	return false
 
 
 func is_adjacent_to_connector() -> bool:
