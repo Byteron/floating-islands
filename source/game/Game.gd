@@ -72,7 +72,10 @@ func remove_construction():
 
 	var data = map.remove_construction(tile)
 	if data:
-		var costs = data.get_costs()
+		var costs = {}
+		for id in data.get_costs():
+			costs[id] = player.refund_percentage * data.get_costs()[id]
+
 		display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
 		Global.get_player().refund(costs)
 
