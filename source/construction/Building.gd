@@ -73,7 +73,8 @@ func _make_popup(value: int) -> void:
 	var popup := PopupLabel.instance() as PopupLabel
 	popup.text = "+%d" % value
 	popup.color = Color("00FF00")
-	popup.rect_global_position = global_position
+	popup.texture = Global.resources[data.target_resource].icon
+	popup.rect_global_position = global_position + Vector2(Global.TILE_SIZE, Global.TILE_SIZE) * data.size / 2
 	get_tree().current_scene.add_child(popup)
 	SFX.play_sfx("Mine")
 

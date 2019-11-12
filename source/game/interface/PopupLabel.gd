@@ -1,13 +1,15 @@
 extends Control
 class_name PopupLabel
 
-const distance := 30
+const distance := 20
 
 var color := Color("FFFFFF")
 var text := ""
+var texture : Texture = null
 
 onready var label := $Label
 onready var tween := $Tween
+onready var icon := $Icon
 
 
 static func instance():
@@ -15,8 +17,9 @@ static func instance():
 
 
 func _ready() -> void:
-	modulate = color
+	label.modulate = color
 	label.text = text
+	icon.texture = texture
 	_animate()
 
 
