@@ -560,11 +560,11 @@ func is_area_over_valid_site(position: Vector2, area_size: Vector2):
 	return false
 
 
-func is_area_available(position: Vector2, area_size: Vector2, is_void_valid: bool=false, ignore_valid_size: bool=false) -> bool:
+func is_area_available(position: Vector2, area_size: Vector2, is_void_valid: bool=false, skip_site_check: bool=false) -> bool:
 	"""
 	Tells wether or not player can build on given position
 	"""
-	var has_valid_construction_site = ignore_valid_size or is_area_over_valid_site(position, area_size)
+	var has_valid_construction_site = skip_site_check or is_area_over_valid_site(position, area_size)
 
 	for x in area_size.x:
 		for y in area_size.y:

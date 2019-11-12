@@ -21,7 +21,7 @@ func set_cell(value: Vector2):
 	rect_global_position = cell * Global.TILE_SIZE
 
 	color = invalid_color
-	if Global.get_map().is_area_available(cell, Vector2(1, 1), placing_connector, true):
+	if Global.get_map().is_area_available(cell, Vector2(1, 1), placing_connector, placing_connector and offset != Vector2()):
 		color = valid_color
 
 

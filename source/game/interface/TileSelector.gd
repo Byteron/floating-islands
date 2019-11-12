@@ -30,7 +30,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	# Actual action performed
 	if event.is_action_released("LMB"):
-		selected_tiles = [ map.get_tile(starting_cell) ]
+		selected_tiles = []
+		for selector in selectors.get_children():
+			selected_tiles.append(map.get_tile(selector.cell))
 		emit_signal("tile_selected")
 	elif event.is_action_pressed("LMB"):
 		starting_cell = map.world_to_map(get_global_mouse_position())
@@ -47,13 +49,15 @@ func _input(event: InputEvent) -> void:
 		return
 
 	# Mouse movement
-	rect_global_position = map.snap_position(get_global_mouse_position())
-
 	var cell = map.world_to_map(get_global_mouse_position())
+
+	# Display path of rails from starting cell to current cell
+	if not follow_mouse and placing_connector:
+		display_rail_path(starting_cell, cell)
+		return
+
 	var force_valid = false		# Force all green when map says its good to go
 	var force_invalid = false	# Force all red when not over valid construction site
-	if not follow_mouse:
-		return
 
 	if not placing_connector:
 		force_valid = map.is_area_available(cell, size, placing_connector)
@@ -78,3 +82,28 @@ func _create_selector(cell: Vector2, offset: Vector2=Vector2()):
 	selector.offset = offset
 
 	selector.set_cell(cell)
+
+
+func clear_selectors():
+	for selector in selectors.get_children():
+		selectors.remove_child(selector)
+		selector.queue_free()
+
+
+func display_rail_path(from: Vector2, to: Vector2):
+	clear_selectors()
+
+	var final_offset = to - from
+
+	# Because range works only with positive values
+	var direction = Vector2(1, 1)
+	if final_offset.x < 0:
+		direction.x = -1
+	if final_offset.y < 0:
+		direction.y = -1
+
+	for x in range(abs(final_offset.x)):
+		_create_selector(from, Vector2(x, 0) * direction)
+
+	for y in range(abs(final_offset.y) + 1):
+		_create_selector(from, Vector2(abs(final_offset.x), y) * direction)

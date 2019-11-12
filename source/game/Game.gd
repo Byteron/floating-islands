@@ -63,7 +63,10 @@ func remove_construction():
 
 	yield(tile_selector, "tile_selected")
 
-	var tile = tile_selector.selected_tiles[0]
+	var tiles = tile_selector.selected_tiles
+	var tile = null
+	if tiles.size() > 0:
+		tile = tiles[0]
 
 	# Remove specific UI
 	map.remove_tile_selector()
@@ -104,40 +107,37 @@ func place_construction(data: ConstructionData):
 
 	enable_user_selection()
 
-	if tiles.size() <= 0:
-		return
-	var tile = tiles[0]
+	for tile in tiles:
+		# Cannot build there or nothing selected
+		var is_void_valid = data.is_connector
+		if not tile or not map.is_area_available(tile.position, data.size, is_void_valid):
+			continue
 
-	# Cannot build there or nothing selected
-	var is_void_valid = data.is_connector
-	if not tile or not map.is_area_available(tile.position, data.size, is_void_valid):
-		return
+		# Already occupied
+		if tile.construction:
+			continue
 
-	# Already occupied
-	if tile.construction:
-		return
+		# Not enough resources
+		if not player.can_afford(costs):
+			break
 
-	# Not enough resources
-	if not player.can_afford(costs):
-		return
+		# Cant build on top of building or connector or void
+		var type = map.get_tile_type(tile.position)
+		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
+			continue
 
-	# Cant build on top of building or connector or void
-	var type = map.get_tile_type(tile.position)
-	if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
-		return
+		# No building on the void
+		if not data.is_connector and type == Tile.TYPE.VOID:
+			continue
 
-	# No building on the void
-	if not data.is_connector and type == Tile.TYPE.VOID:
-		return
+		display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
+		assert(player.buy(costs))
+		map.add_contruction(tile, data)
 
-	display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
-	assert(player.buy(costs))
-	map.add_contruction(tile, data)
-
-	if data.id == "Rail":
-		SFX.play_sfx("BuildRail")
-	else:
-		SFX.play_sfx("BuildBuilding")
+		if data.id == "Rail":
+			SFX.play_sfx("BuildRail")
+		else:
+			SFX.play_sfx("BuildBuilding")
 
 	if Input.is_action_pressed("shift"):
 		set_process_unhandled_input(false)
