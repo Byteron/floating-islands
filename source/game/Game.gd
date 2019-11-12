@@ -63,7 +63,7 @@ func remove_construction():
 
 	yield(tile_selector, "tile_selected")
 
-	var tile = tile_selector.selected_tile
+	var tile = tile_selector.selected_tiles[0]
 
 	# Remove specific UI
 	map.remove_tile_selector()
@@ -95,7 +95,7 @@ func place_construction(data: ConstructionData):
 
 	yield(tile_selector, "tile_selected")
 
-	var tile = tile_selector.selected_tile
+	var tiles = tile_selector.selected_tiles
 	var costs = data.get_costs()
 
 	# Remove specific UI
@@ -103,6 +103,10 @@ func place_construction(data: ConstructionData):
 	interface.clear_highlights()
 
 	enable_user_selection()
+
+	if tiles.size() <= 0:
+		return
+	var tile = tiles[0]
 
 	# Cannot build there or nothing selected
 	var is_void_valid = data.is_connector

@@ -360,12 +360,12 @@ func snap_position(world_position: Vector2) -> Vector2:
 	return map_to_world(world_to_map(world_position))
 
 
-func new_tile_selector(_size: Vector2, is_void_valid=false) -> TileSelector:
+func new_tile_selector(_size: Vector2, placing_connector=false) -> TileSelector:
 	remove_tile_selector()
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.map = self
 	tile_selector.size = _size
-	tile_selector.is_void_valid = is_void_valid
+	tile_selector.placing_connector = placing_connector
 	add_child(tile_selector)
 	return tile_selector
 
@@ -548,20 +548,27 @@ func _propagate_connection(construction: Object):
 					_propagate_connection(neighbor.construction)
 
 
-func is_area_available(position: Vector2, area_size: Vector2, is_void_valid: bool=false) -> bool:
+func is_area_over_valid_site(position: Vector2, area_size: Vector2):
+	"""
+	Check if a valid site is in the given area
+	"""
+	for x in area_size.x:
+		for y in area_size.y:
+			if valid_construction_sites.has(position + Vector2(x, y)):
+				return true
+
+	return false
+
+
+func is_area_available(position: Vector2, area_size: Vector2, is_void_valid: bool=false, ignore_valid_size: bool=false) -> bool:
 	"""
 	Tells wether or not player can build on given position
 	"""
-	var has_valid_construction_site = false
+	var has_valid_construction_site = ignore_valid_size or is_area_over_valid_site(position, area_size)
 
 	for x in area_size.x:
 		for y in area_size.y:
-			var cell = position + Vector2(x, y)
-
-			if valid_construction_sites.has(cell):
-				has_valid_construction_site = true
-
-			var type = get_tile_type(cell)
+			var type = get_tile_type(position + Vector2(x, y))
 			if type == Tile.TYPE.VOID and not is_void_valid:
 				return false
 			if type == Tile.TYPE.CONNECTOR or type == Tile.TYPE.BUILDING:
