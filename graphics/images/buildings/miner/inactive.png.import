@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/little_buildings.png-112c0c6af492606dbe77f54fc4e01fbb.stex"
+path="res://.import/inactive.png-f5c057274a17b4b7e024e45337c7f1f9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/buildings/little_buildings.png"
-dest_files=[ "res://.import/little_buildings.png-112c0c6af492606dbe77f54fc4e01fbb.stex" ]
+source_file="res://graphics/images/buildings/miner/inactive.png"
+dest_files=[ "res://.import/inactive.png-f5c057274a17b4b7e024e45337c7f1f9.stex" ]
 
 [params]
 

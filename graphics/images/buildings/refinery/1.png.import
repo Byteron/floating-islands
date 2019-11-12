@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/terrain.png-05e69867983e22ab67d2c6f5a2e33f43.stex"
+path="res://.import/1.png-de362d220d668adeb6615eea0928339c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/tiles/terrain.png"
-dest_files=[ "res://.import/terrain.png-05e69867983e22ab67d2c6f5a2e33f43.stex" ]
+source_file="res://graphics/images/buildings/refinery/1.png"
+dest_files=[ "res://.import/1.png-de362d220d668adeb6615eea0928339c.stex" ]
 
 [params]
 

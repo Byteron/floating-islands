@@ -20,7 +20,7 @@ func _ready() -> void:
 	SFX.play_sfx("FactoryLoop")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_process_factory_loop_volume()
 
 

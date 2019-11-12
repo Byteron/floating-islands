@@ -14,3 +14,4 @@ is_storage = false
 miner_radius = 0
 miner_tick_time = 0
 miner_mine_amount = 0
+texture_offset = Vector2( 0, 0 )
