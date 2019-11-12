@@ -548,14 +548,14 @@ func _propagate_connection(construction: Object):
 					_propagate_connection(neighbor.construction)
 
 
-func is_area_available(position: Vector2, size: Vector2, is_void_valid: bool=false) -> bool:
+func is_area_available(position: Vector2, area_size: Vector2, is_void_valid: bool=false) -> bool:
 	"""
 	Tells wether or not player can build on given position
 	"""
 	var has_valid_construction_site = false
 
-	for x in size.x:
-		for y in size.y:
+	for x in area_size.x:
+		for y in area_size.y:
 			var cell = position + Vector2(x, y)
 
 			if valid_construction_sites.has(cell):
