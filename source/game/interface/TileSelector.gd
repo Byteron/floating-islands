@@ -26,7 +26,6 @@ func _input(event: InputEvent) -> void:
 		var tile = map.get_tile_from_world_position(get_global_mouse_position())
 		if tile:
 			selected_tile = tile
-			print("Tile Selected: ", tile)
 			emit_signal("tile_selected")
 		else:
 			var cell = map.world_to_map(get_global_mouse_position())

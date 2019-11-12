@@ -1,6 +1,7 @@
 extends Node
 class_name TrackContainer
 
+# warning-ignore:unused_class_variable
 var type := "track"
 
 func get_core() -> AudioStreamPlayer:
