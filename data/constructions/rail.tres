@@ -12,6 +12,7 @@ size = Vector2( 1, 1 )
 is_miner = false
 is_connector = true
 is_storage = false
+target_resource = ""
 miner_radius = 0
 miner_tick_time = 0
 miner_mine_amount = 0

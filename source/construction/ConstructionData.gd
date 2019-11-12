@@ -20,6 +20,8 @@ export var is_connector := false
 export var is_storage := false
 
 # warning-ignore:unused_class_variable
+export var target_resource : String = ""
+# warning-ignore:unused_class_variable
 export var miner_radius := 1
 # warning-ignore:unused_class_variable
 export var miner_tick_time := 5

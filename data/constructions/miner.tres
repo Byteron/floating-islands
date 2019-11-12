@@ -21,6 +21,7 @@ size = Vector2( 1, 1 )
 is_miner = true
 is_connector = false
 is_storage = false
+target_resource = "basic_alloy"
 miner_radius = 1
 miner_tick_time = 1
 miner_mine_amount = 10

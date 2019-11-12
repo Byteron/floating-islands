@@ -116,7 +116,8 @@ func _generate_resources():
 				continue
 
 			assert(resource_min > 0) # Could create empty deposit otherwise
-			tile.resources = (randi() % (resource_max - resource_min)) + resource_min
+			tile.deposit.id = "basic_alloy"
+			tile.deposit.amount = (randi() % (resource_max - resource_min)) + resource_min
 			resource_overlay.set_cellv(tile.position, RES_INDEX)
 			tile.connect("resource_depleted", self, "_on_Tile_resource_depleted")
 
@@ -473,7 +474,7 @@ func get_tile_type(position: Vector2) -> int:
 	# Check building and connector layer first
 	var tile = get_tile(position)
 	if tile and tile.construction:
-		if tile.construction is Construction:
+		if tile.construction is Building:
 			return Tile.TYPE.BUILDING
 		else:
 			return Tile.TYPE.CONNECTOR

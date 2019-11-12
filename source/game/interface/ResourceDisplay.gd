@@ -1,7 +1,5 @@
 extends Control
 
-var resource : ResourceData = null
-
 export var resource_id : String = ""
 export var hide_empty : bool = false
 
