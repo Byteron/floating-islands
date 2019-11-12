@@ -31,6 +31,9 @@ margin_left = -16.0
 margin_top = -24.0
 margin_bottom = -8.0
 rect_min_size = Vector2( 16, 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="."]
 anchor_left = 0.5

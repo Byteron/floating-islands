@@ -9,12 +9,14 @@ var tiles := {}
 var connectors := {}				# List of all rails
 # warning-ignore:unused_class_variable
 var valid_construction_sites := {}	# Where player is allowed to build
+var spawn : Vector2					# Player spawn position
 
 export var size = Vector2(64, 64)
 
 export var basic_alloy_min := 200
 export var basic_alloy_max := 8000
 export var special_alloy_min_deposit_count : int = 40
+export var special_alloy_amount_curve : Curve
 
 # warning-ignore:unused_class_variable
 export var resource_amplitude := 2
@@ -44,9 +46,11 @@ func _ready() -> void:
 
 	_generate_islands()
 	_generate_void()
-	_generate_resources()
+
 	_generate_neighbors()
 	_spawn_player()
+
+	_generate_resources()
 
 
 func _place_islands() -> void:
@@ -132,17 +136,31 @@ func _generate_special_alloy():
 	deposit amount depends on distance from spawn
 	"""
 	var SPECIAL_ALLOY_INDEX = resource_overlay.tile_set.find_tile_by_name("special_alloy")
+	var deposit_count = 0
+	var loop_count = 0
+	var max_trials = 10000
+	while deposit_count < special_alloy_min_deposit_count and loop_count < max_trials:
+		loop_count += 1
 
-	for __ in range(special_alloy_min_deposit_count):
 		var island = get_random_island()
 		var position = island.get_random_tile_position()
 		var tile = get_tile(position)
 
 		assert(tile)
 
+		# Distance from spawn
+		var spawn_distance = tile.position.distance_to(spawn)
+
+		tile.deposit.amount = floor(500 * special_alloy_amount_curve.interpolate(spawn_distance / size.x))
+		if tile.deposit.amount <= 0:
+			continue
+
 		tile.deposit.id = "special_alloy"
-		tile.deposit.amount = 500
+		print(deposit_count, ": ", tile.position, ": ", tile.deposit.amount)
 		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
+		deposit_count += 1
+
+	assert(deposit_count == special_alloy_min_deposit_count)
 
 
 func _should_have_basic_alloy(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> bool:
@@ -182,6 +200,7 @@ func _spawn_player():
 			continue
 
 		add_contruction(tile, Global.constructions["Storage"])
+		spawn = tile.position
 
 		Global.get_camera().set_global_position(start_island.global_position)
 		break
