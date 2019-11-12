@@ -68,8 +68,8 @@ __meta__ = {
 anchor_right = 1.0
 margin_left = 2.0
 margin_top = 2.0
-margin_right = -2.0
-margin_bottom = 20.0
+margin_right = -273.0
+margin_bottom = 34.0
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -78,6 +78,8 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="HUD/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -12.0
+margin_bottom = -11.0
 custom_constants/margin_right = 2
 custom_constants/margin_top = 0
 custom_constants/margin_left = 2
@@ -86,20 +88,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ResourceContainer" type="HBoxContainer" parent="HUD/Panel/MarginContainer"]
+[node name="ResourceContainer" type="VBoxContainer" parent="HUD/Panel/MarginContainer"]
 margin_left = 2.0
-margin_right = 314.0
-margin_bottom = 19.0
+margin_right = 42.0
+margin_bottom = 33.0
+custom_constants/separation = -5
 
 [node name="basic_alloy" parent="HUD/Panel/MarginContainer/ResourceContainer" instance=ExtResource( 5 )]
-margin_right = 50.0
+margin_right = 40.0
 margin_bottom = 19.0
 resource_id = "basic_alloy"
 
 [node name="special_alloy" parent="HUD/Panel/MarginContainer/ResourceContainer" instance=ExtResource( 5 )]
-margin_left = 54.0
-margin_right = 104.0
-margin_bottom = 19.0
+margin_top = 14.0
+margin_right = 40.0
+margin_bottom = 33.0
 resource_id = "special_alloy"
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
