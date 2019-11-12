@@ -3,7 +3,7 @@ class_name Tile
 
 signal resource_depleted(cell)
 
-enum TYPE { BUILDING, RESOURCE, LAND, VOID, CONNECTOR }
+enum TYPE { BUILDING, BASIC_ALLOY, SPECIAL_ALLOY, LAND, VOID, CONNECTOR }
 
 var type := 0						# Type of terrain
 var position : Vector2 = Vector2()	# Cell position in the tilemap
@@ -14,9 +14,12 @@ var neighbors: Array = []			# List of adjacent tiles
 var direct_neighbors: Array = []	# List of adjacent tiles (but not diagonaly)
 
 # warning-ignore:unused_class_variable
-var resources : int = 0
-# warning-ignore:unused_class_variable
 var construction : Object = null
+
+var deposit : Dictionary = {
+	"id": "",
+	"amount": 0
+}
 
 
 func _init(_position: Vector2, _type, _island: Node):
@@ -26,18 +29,28 @@ func _init(_position: Vector2, _type, _island: Node):
 
 
 func mine(amount: int) -> int:
-	var prev = resources
-# warning-ignore:narrowing_conversion
-	resources = clamp(resources - amount, 0, resources)
+	"""
+	Try to remove the given amount of resource.
+	Return how many are removed
+	"""
+	var mined_amount = max(amount - deposit.amount, amount)
+	deposit.amount = max(deposit.amount - amount, 0)
 
-	if not has_resources():
+	if is_depleted():
 		emit_signal("resource_depleted", position)
 
-	return prev - resources
+	return mined_amount
 
 
-func has_resources() -> bool:
-	return resources > 0
+func has_resource(id: String):
+	"""
+	Check for given resource type on this tile
+	"""
+	return deposit.id == id and not is_depleted()
+
+
+func is_depleted() -> bool:
+	return deposit.amount <= 0
 
 
 func get_world_position():
@@ -51,7 +64,12 @@ func has_connector() -> bool:
 	"""
 	Check that a connector is on that tile
 	"""
-	return construction and construction.get_class() == "Connector"
+	if construction:
+		# Cannot use is Connector here because GDScript sucks at ciclyc references
+		# TODO: Update with other Connector IDs if we add more
+		return construction.get_class() == "Rail" or construction.get_class() == "Storage"
+
+	return false
 
 
 func is_adjacent_to_connector() -> bool:

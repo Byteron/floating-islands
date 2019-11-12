@@ -5,9 +5,12 @@
 [ext_resource path="res://source/game/map/Island.tscn" type="PackedScene" id=3]
 [ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=4]
 [ext_resource path="res://graphics/images/tiles/Dirt_Cliff_Tiles.png" type="Texture" id=5]
-[ext_resource path="res://graphics/images/tiles/Dirt_Ground_Tile.png" type="Texture" id=6]
+[ext_resource path="res://graphics/tilesets/resources_tileset.tres" type="TileSet" id=6]
 
-[sub_resource type="TileSet" id=1]
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 ), 5.24141, 5.24141, 0, 0, Vector2( 0.52552, 1 ), 5.77839, 27.892, 0, 0 ]
+
+[sub_resource type="TileSet" id=2]
 0/name = "Cliff"
 0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
@@ -27,20 +30,18 @@
 0/navigation_offset = Vector2( 0, 0 )
 0/shapes = [  ]
 0/z_index = 0
+1/name = "special_alloy"
+1/texture = ExtResource( 5 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 16, 80, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shapes = [  ]
+1/z_index = 0
 
-[sub_resource type="TileSet" id=2]
-0/name = "resources"
-0/texture = ExtResource( 6 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 32, 80, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shapes = [  ]
-0/z_index = 0
-
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=4]
 0/name = "Rail"
 0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
@@ -68,6 +69,7 @@ tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 2 )
+special_alloy_amount_curve = SubResource( 1 )
 IslandPacked = ExtResource( 3 )
 
 [node name="Islands" type="Node2D" parent="."]
@@ -75,18 +77,18 @@ IslandPacked = ExtResource( 3 )
 [node name="IslandBottom" type="TileMap" parent="."]
 show_behind_parent = true
 position = Vector2( 0, 11 )
-tile_set = SubResource( 1 )
-cell_size = Vector2( 16, 16 )
-format = 1
-
-[node name="Resources" type="TileMap" parent="."]
 tile_set = SubResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
-[node name="Rails" type="TileMap" parent="."]
-tile_set = SubResource( 3 )
+[node name="Resources" type="TileMap" parent="."]
+tile_set = ExtResource( 6 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
-[node name="ConstructionContainer" type="Node2D" parent="."]
+[node name="Rails" type="TileMap" parent="."]
+tile_set = SubResource( 4 )
+cell_size = Vector2( 16, 16 )
+format = 1
+
+[node name="Buildings" type="Node2D" parent="."]

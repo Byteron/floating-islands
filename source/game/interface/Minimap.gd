@@ -1,13 +1,14 @@
 extends Control
 
 export var margin = 2
-var COLORS = [
-	Color.black,
-	Color.red,
-	Color.white,
-	Color( 0.321569, 0.2, 0.247059, 1 ),
-	Color.purple
-]
+var COLORS = {
+	Tile.TYPE.VOID: Color.black,
+	Tile.TYPE.LAND: Color.lightgray,
+	Tile.TYPE.BUILDING: Color( 0.321569, 0.2, 0.247059, 1 ),
+	Tile.TYPE.CONNECTOR: Color.purple,
+	Tile.TYPE.BASIC_ALLOY: Color.red,
+	Tile.TYPE.SPECIAL_ALLOY: Color.darkgreen
+}
 
 
 func _ready():

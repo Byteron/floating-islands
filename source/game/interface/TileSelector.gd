@@ -30,7 +30,6 @@ func _input(event: InputEvent) -> void:
 		else:
 			var cell = map.world_to_map(get_global_mouse_position())
 			selected_cell = cell
-			print("Cell Selected: ", cell)
 			emit_signal("tile_selected")
 
 	elif event.is_action_pressed("RMB"):

@@ -3,11 +3,13 @@ extends Control
 Shows tooltip at mouse position
 """
 
-onready var label = $Label
+onready var basic_alloy_display = $HBoxContainer/basic_alloy
+onready var special_alloy_display = $HBoxContainer/special_alloy
 
 
-func set_cost(value: int):
-	label.text = str(-value)
+func set_costs(costs: Dictionary):
+	basic_alloy_display.set_value(costs)
+	special_alloy_display.set_value(costs)
 
 
 func _input(_event):

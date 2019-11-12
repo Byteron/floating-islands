@@ -5,10 +5,6 @@
 [ext_resource path="res://graphics/images/buildings/miner/1.png" type="Texture" id=3]
 [ext_resource path="res://graphics/images/buildings/miner/inactive.png" type="Texture" id=4]
 
-
-
-
-
 [sub_resource type="AnimatedTexture" id=1]
 frames = 2
 frame_0/texture = ExtResource( 2 )
@@ -19,11 +15,13 @@ frame_1/delay_sec = 0.0
 script = ExtResource( 1 )
 id = "Miner"
 name = "Miner"
-cost = 100
+cost_basic_alloy = 100
+cost_special_alloy = 0
 size = Vector2( 1, 1 )
 is_miner = true
 is_connector = false
 is_storage = false
+target_resource = "basic_alloy"
 miner_radius = 1
 miner_tick_time = 1
 miner_mine_amount = 10
