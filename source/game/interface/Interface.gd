@@ -53,7 +53,7 @@ func highlight_lands(tiles: Array):
 			highlight_container.add_child(h)
 			h.rect_global_position = tile.get_world_position()
 
-			if tile.resources:
+			if tile.deposit.amount > 0:
 				h.modulate = Color("FFAA00")
 
 

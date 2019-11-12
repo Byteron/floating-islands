@@ -1,9 +1,7 @@
 extends TileMap
 class_name Map
 
-const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only has that one tile
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
-
 
 var tile_selector : TileSelector = null
 
@@ -14,8 +12,9 @@ var valid_construction_sites := {}	# Where player is allowed to build
 
 export var size = Vector2(64, 64)
 
-export var resource_min := 200
-export var resource_max := 8000
+export var basic_alloy_min := 200
+export var basic_alloy_max := 8000
+export var special_alloy_min_deposit_count : int = 40
 
 # warning-ignore:unused_class_variable
 export var resource_amplitude := 2
@@ -98,9 +97,15 @@ func _generate_void() -> void:
 
 
 func _generate_resources():
+	_generate_basic_alloy()
+	_generate_special_alloy()
+
+
+func _generate_basic_alloy():
 	"""
 	Add resource deposit randomly using simplex noise
 	"""
+	var BASIC_ALLOY_INDEX = resource_overlay.tile_set.find_tile_by_name("basic_alloy")
 	var noise := OpenSimplexNoise.new()
 	noise.seed = randi()
 	noise.octaves = 1
@@ -112,20 +117,40 @@ func _generate_resources():
 			if not tile:
 				continue
 
-			var idx = _get_resource_index(tile.position, noise, resource_shrink)
-			if idx != RES_INDEX:
+			if not _should_have_basic_alloy(tile.position, noise, resource_shrink):
 				continue
 
-			assert(resource_min > 0) # Could create empty deposit otherwise
+			assert(basic_alloy_min > 0) # Could create empty deposit otherwise
 			tile.deposit.id = "basic_alloy"
-			tile.deposit.amount = (randi() % (resource_max - resource_min)) + resource_min
-			resource_overlay.set_cellv(tile.position, RES_INDEX)
-			tile.connect("resource_depleted", self, "_on_Tile_resource_depleted")
+			tile.deposit.amount = (randi() % (basic_alloy_max - basic_alloy_min)) + basic_alloy_min
+			resource_overlay.set_cellv(tile.position, BASIC_ALLOY_INDEX)
 
 
-func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
+func _generate_special_alloy():
+	"""
+	Add resource deposit using random land position far enough from start island
+	deposit amount depends on distance from spawn
+	"""
+	var SPECIAL_ALLOY_INDEX = resource_overlay.tile_set.find_tile_by_name("special_alloy")
+
+	for __ in range(special_alloy_min_deposit_count):
+		var island = get_random_island()
+		var position = island.get_random_tile_position()
+		var tile = get_tile(position)
+
+		assert(tile)
+
+		tile.deposit.id = "special_alloy"
+		tile.deposit.amount = 500
+		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
+
+
+func _should_have_basic_alloy(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> bool:
+	"""
+	Should the given cell have basic alloy on it?
+	"""
 	var value = noise.get_noise_2dv(cell * factor) + resource_offset
-	return RES_INDEX if value * resource_amplitude > 0 else TileMap.INVALID_CELL
+	return value * resource_amplitude > 0
 
 
 func _generate_neighbors() -> void:
@@ -229,6 +254,7 @@ func create_tile(position: Vector2, type, island: Node) -> bool:
 		return false
 
 	tiles[position] = Tile.new(position, type, island)
+	tiles[position].connect("resource_depleted", self, "_on_Tile_resource_depleted")
 
 	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
 	if type == Tile.TYPE.LAND:
@@ -503,7 +529,7 @@ func get_tile_type(position: Vector2) -> int:
 		return Tile.TYPE.CONNECTOR
 
 	# Then resource layer
-	if resource_overlay.get_cellv(position) == RES_INDEX:
+	if resource_overlay.get_cellv(position) != TileMap.INVALID_CELL:
 		return Tile.TYPE.RESOURCE
 
 	# Lastly, terrain layer
