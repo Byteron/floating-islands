@@ -1,11 +1,15 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=5 format=2]
 
 [ext_resource path="res://source/construction/ConstructionData.gd" type="Script" id=1]
-[ext_resource path="res://graphics/images/buildings/buildings done.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/buildings/storage/1.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/buildings/storage/0.png" type="Texture" id=3]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 32, 32 )
+[sub_resource type="AnimatedTexture" id=1]
+frames = 2
+frame_0/texture = ExtResource( 3 )
+frame_0/delay_sec = 0.5
+frame_1/texture = ExtResource( 2 )
+frame_1/delay_sec = 0.2
 
 [resource]
 script = ExtResource( 1 )
@@ -20,3 +24,4 @@ miner_radius = 1
 miner_tick_time = 5
 miner_mine_amount = 20
 texture = SubResource( 1 )
+texture_offset = Vector2( 0, 0 )
