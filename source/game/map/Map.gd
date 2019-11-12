@@ -1,10 +1,9 @@
 extends TileMap
 class_name Map
 
-const RES_INDEX := 0 # Is the index of the resource tile, as the tile set only has that one tile
+onready var BASIC_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("basic_alloy")
+onready var SPECIAL_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("special_alloy")
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
-var VOID_INDEX := tile_set.find_tile_by_name("Void")
-
 
 var tile_selector : TileSelector = null
 
@@ -12,11 +11,14 @@ var tiles := {}
 var connectors := {}				# List of all rails
 # warning-ignore:unused_class_variable
 var valid_construction_sites := {}	# Where player is allowed to build
+var spawn : Vector2					# Player spawn position
 
 export var size = Vector2(64, 64)
 
-export var resource_min := 200
-export var resource_max := 8000
+export var basic_alloy_min := 200
+export var basic_alloy_max := 8000
+export var special_alloy_min_deposit_count : int = 40
+export var special_alloy_amount_curve : Curve
 
 # warning-ignore:unused_class_variable
 export var resource_amplitude := 2
@@ -31,8 +33,8 @@ export (float) var process_time = 0.5				# Time given to physic engine to place 
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
-onready var construction_container := $ConstructionContainer as Node2D
-onready var island_container := $Islands as Node2D
+onready var buildings := $Buildings as Node2D
+onready var islands := $Islands as Node2D
 
 onready var RAIL_INDEX := rails_overlay.tile_set.find_tile_by_name("Rail")
 
@@ -46,10 +48,11 @@ func _ready() -> void:
 
 	_generate_islands()
 	_generate_void()
-	_generate_resources()
+
 	_generate_neighbors()
 	_spawn_player()
-	#_print_info()
+
+	_generate_resources()
 
 
 func _place_islands() -> void:
@@ -64,14 +67,14 @@ func _place_islands() -> void:
 			-max_island_offset + randi() % (max_island_offset * 2)
 		)
 
-		island_container.add_child(island)
+		islands.add_child(island)
 
 
 func _generate_islands() -> void:
 	"""
 	Generate visual island representation in the tilemap
 	"""
-	for island in island_container.get_children():
+	for island in islands.get_children():
 		# Remove out of bound islands
 		var position = world_to_map(island.position)
 		if not _is_cell_on_map(position):
@@ -83,7 +86,7 @@ func _generate_islands() -> void:
 		# Remove small islands
 		if island.size() < min_island_size:
 			island.remove(self)
-			island_container.remove_child(island)
+			islands.remove_child(island)
 
 
 func _generate_void() -> void:
@@ -100,6 +103,11 @@ func _generate_void() -> void:
 
 
 func _generate_resources():
+	_generate_basic_alloy()
+	_generate_special_alloy()
+
+
+func _generate_basic_alloy():
 	"""
 	Add resource deposit randomly using simplex noise
 	"""
@@ -108,25 +116,58 @@ func _generate_resources():
 	noise.octaves = 1
 	noise.period = 20
 
-	for island in island_container.get_children():
+	for island in islands.get_children():
 		for position in island.tiles_position:
 			var tile = get_tile(position)
 			if not tile:
 				continue
 
-			var idx = _get_resource_index(tile.position, noise, resource_shrink)
-			if idx != RES_INDEX:
+			if not _should_have_basic_alloy(tile.position, noise, resource_shrink):
 				continue
 
-			assert(resource_min > 0) # Could create empty deposit otherwise
-			tile.resources = (randi() % (resource_max - resource_min)) + resource_min
-			resource_overlay.set_cellv(tile.position, RES_INDEX)
-			tile.connect("resource_depleted", self, "_on_Tile_resource_depleted")
+			assert(basic_alloy_min > 0) # Could create empty deposit otherwise
+			tile.deposit.id = "basic_alloy"
+			tile.deposit.amount = (randi() % (basic_alloy_max - basic_alloy_min)) + basic_alloy_min
+			resource_overlay.set_cellv(tile.position, BASIC_ALLOY_INDEX)
 
 
-func _get_resource_index(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> int:
+func _generate_special_alloy():
+	"""
+	Add resource deposit using random land position far enough from start island
+	deposit amount depends on distance from spawn
+	"""
+	var deposit_count = 0
+	var loop_count = 0
+	var max_trials = 10000
+	while deposit_count < special_alloy_min_deposit_count and loop_count < max_trials:
+		loop_count += 1
+
+		var island = get_random_island()
+		var position = island.get_random_tile_position()
+		var tile = get_tile(position)
+
+		assert(tile)
+
+		# Distance from spawn
+		var spawn_distance = tile.position.distance_to(spawn)
+
+		tile.deposit.amount = floor(500 * special_alloy_amount_curve.interpolate(spawn_distance / size.x))
+		if tile.deposit.amount <= 0:
+			continue
+
+		tile.deposit.id = "special_alloy"
+		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
+		deposit_count += 1
+
+	assert(deposit_count == special_alloy_min_deposit_count)
+
+
+func _should_have_basic_alloy(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> bool:
+	"""
+	Should the given cell have basic alloy on it?
+	"""
 	var value = noise.get_noise_2dv(cell * factor) + resource_offset
-	return RES_INDEX if value * resource_amplitude > 0 else TileMap.INVALID_CELL
+	return value * resource_amplitude > 0
 
 
 func _generate_neighbors() -> void:
@@ -158,6 +199,7 @@ func _spawn_player():
 			continue
 
 		add_contruction(tile, Global.constructions["Storage"])
+		spawn = tile.position
 
 		Global.get_camera().set_global_position(start_island.global_position)
 		break
@@ -230,6 +272,7 @@ func create_tile(position: Vector2, type, island: Node) -> bool:
 		return false
 
 	tiles[position] = Tile.new(position, type, island)
+	tiles[position].connect("resource_depleted", self, "_on_Tile_resource_depleted")
 
 	# TODO: Check given type to set correct tile type instead of hardcoded LAND_INDEX
 	if type == Tile.TYPE.LAND:
@@ -245,11 +288,11 @@ func remove_tile(position: Vector2) -> void:
 	"""
 	var __ = tiles.erase(position)
 
-	set_cellv(position, VOID_INDEX)
+	set_cellv(position, TileMap.INVALID_CELL)
 
 
 func get_random_island() -> Island:
-	return island_container.get_children()[randi() % island_container.get_child_count()]
+	return islands.get_children()[randi() % islands.get_child_count()]
 
 
 func get_tile(position: Vector2) -> Tile:
@@ -327,33 +370,39 @@ func remove_construction(tile: Tile):
 	Remove any construction on the given tile
 	Returns removed ConstructionData or nothing if error or connector
 	"""
-	var data = null
-	if not tile.construction:
+	if not tile or not tile.construction:
 		return
 
 	var construction = tile.construction
 
 	# Cannot remove last storage
-	if construction is Construction and construction.data.is_storage:
+	if construction.data.is_storage:
 		var storage_count = 0
-		for building in construction_container.get_children():
+		for building in buildings.get_children():
 			if building.data.is_storage:
 				storage_count += 1
 
 		if storage_count <= 1:
 			return
 
+	# Add back the building tile positions to the valid building places
 	for construction_tile in construction.tiles:
 		construction_tile.construction = null
+
+		# Check neighbor are still valid construction places
+		for tile in construction_tile.direct_neighbors:
+			if valid_construction_sites.has(tile.position) and not tile.is_adjacent_to_connector():
+				var __ = valid_construction_sites.erase(tile.position)
 
 		if construction_tile.is_adjacent_to_connector():
 			valid_construction_sites[construction_tile.position] = construction_tile
 
-	if construction is Construction:
+	var data = null
+	if construction is Building:
 		_remove_building(construction)
 		data = construction.data
 	else:
-		_remove_connection(tile)
+		_remove_connector(tile)
 
 	update_connections()
 
@@ -377,7 +426,7 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	# Place the building
 	var construction = null
 	if data.is_connector:
-		construction = _add_connection(origin)
+		construction = _add_connector(origin, data)
 	else:
 		construction = _add_building(origin, affected_tiles, data)
 
@@ -406,12 +455,10 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 			valid_construction_sites[neighbor.position] = neighbor
 
 
-
-
-func _add_connection(tile: Tile) -> Connector:
+func _add_connector(tile: Tile, data: ConstructionData) -> Connector:
 	_add_rail(tile)
 
-	var connector = Connector.new(tile)
+	var connector = Connector.new(data, tile)
 	connectors[tile.position] = connector
 
 	return connector
@@ -427,7 +474,7 @@ func _remove_rail(tile: Tile) -> void:
 	rails_overlay.update_bitmask_area(tile.position)
 
 
-func _remove_connection(tile: Tile):
+func _remove_connector(tile: Tile):
 	"""
 	Remove a rail and update adjacent rails connections
 	"""
@@ -440,17 +487,17 @@ func _remove_connection(tile: Tile):
 
 
 func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
-	var construction = Construction.instance()
-	construction_container.add_child(construction)
-	construction.initialize(data, origin, affected_tiles)
+	var construction = Building.instance()
+	construction.init(data, origin, affected_tiles)
+	buildings.add_child(construction)
 	construction.global_position = origin.get_world_position()
 
 	return construction
 
 
 func _remove_building(construction: Construction):
-	construction_container.remove_child(construction)
-	_remove_rail(construction.origin)
+	buildings.remove_child(construction)
+	_remove_rail(construction.tile)
 	construction.queue_free()
 
 
@@ -459,11 +506,11 @@ func update_connections():
 	for connector in connectors.values():
 		connector.connected_to_storage = false
 
-	for construction in construction_container.get_children():
+	for construction in buildings.get_children():
 		construction.connected_to_storage = false
 
 	# For every storage
-	for construction in construction_container.get_children():
+	for construction in buildings.get_children():
 		if not construction.get_id() == "Storage":
 			continue
 
@@ -494,7 +541,7 @@ func get_tile_type(position: Vector2) -> int:
 	# Check building and connector layer first
 	var tile = get_tile(position)
 	if tile and tile.construction:
-		if tile.construction is Construction:
+		if tile.construction is Building:
 			return Tile.TYPE.BUILDING
 		else:
 			return Tile.TYPE.CONNECTOR
@@ -505,8 +552,10 @@ func get_tile_type(position: Vector2) -> int:
 		return Tile.TYPE.CONNECTOR
 
 	# Then resource layer
-	if resource_overlay.get_cellv(position) == RES_INDEX:
-		return Tile.TYPE.RESOURCE
+	if resource_overlay.get_cellv(position) == BASIC_ALLOY_INDEX:
+		return Tile.TYPE.BASIC_ALLOY
+	if resource_overlay.get_cellv(position) == SPECIAL_ALLOY_INDEX:
+		return Tile.TYPE.SPECIAL_ALLOY
 
 	# Lastly, terrain layer
 	if get_cellv(position) == LAND_INDEX:
@@ -520,15 +569,6 @@ func get_extents() -> Vector2:
 	World size of the map
 	"""
 	return size * Global.TILE_SIZE
-
-
-func _print_info():
-	for island in island_container.get_children():
-		print("Island %d -> Size: %d, Resources: %d" % [
-			island.id,
-			island.size(),
-			island.get_resource_count(self)]
-		)
 
 
 func _is_cell_on_map(cell: Vector2) -> bool:

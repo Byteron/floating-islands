@@ -62,3 +62,10 @@ func get_resource_count(map: TileMap) -> int:
 			count += tile.resources
 
 	return count
+
+
+func get_random_tile_position() -> Vector2:
+	"""
+	Give a random position on the island
+	"""
+	return tiles_position[randi() % tiles_position.size()]

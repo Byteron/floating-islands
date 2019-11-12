@@ -114,7 +114,7 @@ func place_construction(data: ConstructionData):
 		return
 
 	# Not enough resources
-	if player.resources < data.cost:
+	if not player.can_afford(data.get_costs()):
 		return
 
 	# Cant build on top of building or connector or void
@@ -126,7 +126,7 @@ func place_construction(data: ConstructionData):
 	if not data.is_connector and type == Tile.TYPE.VOID:
 		return
 
-	player.resources -= data.cost
+	assert(player.buy(data.get_costs()))
 	map.add_contruction(tile, data)
 
 	if data.id == "Rail":

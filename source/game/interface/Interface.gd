@@ -5,7 +5,8 @@ export (Resource) var construction_button
 
 onready var construction_buttons := $HUD/ConstuctionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var resource_label := $HUD/Panel/MarginContainer/CenterContainer/HBoxContainer/ResourceLabel as Label
+onready var basic_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/basic_alloy
+onready var special_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/special_alloy
 
 
 func _ready() -> void:
@@ -13,9 +14,15 @@ func _ready() -> void:
 
 
 func update_player(player: Player):
-	resource_label.text = "Resources: %d" % player.resources
+	"""
+	Update interface based on change occuring in player
+	"""
+	var resources = player.get_resources()
+	basic_alloy_display.set_value(resources)
+	special_alloy_display.set_value(resources)
+
 	for button in construction_buttons.get_children():
-		button.disabled = button.data.cost > player.resources
+		button.disabled = not player.can_afford(button.data.get_costs())
 
 
 func _add_construction_buttons():
@@ -46,7 +53,7 @@ func highlight_lands(tiles: Array):
 			highlight_container.add_child(h)
 			h.rect_global_position = tile.get_world_position()
 
-			if tile.resources:
+			if tile.deposit.amount > 0:
 				h.modulate = Color("FFAA00")
 
 

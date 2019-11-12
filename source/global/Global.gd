@@ -3,16 +3,30 @@ extends Node
 # warning-ignore:unused_class_variable
 var TILE_SIZE: int = 16
 var constructions := {}
+var resources := {}
+
 
 func _ready() -> void:
 	_load_constructions()
+	_load_resources()
 
 
 func _load_constructions():
-	var files = Loader.load_dir("res://data/constructions/", ["tres"])
+	constructions = _load_data("res://data/constructions/")
 
+
+func _load_resources():
+	resources = _load_data("res://data/resources/")
+
+
+func _load_data(path: String) -> Dictionary:
+	var files = Loader.load_dir(path, ["tres"])
+
+	var data = {}
 	for file in files:
-		constructions[file.data.id] = file.data
+		data[file.data.id] = file.data
+
+	return data
 
 
 func get_map():
