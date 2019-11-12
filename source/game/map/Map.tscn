@@ -41,7 +41,7 @@ _data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 )
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="TileSet" id=4]
+[sub_resource type="TileSet" id=3]
 0/name = "Rail"
 0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
@@ -87,7 +87,7 @@ cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="Rails" type="TileMap" parent="."]
-tile_set = SubResource( 4 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
