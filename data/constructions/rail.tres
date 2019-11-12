@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
-id = "Connector"
+id = "Rail"
 name = "Rail"
 cost_basic_alloy = 10
 cost_special_alloy = 0

@@ -65,7 +65,9 @@ func has_connector() -> bool:
 	Check that a connector is on that tile
 	"""
 	if construction:
-		return construction.get_class() == "Connector" or construction.get_class() == "Storage"
+		# Cannot use is Connector here because GDScript sucks at ciclyc references
+		# TODO: Update with other Connector IDs if we add more
+		return construction.get_class() == "Rail" or construction.get_class() == "Storage"
 
 	return false
 
