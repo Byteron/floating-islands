@@ -496,7 +496,8 @@ func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) 
 
 func _remove_building(construction: Construction):
 	buildings.remove_child(construction)
-	_remove_rail(construction.tile)
+	for tile in construction.tiles:
+		_remove_rail(tile)
 	construction.queue_free()
 
 
