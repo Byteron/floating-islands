@@ -6,3 +6,4 @@
 "Player",
 ]]
 script = ExtResource( 1 )
+refund_percentage = 0.75

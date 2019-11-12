@@ -73,18 +73,9 @@ func mine() -> void:
 	if mining_on:
 		var mined : int = mining_on.mine(miner_amount)
 		get_tree().call_group("Player", "add_resources", mined)
-		_make_popup(mined)
+		Global.get_game().display_resource_popup(mined, global_position)
 	else:
 		mine_timer.stop()
-
-
-func _make_popup(value: int) -> void:
-	var popup := PopupLabel.instance() as PopupLabel
-	popup.text = "+%d" % value
-	popup.color = Color("00FF00")
-	popup.rect_global_position = global_position
-	get_tree().current_scene.add_child(popup)
-	SFX.play_sfx("Mine")
 
 
 func _set_connected_to_storage(value: bool) -> void:

@@ -3,9 +3,6 @@
 [ext_resource path="res://source/game/interface/PopupLabel.gd" type="Script" id=1]
 [ext_resource path="res://graphics/fonts/poco/Poco.ttf" type="DynamicFontData" id=2]
 
-
-
-
 [sub_resource type="DynamicFont" id=1]
 size = 10
 outline_size = 1
@@ -33,4 +30,7 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "test"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]

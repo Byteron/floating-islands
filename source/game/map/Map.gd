@@ -325,7 +325,9 @@ func remove_tile_selector() -> void:
 func remove_construction(tile: Tile):
 	"""
 	Remove any construction on the given tile
+	Returns removed ConstructionData or nothing if error or connector
 	"""
+	var data = null
 	if not tile.construction:
 		return
 
@@ -349,10 +351,13 @@ func remove_construction(tile: Tile):
 
 	if construction is Construction:
 		_remove_building(construction)
+		data = construction.data
 	else:
 		_remove_connection(tile)
 
 	update_connections()
+
+	return data
 
 
 func add_contruction(origin: Tile, data: ConstructionData) -> void:
