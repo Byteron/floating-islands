@@ -1,21 +1,31 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=1]
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=2]
 [ext_resource path="res://source/game/map/Island.tscn" type="PackedScene" id=3]
 [ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=4]
-[ext_resource path="res://graphics/images/tiles/Dirt_Ground_Tile.png" type="Texture" id=5]
+[ext_resource path="res://graphics/images/tiles/Dirt_Cliff_Tiles.png" type="Texture" id=5]
+[ext_resource path="res://graphics/tilesets/resources_tileset.tres" type="TileSet" id=6]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 ), 5.24141, 5.24141, 0, 0, Vector2( 0.52552, 1 ), 5.77839, 27.892, 0, 0 ]
 
 [sub_resource type="TileSet" id=2]
-0/name = "basic_alloy"
+0/name = "Cliff"
 0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 32, 80, 16, 16 )
-0/tile_mode = 0
+0/region = Rect2( 0, 0, 64, 48 )
+0/tile_mode = 1
+0/autotile/bitmask_mode = 1
+0/autotile/bitmask_flags = [ Vector2( 0, 0 ), 54, Vector2( 0, 1 ), 48, Vector2( 1, 0 ), 63, Vector2( 1, 1 ), 62, Vector2( 1, 2 ), 18, Vector2( 2, 0 ), 63, Vector2( 2, 1 ), 59, Vector2( 3, 0 ), 27, Vector2( 3, 1 ), 24 ]
+0/autotile/icon_coordinate = Vector2( 1, 1 )
+0/autotile/tile_size = Vector2( 16, 16 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shapes = [  ]
@@ -62,8 +72,17 @@ script = ExtResource( 2 )
 special_alloy_amount_curve = SubResource( 1 )
 IslandPacked = ExtResource( 3 )
 
-[node name="Resources" type="TileMap" parent="."]
+[node name="Islands" type="Node2D" parent="."]
+
+[node name="IslandBottom" type="TileMap" parent="."]
+show_behind_parent = true
+position = Vector2( 0, 11 )
 tile_set = SubResource( 2 )
+cell_size = Vector2( 16, 16 )
+format = 1
+
+[node name="Resources" type="TileMap" parent="."]
+tile_set = ExtResource( 6 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
@@ -73,5 +92,3 @@ cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="Buildings" type="Node2D" parent="."]
-
-[node name="Islands" type="Node2D" parent="."]

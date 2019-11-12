@@ -33,6 +33,7 @@ export (float) var process_time = 0.5				# Time given to physic engine to place 
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
+onready var island_bottom_overlay := $IslandBottom as TileMap
 onready var buildings := $Buildings as Node2D
 onready var islands := $Islands as Node2D
 
@@ -53,6 +54,8 @@ func _ready() -> void:
 	_spawn_player()
 
 	_generate_resources()
+
+	_generate_island_bottom()
 
 
 func _place_islands() -> void:
@@ -203,6 +206,16 @@ func _spawn_player():
 
 		Global.get_camera().set_global_position(start_island.global_position)
 		break
+
+
+func _generate_island_bottom():
+	"""
+	Adds cliffs under islands
+	"""
+	var cliff_index = island_bottom_overlay.tile_set.find_tile_by_name("Cliff")
+	for position in get_used_cells():
+		island_bottom_overlay.set_cellv(position, cliff_index)
+		island_bottom_overlay.update_bitmask_area(position)
 
 
 func _get_tiles(positions: Array) -> Array:
