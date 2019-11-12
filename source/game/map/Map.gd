@@ -243,7 +243,7 @@ func remove_tile(position: Vector2) -> void:
 	"""
 	var __ = tiles.erase(position)
 
-	set_cellv(position, VOID_INDEX)
+	set_cellv(position, TileMap.INVALID_CELL)
 
 
 func get_random_island() -> Island:
