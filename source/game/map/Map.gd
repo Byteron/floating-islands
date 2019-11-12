@@ -341,8 +341,14 @@ func remove_construction(tile: Tile):
 		if storage_count <= 1:
 			return
 
+	# Add back the building tile positions to the valid building places
 	for construction_tile in construction.tiles:
 		construction_tile.construction = null
+
+		# Check neighbor are still valid construction places
+		for tile in construction_tile.direct_neighbors:
+			if valid_construction_sites.has(tile.position) and not tile.is_adjacent_to_connector():
+				valid_construction_sites.erase(tile.position)
 
 		if construction_tile.is_adjacent_to_connector():
 			valid_construction_sites[construction_tile.position] = construction_tile
@@ -401,7 +407,7 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 			valid_construction_sites[neighbor.position] = neighbor
 
 
-func _add_connector(tile: Tile) -> Connector:
+func _add_connector(tile: Tile, data: ConstructionData) -> Connector:
 	_add_rail(tile)
 
 	var connector = Connector.new(data, tile)
