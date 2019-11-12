@@ -380,6 +380,7 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 	# Update tile constructions from building size
 	for tile in affected_tiles:
 		tile.construction = construction
+		_add_rail(tile)
 
 		# Remove that tile from possible constructions
 		var __ = valid_construction_sites.erase(tile.position)
@@ -401,14 +402,19 @@ func add_contruction(origin: Tile, data: ConstructionData) -> void:
 			valid_construction_sites[neighbor.position] = neighbor
 
 
+
+
 func _add_connection(tile: Tile) -> Connector:
-	rails_overlay.set_cellv(tile.position, 0)
-	rails_overlay.update_bitmask_area(tile.position)
+	_add_rail(tile)
 
 	var connector = Connector.new(tile)
 	connectors[tile.position] = connector
 
 	return connector
+
+func _add_rail(tile: Tile) -> void:
+	rails_overlay.set_cellv(tile.position, 0)
+	rails_overlay.update_bitmask_area(tile.position)
 
 
 func _remove_connection(tile: Tile):
