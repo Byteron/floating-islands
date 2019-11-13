@@ -1,7 +1,7 @@
 extends Node2D
 
-export var miner_sfx_radius := 256
-export var miner_sfx_max_volume := 0.6
+export var miner_sfx_radius := 180
+export var miner_sfx_max_volume := 0.2
 
 onready var player := $Player as Player
 
@@ -32,12 +32,14 @@ func _process_factory_loop_volume() -> void:
 	var volume := 0.0
 
 	var miners := get_tree().get_nodes_in_group("Miner")
-	for miner in miners:
-		var distance = camera_position.distance_to(miner.global_position)
-		var temp = clamp(miner_sfx_max_volume - distance / miner_sfx_radius, 0, 1)
+	var refineries := get_tree().get_nodes_in_group("Refinery")
+
+	for building in miners + refineries:
+		var distance = camera_position.distance_to(building.global_position)
+		var temp = clamp(1 - distance / miner_sfx_radius, 0, 1)
 		volume = max(volume, temp)
 
-	SFX.set_sfx_volume("FactoryLoop", volume)
+	SFX.set_sfx_volume("FactoryLoop", volume * miner_sfx_max_volume)
 
 
 func disable_user_selection():
