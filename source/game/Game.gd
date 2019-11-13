@@ -37,6 +37,7 @@ func _process_factory_loop_volume() -> void:
 
 	SFX.set_sfx_volume("FactoryLoop", volume)
 
+
 func disable_user_selection():
 	"""
 	Disable selection and camera move
@@ -63,6 +64,7 @@ func remove_construction():
 
 	yield(tile_selector, "tile_selected")
 
+	# We can only select one thing to destroy at a time
 	var tiles = tile_selector.selected_tiles
 	var tile = null
 	if tiles.size() > 0:
@@ -98,7 +100,7 @@ func place_construction(data: ConstructionData):
 
 	yield(tile_selector, "tile_selected")
 
-	var tiles = tile_selector.selected_tiles
+	var selected_tiles = tile_selector.selected_tiles
 	var costs = data.get_costs()
 
 	# Remove specific UI
@@ -107,28 +109,14 @@ func place_construction(data: ConstructionData):
 
 	enable_user_selection()
 
-	for tile in tiles:
+	for tile in selected_tiles:
 		# Cannot build there or nothing selected
-		var is_void_valid = data.is_connector
-		if not tile or not map.is_area_available(tile.position, data.size, is_void_valid):
-			continue
-
-		# Already occupied
-		if tile.construction:
+		if not tile or not map.is_area_available(tile.position, data.size, data.is_connector):
 			continue
 
 		# Not enough resources
 		if not player.can_afford(costs):
-			break
-
-		# Cant build on top of building or connector or void
-		var type = map.get_tile_type(tile.position)
-		if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
-			continue
-
-		# No building on the void
-		if not data.is_connector and type == Tile.TYPE.VOID:
-			continue
+			break	# Will not be able to buy following ones then
 
 		display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
 		assert(player.buy(costs))
