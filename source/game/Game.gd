@@ -34,7 +34,7 @@ func _process_factory_loop_volume() -> void:
 		var distance = camera_position.distance_to(miner.global_position)
 		var temp = clamp(0.6 - distance / radius, 0, 1)
 		volume = max(volume, temp)
-	print(volume)
+
 	SFX.set_sfx_volume("FactoryLoop", volume)
 
 
