@@ -41,13 +41,13 @@ margin_right = 2.0
 margin_top = 2.0
 margin_bottom = 2.0
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.321569, 0.2, 0.247059, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.160784, 0.113725, 0.168627, 1 )
+[sub_resource type="StyleBoxTexture" id=16]
+texture = ExtResource( 2 )
+region_rect = Rect2( 48, 0, 16, 16 )
+margin_left = 1.0
+margin_right = 1.0
+margin_top = 1.0
+margin_bottom = 1.0
 
 [resource]
 default_font = ExtResource( 1 )
@@ -62,5 +62,5 @@ Button/styles/focus = SubResource( 5 )
 Button/styles/hover = SubResource( 4 )
 Button/styles/normal = SubResource( 12 )
 Button/styles/pressed = SubResource( 4 )
-Panel/styles/panel = SubResource( 3 )
-PanelContainer/styles/panel = SubResource( 3 )
+Panel/styles/panel = SubResource( 16 )
+PanelContainer/styles/panel = SubResource( 16 )
