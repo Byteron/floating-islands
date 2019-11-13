@@ -1,6 +1,8 @@
 extends TileMap
 class_name Map
 
+signal loading_complete()
+
 onready var BASIC_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("basic_alloy")
 onready var SPECIAL_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("special_alloy")
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
@@ -27,7 +29,7 @@ export (Resource) var IslandPacked
 export (int) var island_count = 100
 export (int) var max_island_offset = 10				# Offset for placing island
 export (int) var min_island_size = 6
-export (float) var process_time = 0.5				# Time given to physic engine to place islands
+export (float) var process_time = 1					# Time given to physic engine to place islands
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
@@ -54,6 +56,7 @@ func _ready() -> void:
 	_generate_resources()
 
 	_generate_island_bottom()
+	emit_signal("loading_complete")
 
 
 func _place_islands() -> void:
