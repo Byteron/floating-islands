@@ -5,8 +5,8 @@
 [ext_resource path="res://source/game/interface/Interface.tscn" type="PackedScene" id=3]
 [ext_resource path="res://source/game/Game.gd" type="Script" id=4]
 [ext_resource path="res://source/player/Player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://graphics/images/tiles/void0001.png" type="Texture" id=6]
-[ext_resource path="res://graphics/images/tiles/void0002.png" type="Texture" id=8]
+[ext_resource path="res://graphics/images/paralax_bg/close_islands.png" type="Texture" id=6]
+[ext_resource path="res://graphics/images/paralax_bg/sky_and_distant_islands.png" type="Texture" id=8]
 
 [node name="Game" type="Node2D" groups=[
 "Game",

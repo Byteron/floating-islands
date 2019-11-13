@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/void0001.png-8bb737645e9d02b67c4cf1dc4e0f293f.stex"
+path="res://.import/close_islands.png-bedb79bba26cb096be20914aee474cee.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/tiles/void0001.png"
-dest_files=[ "res://.import/void0001.png-8bb737645e9d02b67c4cf1dc4e0f293f.stex" ]
+source_file="res://graphics/images/paralax_bg/close_islands.png"
+dest_files=[ "res://.import/close_islands.png-bedb79bba26cb096be20914aee474cee.stex" ]
 
 [params]
 
