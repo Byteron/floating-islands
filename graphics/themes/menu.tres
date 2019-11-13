@@ -3,18 +3,18 @@
 [ext_resource path="res://graphics/fonts/poco/Poco-10.tres" type="DynamicFont" id=1]
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=2]
 
-[sub_resource type="StreamTexture" id=13]
+[sub_resource type="StreamTexture" id=1]
 load_path = "res://.import/interface.png-8a3507e59cf7d7af85fda1deb848d5a8.stex"
 
-[sub_resource type="StyleBoxTexture" id=14]
-texture = SubResource( 13 )
+[sub_resource type="StyleBoxTexture" id=2]
+texture = SubResource( 1 )
 region_rect = Rect2( 64, 16, 16, 16 )
 margin_left = 2.0
 margin_right = 2.0
 margin_top = 2.0
 margin_bottom = 2.0
 
-[sub_resource type="StyleBoxTexture" id=5]
+[sub_resource type="StyleBoxTexture" id=3]
 texture = ExtResource( 2 )
 region_rect = Rect2( 32, 16, 16, 16 )
 margin_left = 2.0
@@ -30,18 +30,18 @@ margin_right = 2.0
 margin_top = 2.0
 margin_bottom = 2.0
 
-[sub_resource type="StreamTexture" id=11]
+[sub_resource type="StreamTexture" id=5]
 load_path = "res://.import/interface.png-8a3507e59cf7d7af85fda1deb848d5a8.stex"
 
-[sub_resource type="StyleBoxTexture" id=12]
-texture = SubResource( 11 )
+[sub_resource type="StyleBoxTexture" id=6]
+texture = SubResource( 5 )
 region_rect = Rect2( 32, 16, 16, 16 )
 margin_left = 2.0
 margin_right = 2.0
 margin_top = 2.0
 margin_bottom = 2.0
 
-[sub_resource type="StyleBoxTexture" id=16]
+[sub_resource type="StyleBoxTexture" id=7]
 texture = ExtResource( 2 )
 region_rect = Rect2( 48, 0, 16, 16 )
 margin_left = 1.0
@@ -57,10 +57,10 @@ Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
 Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 Button/constants/hseparation = 0
 Button/fonts/font = null
-Button/styles/disabled = SubResource( 14 )
-Button/styles/focus = SubResource( 5 )
+Button/styles/disabled = SubResource( 2 )
+Button/styles/focus = SubResource( 3 )
 Button/styles/hover = SubResource( 4 )
-Button/styles/normal = SubResource( 12 )
+Button/styles/normal = SubResource( 6 )
 Button/styles/pressed = SubResource( 4 )
-Panel/styles/panel = SubResource( 16 )
-PanelContainer/styles/panel = SubResource( 16 )
+Panel/styles/panel = SubResource( 7 )
+PanelContainer/styles/panel = SubResource( 7 )

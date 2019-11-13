@@ -10,15 +10,15 @@
 [ext_resource path="res://source/game/interface/ConstructionButtons.tscn" type="PackedScene" id=8]
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=9]
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 9 )
 region = Rect2( 32, 48, 15, 16 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 9 )
 region = Rect2( 48, 48, 15, 16 )
 
-[sub_resource type="StyleBoxTexture" id=4]
+[sub_resource type="StyleBoxTexture" id=3]
 texture = ExtResource( 9 )
 region_rect = Rect2( 0, 0, 32, 32 )
 margin_left = 15.0
@@ -26,7 +26,7 @@ margin_right = 15.0
 margin_top = 15.0
 margin_bottom = 15.0
 
-[sub_resource type="StyleBoxTexture" id=7]
+[sub_resource type="StyleBoxTexture" id=4]
 texture = ExtResource( 9 )
 region_rect = Rect2( 81, 0, 31, 32 )
 margin_left = 23.0
@@ -76,8 +76,8 @@ margin_bottom = 144.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
-texture_normal = SubResource( 5 )
-texture_pressed = SubResource( 6 )
+texture_normal = SubResource( 1 )
+texture_pressed = SubResource( 2 )
 stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -91,7 +91,7 @@ anchor_bottom = 1.0
 margin_top = -38.0
 margin_right = 72.0
 margin_bottom = 3.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -120,11 +120,11 @@ resource_id = "special_alloy"
 [node name="Minimap" parent="HUD" instance=ExtResource( 3 )]
 anchor_left = 1.0
 anchor_top = 1.0
-margin_left = -68.0
-margin_top = -68.0
-margin_right = 0.0
-margin_bottom = 0.0
-custom_styles/panel = SubResource( 7 )
+margin_left = -66.0
+margin_top = -66.0
+margin_right = 2.0
+margin_bottom = 2.0
+custom_styles/panel = SubResource( 4 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
 anchor_left = 1.0
@@ -144,17 +144,18 @@ __meta__ = {
 [node name="TileInfo" parent="HUD" instance=ExtResource( 7 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -52.0
-margin_top = 41.0
-margin_right = 0.0
-margin_bottom = 65.0
+margin_left = -248.0
+margin_top = 148.0
+margin_right = -221.0
+margin_bottom = 183.0
 
 [node name="BuildingStatus" parent="HUD" instance=ExtResource( 6 )]
 anchor_left = 1.0
 anchor_bottom = 0.0
-margin_left = -138.0
-margin_right = 0.0
-margin_bottom = 41.0
+margin_left = -221.0
+margin_top = 148.0
+margin_right = -83.0
+margin_bottom = 183.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
 [connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="gui_input" from="HUD/Minimap" to="HUD/Minimap" method="_on_Minimap_gui_input"]
