@@ -3,7 +3,7 @@ extends Control
 export var resource_id : String = ""
 export var hide_empty : bool = false
 
-onready var icon = $MarginContainer/Icon
+onready var icon = $Icon
 onready var label = $ValueLabel
 
 

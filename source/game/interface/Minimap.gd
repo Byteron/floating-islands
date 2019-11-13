@@ -1,14 +1,15 @@
 extends Control
 
 export var margin = 2
+
 var COLORS = {
-	Tile.TYPE.INVALID: Color.black,
-	Tile.TYPE.VOID: Color.black,
-	Tile.TYPE.LAND: Color.lightgray,
-	Tile.TYPE.BUILDING: Color( 0.321569, 0.2, 0.247059, 1 ),
-	Tile.TYPE.CONNECTOR: Color.purple,
-	Tile.TYPE.BASIC_ALLOY: Color.red,
-	Tile.TYPE.SPECIAL_ALLOY: Color.darkgreen
+	Tile.TYPE.INVALID: Color("14182E"),
+	Tile.TYPE.VOID: Color("14182E"),
+	Tile.TYPE.LAND: Color("BD6A62"),
+	Tile.TYPE.BUILDING: Color("FF8933"),
+	Tile.TYPE.CONNECTOR: Color("52333F"),
+	Tile.TYPE.BASIC_ALLOY: Color("4FA4B8"),
+	Tile.TYPE.SPECIAL_ALLOY: Color("F5FFE8")
 }
 
 
