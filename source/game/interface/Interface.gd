@@ -35,6 +35,7 @@ func _add_construction_buttons():
 		button.connect("mouse_exited", self, "_on_ConstructionButton_mouse_exited", [ button ])
 		construction_buttons.add_child(button)
 
+
 func highlight_connected_tiles(tiles: Array):
 	clear_highlights()
 
@@ -43,6 +44,7 @@ func highlight_connected_tiles(tiles: Array):
 		highlight_container.add_child(h)
 		h.rect_global_position = tile.get_world_position()
 		h.modulate = Color("66FF33")
+
 
 func highlight_lands(tiles: Array):
 	clear_highlights()
