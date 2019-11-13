@@ -77,10 +77,10 @@ __meta__ = {
 }
 
 [node name="Remove" type="TextureButton" parent="HUD"]
-margin_left = 80.0
-margin_top = 163.0
-margin_right = 95.0
-margin_bottom = 179.0
+margin_left = 16.0
+margin_top = 128.0
+margin_right = 31.0
+margin_bottom = 144.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
@@ -111,8 +111,9 @@ __meta__ = {
 }
 
 [node name="ToggleButton" type="TextureButton" parent="HUD/ConstructionButtons"]
-margin_top = -16.0
+margin_top = -15.0
 margin_right = 15.0
+margin_bottom = 1.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
