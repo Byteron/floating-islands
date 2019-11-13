@@ -4,10 +4,6 @@
 [ext_resource path="res://graphics/images/buildings/wonder/0.png" type="Texture" id=2]
 [ext_resource path="res://graphics/images/buildings/wonder/1.png" type="Texture" id=3]
 
-
-
-
-
 [sub_resource type="AnimatedTexture" id=1]
 frames = 2
 frame_0/texture = ExtResource( 2 )
@@ -31,3 +27,4 @@ miner_tick_time = 5
 miner_mine_amount = 20
 texture = SubResource( 1 )
 texture_offset = Vector2( 0, 0 )
+description = "Makes earth great again"

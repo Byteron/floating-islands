@@ -28,3 +28,4 @@ miner_mine_amount = 20
 texture = SubResource( 1 )
 texture_inactive = ExtResource( 3 )
 texture_offset = Vector2( 0, -16 )
+description = "Refines %special_alloy"

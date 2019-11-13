@@ -6,7 +6,8 @@ Displays building informations
 var building: Building
 
 onready var efficiency_label = $MarginContainer/VBoxContainer/Efficiency
-onready var description_label = $MarginContainer/VBoxContainer/Description
+onready var description_label = $MarginContainer/VBoxContainer/HBoxContainer/Description
+onready var icon = $MarginContainer/VBoxContainer/HBoxContainer/Icon
 
 
 func _process(_delta):
@@ -27,6 +28,16 @@ func update_status():
 	if not building:
 		return
 
+	icon.texture = null
+
 	# Efficiency is given as a percentage fraction
 	efficiency_label.text = "Efficiency: %.f%%" % (building.efficiency * 100)
-	description_label.text = building.data.description
+
+	var description = building.data.description
+	for id in Global.resources:
+		description = building.data.description.replace("%" + id, "")
+		if building.data.description != description:
+			icon.texture = Global.resources[id].icon
+			break
+
+	description_label.text = description
