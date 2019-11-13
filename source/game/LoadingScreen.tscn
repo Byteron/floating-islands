@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=1]
+[ext_resource path="res://graphics/images/Floppy_Disk.png" type="Texture" id=2]
+[ext_resource path="res://source/game/LoadingScreen.gd" type="Script" id=3]
+
+[node name="LoadingScreen" type="CanvasLayer"]
+layer = 4
+script = ExtResource( 3 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+color = Color( 0.266667, 0.313726, 0.419608, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Background/VBoxContainer"]
+margin_right = 42.0
+margin_bottom = 16.0
+
+[node name="Sprite" type="TextureRect" parent="Background/VBoxContainer/CenterContainer"]
+margin_left = 13.0
+margin_right = 29.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 16, 16 )
+texture = ExtResource( 2 )
+
+[node name="CenterContainer2" type="CenterContainer" parent="Background/VBoxContainer"]
+margin_top = 20.0
+margin_right = 42.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="Background/VBoxContainer/CenterContainer2"]
+margin_right = 42.0
+margin_bottom = 12.0
+text = "Loading... "
+
+[node name="Tween" type="Tween" parent="."]

@@ -22,6 +22,8 @@ func _ready() -> void:
 	SFX.set_sfx_volume("FactoryLoop", 0)
 	SFX.play_sfx("FactoryLoop")
 
+	map.connect("loading_complete", $LoadingScreen, "_on_level_loaded")
+
 
 func _process(_delta: float) -> void:
 	_process_factory_loop_volume()
