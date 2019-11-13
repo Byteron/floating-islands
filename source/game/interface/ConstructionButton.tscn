@@ -7,7 +7,7 @@
 [node name="ConstructionButton" type="Button"]
 margin_right = 40.0
 margin_bottom = 16.0
-rect_min_size = Vector2( 45, 0 )
+rect_min_size = Vector2( 45, 16 )
 focus_mode = 0
 theme = ExtResource( 3 )
 enabled_focus_mode = 0

@@ -9,7 +9,7 @@ onready var map := $Map as Map
 onready var interface := $Interface
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		var cell = map.world_to_map(get_global_mouse_position())
 		select_tile(cell)

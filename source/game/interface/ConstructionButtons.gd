@@ -19,13 +19,13 @@ func add_button(button: Button) -> void:
 
 func _open():
 	tween.stop_all()
-	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y, 0.3, Tween.TRANS_BACK, Tween.EASE_OUT)
+	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	tween.start()
 
 
 func _close():
 	tween.stop_all()
-	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, closed_position.y, 0.3, Tween.TRANS_BACK, Tween.EASE_OUT)
+	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, closed_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	tween.start()
 
 

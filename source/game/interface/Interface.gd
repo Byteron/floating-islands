@@ -3,6 +3,7 @@ class_name Interface
 
 export (Resource) var construction_button
 
+onready var remove_button := $HUD/Remove
 onready var construction_buttons := $HUD/ConstructionButtons
 onready var highlight_container := $HighlightContainer as Control
 onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
@@ -162,3 +163,4 @@ func hide_tile_selector() -> void:
 	Global.get_map().remove_child(tile_selector)
 	tile_selector.queue_free()
 	tile_selector = null
+	remove_button.pressed = false
