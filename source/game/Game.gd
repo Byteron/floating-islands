@@ -1,5 +1,8 @@
 extends Node2D
 
+export var miner_sfx_radius := 256
+export var miner_sfx_max_volume := 0.6
+
 onready var player := $Player as Player
 
 onready var map := $Map as Map
@@ -25,14 +28,13 @@ func _process(_delta: float) -> void:
 
 
 func _process_factory_loop_volume() -> void:
-	var radius := 64 # 3 tiles
-	var mouse_position := get_global_mouse_position()
+	var camera_position : Vector2 = Global.get_camera().global_position
 	var volume := 0.0
 
 	var miners := get_tree().get_nodes_in_group("Miner")
 	for miner in miners:
-		var distance = mouse_position.distance_to(miner.global_position)
-		var temp = clamp(0.8 - distance / radius, 0, 1)
+		var distance = camera_position.distance_to(miner.global_position)
+		var temp = clamp(miner_sfx_max_volume - distance / miner_sfx_radius, 0, 1)
 		volume = max(volume, temp)
 
 	SFX.set_sfx_volume("FactoryLoop", volume)
