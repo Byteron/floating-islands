@@ -577,7 +577,7 @@ func is_area_available(position: Vector2, area_size: Vector2, is_void_valid: boo
 			var type = get_tile_type(position + Vector2(x, y))
 			if type == Tile.TYPE.VOID and not is_void_valid:
 				return false
-			if type == Tile.TYPE.CONNECTOR or type == Tile.TYPE.BUILDING:
+			if type == Tile.TYPE.CONNECTOR or type == Tile.TYPE.BUILDING or type == Tile.TYPE.INVALID:
 				return false
 
 	return has_valid_construction_site
