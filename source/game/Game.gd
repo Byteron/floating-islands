@@ -34,13 +34,8 @@ func _process_factory_loop_volume() -> void:
 	var miners := get_tree().get_nodes_in_group("Miner")
 	var refineries := get_tree().get_nodes_in_group("Refinery")
 
-	for miner in miners:
-		var distance = camera_position.distance_to(miner.global_position)
-		var temp = clamp(1 - distance / miner_sfx_radius, 0, 1)
-		volume = max(volume, temp)
-
-	for refinery in refineries:
-		var distance = camera_position.distance_to(refinery.global_position)
+	for building in miners + refineries:
+		var distance = camera_position.distance_to(building.global_position)
 		var temp = clamp(1 - distance / miner_sfx_radius, 0, 1)
 		volume = max(volume, temp)
 
