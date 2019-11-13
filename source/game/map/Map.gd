@@ -5,8 +5,6 @@ onready var BASIC_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("basic_all
 onready var SPECIAL_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("special_alloy")
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 
-var tile_selector : TileSelector = null
-
 var tiles := {}
 var connectors := {}				# List of all rails
 # warning-ignore:unused_class_variable
@@ -358,25 +356,6 @@ func snap_position(world_position: Vector2) -> Vector2:
 	Given a world position, snaps to the closest tile and return as world position
 	"""
 	return map_to_world(world_to_map(world_position))
-
-
-func new_tile_selector(_size: Vector2, placing_connector=false) -> TileSelector:
-	remove_tile_selector()
-	tile_selector = TileSelector.instance() as TileSelector
-	tile_selector.map = self
-	tile_selector.size = _size
-	tile_selector.placing_connector = placing_connector
-	add_child(tile_selector)
-	return tile_selector
-
-
-func remove_tile_selector() -> void:
-	if not tile_selector:
-		return
-
-	remove_child(tile_selector)
-	tile_selector.queue_free()
-	tile_selector = null
 
 
 func remove_construction(tile: Tile):

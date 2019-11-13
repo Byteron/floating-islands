@@ -86,7 +86,7 @@ func remove_construction():
 	disable_user_selection()
 
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector(Vector2(1, 1))
+	var tile_selector : TileSelector = interface.show_tile_selector(true, Vector2(1, 1))
 
 	yield(tile_selector, "tile_selected")
 
@@ -97,7 +97,7 @@ func remove_construction():
 		tile = tiles[0]
 
 	# Remove specific UI
-	map.remove_tile_selector()
+	interface.hide_tile_selector()
 
 	enable_user_selection()
 
@@ -127,7 +127,7 @@ func place_construction(data: ConstructionData):
 	disable_user_selection()
 
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector(data.size, data.is_connector)
+	var tile_selector : TileSelector = interface.show_tile_selector(false, data.size, data.is_connector)
 	interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
@@ -136,7 +136,7 @@ func place_construction(data: ConstructionData):
 	var costs = data.get_costs()
 
 	# Remove specific UI
-	map.remove_tile_selector()
+	interface.hide_tile_selector()
 	interface.clear_highlights()
 
 	enable_user_selection()
