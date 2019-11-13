@@ -7,7 +7,7 @@
 [ext_resource path="res://source/game/interface/ResourceDisplay.tscn" type="PackedScene" id=5]
 [ext_resource path="res://source/game/interface/BuildingStatus.tscn" type="PackedScene" id=6]
 [ext_resource path="res://source/game/interface/TileInfo.tscn" type="PackedScene" id=7]
-[ext_resource path="res://source/game/interface/ConstuctionButtons.gd" type="Script" id=8]
+[ext_resource path="res://source/game/interface/ConstructionButtons.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 4.0
@@ -67,7 +67,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="ConstuctionButtons" type="Control" parent="HUD"]
+[node name="ConstructionButtons" type="Control" parent="HUD"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -32.0
@@ -78,15 +78,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tween" type="Tween" parent="HUD/ConstuctionButtons"]
+[node name="Tween" type="Tween" parent="HUD/ConstructionButtons"]
 
-[node name="Buttons" type="VBoxContainer" parent="HUD/ConstuctionButtons"]
+[node name="Buttons" type="VBoxContainer" parent="HUD/ConstructionButtons"]
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ToggleButton" type="Button" parent="HUD/ConstuctionButtons"]
+[node name="ToggleButton" type="Button" parent="HUD/ConstructionButtons"]
 margin_top = -16.0
 margin_right = 22.0
 focus_mode = 0
@@ -162,5 +162,5 @@ margin_right = 0.0
 margin_bottom = 41.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
 [connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
-[connection signal="toggled" from="HUD/ConstuctionButtons/ToggleButton" to="HUD/ConstuctionButtons" method="_on_ToggleButton_toggled"]
+[connection signal="toggled" from="HUD/ConstructionButtons/ToggleButton" to="HUD/ConstructionButtons" method="_on_ToggleButton_toggled"]
 [connection signal="gui_input" from="HUD/MarginContainer/Minimap" to="HUD/MarginContainer/Minimap" method="_on_Minimap_gui_input"]

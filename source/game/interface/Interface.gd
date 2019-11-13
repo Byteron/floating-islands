@@ -3,7 +3,7 @@ class_name Interface
 
 export (Resource) var construction_button
 
-onready var construction_buttons := $HUD/ConstuctionButtons
+onready var construction_buttons := $HUD/ConstructionButtons
 onready var highlight_container := $HighlightContainer as Control
 onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
 onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/special_alloy
