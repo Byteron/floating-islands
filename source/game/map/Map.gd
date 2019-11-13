@@ -31,7 +31,7 @@ export (Resource) var IslandPacked
 export (int) var island_count = 100
 export (int) var max_island_offset = 10				# Offset for placing island
 export (int) var min_island_size = 6
-export (float) var process_time = 5.5				# Time given to physic engine to place islands
+export (float) var process_time = 1					# Time given to physic engine to place islands
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
