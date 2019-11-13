@@ -120,6 +120,10 @@ func update_efficiency():
 	"""
 	Compute efficiency based on nearly efficiency booster (like storage)
 	"""
+	if not connected_to_storage:
+		efficiency = 0
+		return
+
 	efficiency = minimal_efficiency
 
 	# Compute efficiency of this building

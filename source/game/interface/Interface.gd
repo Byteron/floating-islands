@@ -84,11 +84,13 @@ func clear_highlights():
 
 
 func _on_Generate_pressed() -> void:
+	clear_selection()
 	var __ = get_tree().reload_current_scene()
 
 
 func _on_ConstructionButton_pressed(data: ConstructionData):
-	get_tree().call_group("Game", "place_construction", data)
+	clear_selection()
+	Global.get_game().place_construction(data)
 
 
 func _on_ConstructionButton_mouse_entered(button: Button):
@@ -100,7 +102,8 @@ func _on_ConstructionButton_mouse_exited(button: Button):
 
 
 func _on_Remove_pressed():
-	get_tree().call_group("Game", "remove_construction")
+	clear_selection()
+	Global.get_game().remove_construction()
 
 
 func show_building_status(building: Building):
@@ -125,3 +128,12 @@ func hide_tile_info():
 
 func hide_building_status():
 	building_status.hide()
+
+
+func clear_selection():
+	"""
+	Remove any selection made
+	"""
+	clear_highlights()
+	hide_building_status()
+	hide_tile_info()

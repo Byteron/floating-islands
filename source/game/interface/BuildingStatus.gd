@@ -28,4 +28,5 @@ func update_status():
 		return
 
 	# Efficiency is given as a percentage fraction
-	efficiency_label.text = str(building.efficiency * 100)
+	efficiency_label.text = "Efficiency: %.f%%" % (building.efficiency * 100)
+	description_label.text = building.data.description
