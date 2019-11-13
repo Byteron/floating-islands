@@ -16,6 +16,7 @@ var tile_selector : TileSelector = null
 func _ready() -> void:
 	_add_construction_buttons()
 
+	hide_efficiency_overlay()
 	hide_building_status()
 	hide_tile_info()
 
@@ -162,3 +163,11 @@ func hide_tile_selector() -> void:
 	Global.get_map().remove_child(tile_selector)
 	tile_selector.queue_free()
 	tile_selector = null
+
+
+func show_efficiency_overlay():
+	Global.get_map().efficiency_overlay.show()
+
+
+func hide_efficiency_overlay():
+	Global.get_map().efficiency_overlay.hide()

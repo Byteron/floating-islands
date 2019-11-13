@@ -115,6 +115,8 @@ func remove_construction():
 
 		SFX.play_sfx("Destroy")
 
+	map.efficiency_overlay.generate()
+
 	if Input.is_action_pressed("repeat"):
 		call_deferred("remove_construction")
 	else:
@@ -127,6 +129,9 @@ func place_construction(data: ConstructionData):
 	Does the required check for possible contruction
 	"""
 	disable_user_selection()
+
+	if data.is_miner or data.id == "Storage":
+		interface.show_efficiency_overlay()
 
 	# Adds selection UI
 	var tile_selector : TileSelector = interface.show_tile_selector(false, data.size, data.is_connector)
@@ -159,10 +164,13 @@ func place_construction(data: ConstructionData):
 		else:
 			SFX.play_sfx("BuildBuilding")
 
+	map.efficiency_overlay.generate()
+
 	if Input.is_action_pressed("repeat"):
 		call_deferred("place_construction", data)
 	else:
 		enable_user_selection()
+		interface.hide_efficiency_overlay()
 
 
 func display_costs_popup(costs: Dictionary, loose: bool, position: Vector2, offset: Vector2=Vector2()) -> void:
