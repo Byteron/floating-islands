@@ -16,14 +16,19 @@ border_color = Color( 0.996078, 0.933333, 0.509804, 1 )
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.321569, 0.2, 0.247059, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.160784, 0.113725, 0.168627, 1 )
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_top = 0.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.682353, 0.184314, 0.270588, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.996078, 0.933333, 0.509804, 1 )
+anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.321569, 0.2, 0.247059, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -44,5 +49,5 @@ Button/styles/focus = SubResource( 1 )
 Button/styles/hover = SubResource( 3 )
 Button/styles/normal = SubResource( 1 )
 Button/styles/pressed = SubResource( 3 )
-Panel/styles/panel = SubResource( 4 )
-PanelContainer/styles/panel = SubResource( 4 )
+Panel/styles/panel = SubResource( 2 )
+PanelContainer/styles/panel = SubResource( 2 )
