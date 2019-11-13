@@ -83,3 +83,25 @@ func _on_ConstructionButton_mouse_exited(button: Button):
 
 func _on_Remove_pressed():
 	get_tree().call_group("Game", "remove_construction")
+
+
+func show_building_status(building: Building):
+	"""
+	Display informations about the selected building
+	"""
+	pass
+
+
+func show_resource_info(id: String, amount: int):
+	"""
+	Show information about the given resource
+	"""
+	pass
+
+
+func hide_resource_info():
+	pass
+
+
+func hide_building_status():
+	pass

@@ -8,11 +8,11 @@ onready var interface := $Interface
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
-		var tiles := map.get_island_tiles(get_global_mouse_position())
-		interface.highlight_lands(tiles)
+		var cell = map.world_to_map(get_global_mouse_position())
+		select_tile(cell)
 
-	if event.is_action_pressed("cancel"):
-		interface.clear_highlights()
+	elif event.is_action_pressed("cancel"):
+		clear_selection()
 
 
 func _ready() -> void:
@@ -22,6 +22,32 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_process_factory_loop_volume()
+
+
+func clear_selection():
+	"""
+	Remove any selection made
+	"""
+	interface.clear_highlights()
+	interface.hide_building_status()
+	interface.hide_resource_info()
+
+
+func select_tile(cell: Vector2):
+	"""
+	Display informations about the selected tile
+	If building, shows building information
+	If resource under it, shows that too
+	"""
+	var tile = map.get_tile(cell)
+	if not tile:
+		return
+
+	if tile.construction and tile.construction is Building:
+		interface.show_building_status(tile.construction)
+
+	if not tile.is_depleted():
+		interface.show_resource_info(tile.deposit.id, tile.deposit.amount)
 
 
 func _process_factory_loop_volume() -> void:
