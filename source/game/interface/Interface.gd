@@ -5,8 +5,8 @@ export (Resource) var construction_button
 
 onready var construction_buttons := $HUD/ConstuctionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var basic_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/basic_alloy
-onready var special_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/special_alloy
+onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
+onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/special_alloy
 onready var building_status := $HUD/BuildingStatus
 onready var tile_info := $HUD/TileInfo
 
@@ -26,7 +26,7 @@ func update_player(player: Player):
 	basic_alloy_display.set_value(resources)
 	special_alloy_display.set_value(resources)
 
-	for button in construction_buttons.get_children():
+	for button in construction_buttons.get_buttons():
 		button.disabled = not player.can_afford(button.data.get_costs())
 
 
@@ -38,7 +38,7 @@ func _add_construction_buttons():
 		button.connect("pressed", self, "_on_ConstructionButton_pressed", [ c ])
 		button.connect("mouse_entered", self, "_on_ConstructionButton_mouse_entered", [ button ])
 		button.connect("mouse_exited", self, "_on_ConstructionButton_mouse_exited", [ button ])
-		construction_buttons.add_child(button)
+		construction_buttons.add_button(button)
 
 
 func highlight_connected_tiles(tiles: Array):
