@@ -201,7 +201,7 @@ func _spawn_player():
 		if not tile.is_surounded_by_land():
 			continue
 
-		add_contruction(tile, Global.constructions["Storage"])
+		add_construction(tile, Global.constructions["Storage"])
 		spawn = tile.position
 
 		Global.get_camera().set_global_position(start_island.global_position)
@@ -422,7 +422,7 @@ func remove_construction(tile: Tile):
 	return data
 
 
-func add_contruction(origin: Tile, data: ConstructionData) -> void:
+func add_construction(origin: Tile, data: ConstructionData) -> void:
 	"""
 	Adds a construction on the given tile
 	"""
@@ -500,7 +500,13 @@ func _remove_connector(tile: Tile):
 
 
 func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) -> Construction:
-	var construction = Building.instance()
+
+	var construction: Building = null
+	if data.id == "Storage":
+		construction = Storage.instance()
+	else:
+		construction = Building.instance()
+
 	construction.init(data, origin, affected_tiles)
 	buildings.add_child(construction)
 	construction.global_position = origin.get_world_position()

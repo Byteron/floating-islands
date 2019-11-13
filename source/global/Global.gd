@@ -43,3 +43,10 @@ func get_camera():
 
 func get_game():
 	return get_tree().get_nodes_in_group("Game")[0]
+
+
+func get_rect_center(size: Vector2) -> Vector2:
+	"""
+	Given some area size, return the center of it
+	"""
+	return size * TILE_SIZE / 2

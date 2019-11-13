@@ -7,6 +7,8 @@ Handle building logic
 onready var mine_timer := $MineTimer as Timer
 onready var sprite := $Sprite as Sprite
 
+export (float, 0, 1) var efficiency = 0.5
+
 
 static func instance():
 	return load("res://source/construction/Building.tscn").instance()
@@ -21,6 +23,12 @@ func init(_data: ConstructionData, _tile: Tile, _tiles: Array):
 	self.data = _data
 
 	name = data.name
+
+	var hitbox := $Hitbox as Area2D
+	var collision_shape := $Hitbox/CollisionShape2D as CollisionShape2D
+	hitbox.position = get_center_position()
+	collision_shape.shape = RectangleShape2D.new()
+	collision_shape.shape.extents = get_center_position()
 
 	texture_active = data.texture
 
@@ -62,15 +70,22 @@ func mine() -> void:
 				break
 
 	if mining_on:
-		var mined : int = mining_on.mine(miner_amount)
+		var mined : int = mining_on.mine(miner_amount * efficiency)
 		get_tree().call_group("Player", "add_resource", data.target_resource, mined)
 		Global.get_game().display_resource_popup(
 			mined, data.target_resource,
 			global_position,
-			data.size * Global.TILE_SIZE / 2
+			get_center_position()
 		)
 	else:
 		mine_timer.stop()
+
+
+func get_center_position() -> Vector2:
+	"""
+	Get the position of the center of this building
+	"""
+	return Global.get_rect_center(data.size)
 
 
 func _on_MineTimer_timeout() -> void:

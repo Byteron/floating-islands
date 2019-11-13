@@ -84,7 +84,7 @@ func remove_construction():
 	for id in data.get_costs():
 		costs[id] = player.refund_percentage * data.get_costs()[id]
 
-	display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
+	display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
 	Global.get_player().refund(costs)
 
 	SFX.play_sfx("Destroy")
@@ -124,9 +124,9 @@ func place_construction(data: ConstructionData):
 		if not player.can_afford(costs):
 			break	# Will not be able to buy following ones then
 
-		display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
+		display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
 		assert(player.buy(costs))
-		map.add_contruction(tile, data)
+		map.add_construction(tile, data)
 
 		if data.id == "Rail":
 			SFX.play_sfx("BuildRail")
