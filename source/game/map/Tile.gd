@@ -3,6 +3,8 @@ class_name Tile
 
 signal resource_depleted(cell)
 
+const MAX_NEIGHBORS = 8
+
 enum TYPE { INVALID=-1, BUILDING, BASIC_ALLOY, SPECIAL_ALLOY, LAND, VOID, CONNECTOR }
 
 var type := 0						# Type of terrain
@@ -88,4 +90,4 @@ func is_surounded_by_land() -> bool:
 		if tile.type == TYPE.VOID:
 			return false
 
-	return true
+	return neighbors.size() == MAX_NEIGHBORS
