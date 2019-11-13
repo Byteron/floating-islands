@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://source/game/interface/ConstructionButtons.gd" type="Script" id=1]
+[ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
+[ext_resource path="res://graphics/images/interface.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 48, 15, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 48, 15, 16 )
+
+[node name="ConstructionButtons" type="Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -37.0
+margin_bottom = -37.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CloseTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToggleButton" type="TextureButton" parent="."]
+margin_top = -15.0
+margin_right = 15.0
+margin_bottom = 1.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+texture_normal = SubResource( 1 )
+texture_pressed = SubResource( 2 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="mouse_entered" from="." to="." method="_on_ConstructionButtons_mouse_entered"]
+[connection signal="timeout" from="CloseTimer" to="." method="_on_CloseTimer_timeout"]
+[connection signal="toggled" from="ToggleButton" to="." method="_on_ToggleButton_toggled"]

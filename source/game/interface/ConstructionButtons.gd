@@ -7,8 +7,12 @@ var button_width := 0.0
 
 onready var remove_button := $"../Remove" as TextureButton
 
+onready var toggle_button := $ToggleButton
+
 onready var buttons := $Buttons as VBoxContainer
 onready var tween := $Tween as Tween
+
+onready var close_timer := $CloseTimer as Timer
 
 
 func _ready() -> void:
@@ -27,6 +31,7 @@ func _open():
 	tween.interpolate_property(remove_button, "rect_global_position:x", remove_button.rect_global_position.x, button_width + 1, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT, 0.2)
 	tween.start()
+	close_timer.start()
 
 
 func _close():
@@ -34,7 +39,7 @@ func _close():
 	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, closed_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	tween.interpolate_property(remove_button, "rect_global_position:x", remove_button.rect_global_position.x, remove_button.rect_size.x + 1, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT, 0.2)
 	tween.start()
-
+	toggle_button.pressed = false
 
 func get_buttons() -> Array:
 	return buttons.get_children()
@@ -45,3 +50,12 @@ func _on_ToggleButton_toggled(button_pressed: bool) -> void:
 		_open()
 	else:
 		_close()
+
+
+func _on_CloseTimer_timeout() -> void:
+	_close()
+
+
+func _on_ConstructionButtons_mouse_entered() -> void:
+	close_timer.stop()
+	close_timer.start()

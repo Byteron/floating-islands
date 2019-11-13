@@ -152,7 +152,7 @@ func show_tile_selector(removing_tool: bool, _size: Vector2, placing_connector=f
 	tile_selector.placing_connector = placing_connector
 	tile_selector.removing_tool = removing_tool
 	Global.get_map().add_child(tile_selector)
-
+	construction_buttons.close_timer.stop()
 	return tile_selector
 
 
@@ -164,3 +164,4 @@ func hide_tile_selector() -> void:
 	tile_selector.queue_free()
 	tile_selector = null
 	remove_button.pressed = false
+	construction_buttons.close_timer.start()
