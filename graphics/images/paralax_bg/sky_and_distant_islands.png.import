@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/void3.png-f7e39a2e3154d7fd3978c35712136514.stex"
+path="res://.import/sky_and_distant_islands.png-d749b7985e8a61fc2963f508199e60e2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/tiles/void3.png"
-dest_files=[ "res://.import/void3.png-f7e39a2e3154d7fd3978c35712136514.stex" ]
+source_file="res://graphics/images/paralax_bg/sky_and_distant_islands.png"
+dest_files=[ "res://.import/sky_and_distant_islands.png-d749b7985e8a61fc2963f508199e60e2.stex" ]
 
 [params]
 
