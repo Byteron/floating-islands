@@ -10,6 +10,8 @@ onready var special_alloy_display := $HUD/Panel/MarginContainer/ResourceContaine
 onready var building_status := $HUD/BuildingStatus
 onready var tile_info := $HUD/TileInfo
 
+var tile_selector : TileSelector = null
+
 
 func _ready() -> void:
 	_add_construction_buttons()
@@ -123,10 +125,12 @@ func show_tile_info(tile: Tile):
 
 
 func hide_tile_info():
+	tile_info.set_tile(null)
 	tile_info.hide()
 
 
 func hide_building_status():
+	building_status.set_building(null)
 	building_status.hide()
 
 
@@ -137,3 +141,24 @@ func clear_selection():
 	clear_highlights()
 	hide_building_status()
 	hide_tile_info()
+
+
+func show_tile_selector(removing_tool: bool, _size: Vector2, placing_connector=false) -> TileSelector:
+	hide_tile_selector()
+
+	tile_selector = TileSelector.instance() as TileSelector
+	tile_selector.size = _size
+	tile_selector.placing_connector = placing_connector
+	tile_selector.removing_tool = removing_tool
+	Global.get_map().add_child(tile_selector)
+
+	return tile_selector
+
+
+func hide_tile_selector() -> void:
+	if not tile_selector:
+		return
+
+	Global.get_map().remove_child(tile_selector)
+	tile_selector.queue_free()
+	tile_selector = null

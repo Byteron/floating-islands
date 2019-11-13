@@ -90,37 +90,33 @@ func remove_construction():
 	disable_user_selection()
 
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector(Vector2(1, 1))
+	var tile_selector : TileSelector = interface.show_tile_selector(true, Vector2(1, 1))
 
 	yield(tile_selector, "tile_selected")
 
-	# We can only select one thing to destroy at a time
-	var tiles = tile_selector.selected_tiles
-	var tile = null
-	if tiles.size() > 0:
-		tile = tiles[0]
-
 	# Remove specific UI
-	map.remove_tile_selector()
+	interface.hide_tile_selector()
 
-	enable_user_selection()
+	# We can only select one thing to destroy at a time
+	for tile in tile_selector.selected_tiles:
+		# Check we destroyed something
+		var data = map.remove_construction(tile)
+		if not data:
+			continue
 
-	# Check we destroyed something
-	var data = map.remove_construction(tile)
-	if not data:
-		return
+		var costs = {}
+		for id in data.get_costs():
+			costs[id] = player.refund_percentage * data.get_costs()[id]
 
-	var costs = {}
-	for id in data.get_costs():
-		costs[id] = player.refund_percentage * data.get_costs()[id]
+		display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
+		Global.get_player().refund(costs)
 
-	display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
-	Global.get_player().refund(costs)
-
-	SFX.play_sfx("Destroy")
+		SFX.play_sfx("Destroy")
 
 	if Input.is_action_pressed("repeat"):
-		remove_construction()
+		call_deferred("remove_construction")
+	else:
+		enable_user_selection()
 
 
 func place_construction(data: ConstructionData):
@@ -131,7 +127,7 @@ func place_construction(data: ConstructionData):
 	disable_user_selection()
 
 	# Adds selection UI
-	var tile_selector := map.new_tile_selector(data.size, data.is_connector)
+	var tile_selector : TileSelector = interface.show_tile_selector(false, data.size, data.is_connector)
 	interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
@@ -140,10 +136,8 @@ func place_construction(data: ConstructionData):
 	var costs = data.get_costs()
 
 	# Remove specific UI
-	map.remove_tile_selector()
+	interface.hide_tile_selector()
 	interface.clear_highlights()
-
-	enable_user_selection()
 
 	for tile in selected_tiles:
 		# Cannot build there or nothing selected
@@ -164,7 +158,9 @@ func place_construction(data: ConstructionData):
 			SFX.play_sfx("BuildBuilding")
 
 	if Input.is_action_pressed("repeat"):
-		place_construction(data)
+		call_deferred("place_construction", data)
+	else:
+		enable_user_selection()
 
 
 func display_costs_popup(costs: Dictionary, loose: bool, position: Vector2, offset: Vector2=Vector2()) -> void:
