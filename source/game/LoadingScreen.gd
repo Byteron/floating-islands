@@ -5,10 +5,12 @@ Show some nice loading screen
 
 onready var sprite = $Background/VBoxContainer/CenterContainer/Sprite
 
-export var animation_speed : float = 1.0
+export var text_speed : float = 1.0
+export var bouncing_speed : float = 1.5
 export var animated_characters_count : int = 3
 export var sprite_offset : Vector2 = Vector2(0, -7)
 
+# warning-ignore:unused_class_variable
 var floppy_step : float = 0 setget bounce_floppy
 var sprite_initial : Vector2
 
@@ -20,12 +22,12 @@ func _ready():
 	$Tween.interpolate_property(label, "visible_characters",
 		label.text.length() - animated_characters_count,
 		label.text.length(),
-		animation_speed,
+		text_speed,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 	)
 	$Tween.interpolate_property(self, "floppy_step",
 		0, PI * 2,
-		animation_speed,
+		bouncing_speed,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 	)
 	$Tween.repeat = true
