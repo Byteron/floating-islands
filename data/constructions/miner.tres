@@ -28,3 +28,4 @@ miner_mine_amount = 10
 texture = SubResource( 1 )
 texture_inactive = ExtResource( 4 )
 texture_offset = Vector2( 0, -16 )
+description = "Mines %basic_alloy"

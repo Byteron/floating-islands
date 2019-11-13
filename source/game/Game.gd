@@ -9,13 +9,13 @@ onready var map := $Map as Map
 onready var interface := $Interface
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
-		var tiles := map.get_island_tiles(get_global_mouse_position())
-		interface.highlight_lands(tiles)
+		var cell = map.world_to_map(get_global_mouse_position())
+		select_tile(cell)
 
-	if event.is_action_pressed("cancel"):
-		interface.clear_highlights()
+	elif event.is_action_pressed("cancel"):
+		interface.clear_selection()
 
 
 func _ready() -> void:
@@ -25,6 +25,32 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_process_factory_loop_volume()
+
+
+func select_tile(cell: Vector2):
+	"""
+	Display informations about the selected tile
+	If building, shows building information
+	If resource under it, shows that too
+	"""
+	var tile = map.get_tile(cell)
+	if not tile:
+		return
+
+	var highlightings = [ tile ]
+
+	if tile.construction and tile.construction is Building:
+		interface.show_building_status(tile.construction)
+		highlightings = tile.construction.tiles
+	else:
+		interface.hide_building_status()
+
+	if not tile.is_depleted():
+		interface.show_tile_info(tile)
+	else:
+		interface.hide_tile_info()
+
+	interface.highlight_tiles(highlightings)
 
 
 func _process_factory_loop_volume() -> void:
@@ -46,7 +72,7 @@ func disable_user_selection():
 	"""
 	Disable selection and camera move
 	"""
-	set_process_unhandled_input(false)
+	set_process_input(false)
 	get_tree().call_group("Tooltip", "hide")
 
 
@@ -54,7 +80,7 @@ func enable_user_selection():
 	"""
 	Enables selection and camera move
 	"""
-	call_deferred("set_process_unhandled_input", true)
+	call_deferred("set_process_input", true)
 
 
 func remove_construction():

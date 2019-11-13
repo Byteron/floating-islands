@@ -36,6 +36,9 @@ export var texture_inactive : Texture = null
 # warning-ignore:unused_class_variable
 export var texture_offset := Vector2()
 
+# warning-ignore:unused_class_variable
+export var description : String = "MISSING DESCRIPTION"
+
 
 func get_costs() -> Dictionary:
 	return {
