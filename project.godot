@@ -225,6 +225,7 @@ repeat={
 2d_physics/layer_1="default"
 2d_physics/layer_2="island"
 2d_physics/layer_3="building"
+2d_physics/layer_4="efficiency_booster"
 
 [physics]
 
