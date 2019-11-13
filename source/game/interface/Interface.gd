@@ -125,10 +125,12 @@ func show_tile_info(tile: Tile):
 
 
 func hide_tile_info():
+	tile_info.set_tile(null)
 	tile_info.hide()
 
 
 func hide_building_status():
+	building_status.set_building(null)
 	building_status.hide()
 
 

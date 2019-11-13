@@ -44,7 +44,7 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("select"):
 		starting_cell = map.world_to_map(get_global_mouse_position())
 		follow_mouse = false
-		if not placing_connector:
+		if not placing_connector and not removing_tool:
 			selected_tiles = [ map.get_tile(starting_cell) ]
 			emit_signal("tile_selected")
 
@@ -61,8 +61,11 @@ func _input(event: InputEvent) -> void:
 	var cell = map.world_to_map(get_global_mouse_position())
 
 	# Display path of rails from starting cell to current cell
-	if not follow_mouse and placing_connector:
-		display_rail_path(starting_cell, cell)
+	if not follow_mouse:
+		if placing_connector:
+			display_rail_path(starting_cell, cell)
+		elif removing_tool:
+			display_rectangle_selection(starting_cell, cell)
 		return
 
 	var force_valid = false				# Force all green when map says its good to go
@@ -140,3 +143,27 @@ func display_rail_path(from: Vector2, to: Vector2):
 
 		if all_invalid or removing_tool:
 			selector.set_invalid()
+
+
+func display_rectangle_selection(from: Vector2, to: Vector2):
+	"""
+	Create a rectangle selection with the given extents
+	Only used for removing
+	"""
+	clear_selectors()
+
+	var area_size = to - from
+	area_size = Vector2(abs(area_size.x) + 1, abs(area_size.y) + 1)
+
+	var start = Vector2(from.x, from.y)
+	if to.x <= from.x:
+		start.x = to.x
+	if to.y <= from.y:
+		start.y = to.y
+
+	for x in range(area_size.x):
+		for y in range(area_size.y):
+			_create_selector(start, Vector2(x, y))
+
+	for selector in selectors.get_children():
+		selector.set_invalid()
