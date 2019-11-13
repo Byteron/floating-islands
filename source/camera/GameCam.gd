@@ -44,7 +44,7 @@ func _handle_keyboard_scroll(delta: float) -> void:
 	global_position.y = clamp(global_position.y + motion.y, limit_top + viewport_extents.y, limit_bottom - viewport_extents.y)
 
 func _handle_mouse(event: InputEvent) -> void:
-	if Input.is_action_pressed("RMB"):
+	if Input.is_action_pressed("grab_camera"):
 		var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 
 		if not event is InputEventMouseMotion:

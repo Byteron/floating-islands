@@ -29,13 +29,17 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	# We released the action after a multiple selection for connectors
-	if event.is_action_released("LMB"):
+	if event.is_action_released("select"):
+		# The action_pressed hasnt been trigerred yet
+		if follow_mouse:
+			return
+
 		selected_tiles = []
 		for selector in selectors.get_children():
 			selected_tiles.append(map.get_tile(selector.cell))
 		emit_signal("tile_selected")
 
-	elif event.is_action_pressed("LMB"):
+	elif event.is_action_pressed("select"):
 		starting_cell = map.world_to_map(get_global_mouse_position())
 		follow_mouse = false
 		if not placing_connector:
@@ -43,7 +47,7 @@ func _input(event: InputEvent) -> void:
 			emit_signal("tile_selected")
 
 	# Cancel selection
-	elif event.is_action_pressed("RMB"):
+	elif event.is_action_pressed("cancel"):
 		emit_signal("tile_selected")
 
 	accept_event()

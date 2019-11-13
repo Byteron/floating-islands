@@ -7,11 +7,11 @@ onready var interface := $Interface
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("LMB"):
+	if event.is_action_pressed("select"):
 		var tiles := map.get_island_tiles(get_global_mouse_position())
 		interface.highlight_lands(tiles)
 
-	if event.is_action_pressed("RMB"):
+	if event.is_action_pressed("cancel"):
 		interface.clear_highlights()
 
 
@@ -75,16 +75,22 @@ func remove_construction():
 
 	enable_user_selection()
 
+	# Check we destroyed something
 	var data = map.remove_construction(tile)
-	if data:
-		var costs = {}
-		for id in data.get_costs():
-			costs[id] = player.refund_percentage * data.get_costs()[id]
+	if not data:
+		return
 
-		display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
-		Global.get_player().refund(costs)
+	var costs = {}
+	for id in data.get_costs():
+		costs[id] = player.refund_percentage * data.get_costs()[id]
+
+	display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, data.size * Global.TILE_SIZE / 2)
+	Global.get_player().refund(costs)
 
 	SFX.play_sfx("Destroy")
+
+	if Input.is_action_pressed("repeat"):
+		remove_construction()
 
 
 func place_construction(data: ConstructionData):
@@ -127,8 +133,7 @@ func place_construction(data: ConstructionData):
 		else:
 			SFX.play_sfx("BuildBuilding")
 
-	if Input.is_action_pressed("shift"):
-		set_process_unhandled_input(false)
+	if Input.is_action_pressed("repeat"):
 		place_construction(data)
 
 
