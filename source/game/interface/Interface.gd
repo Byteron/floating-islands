@@ -7,10 +7,15 @@ onready var construction_buttons := $HUD/ConstuctionButtons
 onready var highlight_container := $HighlightContainer as Control
 onready var basic_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/basic_alloy
 onready var special_alloy_display := $HUD/Panel/MarginContainer/ResourceContainer/special_alloy
+onready var building_status := $HUD/BuildingStatus
+onready var tile_info := $HUD/TileInfo
 
 
 func _ready() -> void:
 	_add_construction_buttons()
+
+	hide_building_status()
+	hide_tile_info()
 
 
 func update_player(player: Player):
@@ -40,10 +45,14 @@ func highlight_connected_tiles(tiles: Array):
 	clear_highlights()
 
 	for tile in tiles:
-		var h := TileHighlighter.instance() as TileHighlighter
-		highlight_container.add_child(h)
-		h.rect_global_position = tile.get_world_position()
-		h.modulate = Color("66FF33")
+		highlight(tile, "66FF33")
+
+
+func highlight_tiles(tiles):
+	clear_highlights()
+
+	for tile in tiles:
+		highlight(tile, Color.white)
 
 
 func highlight_lands(tiles: Array):
@@ -51,12 +60,21 @@ func highlight_lands(tiles: Array):
 
 	for tile in tiles:
 		if tile.type == Tile.TYPE.LAND:
-			var h := TileHighlighter.instance() as TileHighlighter
-			highlight_container.add_child(h)
-			h.rect_global_position = tile.get_world_position()
-
+			var color = Color.white
 			if tile.deposit.amount > 0:
-				h.modulate = Color("FFAA00")
+				color = Color("FFAA00")
+
+			highlight(tile, color)
+
+
+func highlight(tile: Tile, color: Color):
+	"""
+	Highlight the given tile
+	"""
+	var h := TileHighlighter.instance() as TileHighlighter
+	highlight_container.add_child(h)
+	h.rect_global_position = tile.get_world_position()
+	h.modulate = color
 
 
 func clear_highlights():
@@ -89,19 +107,21 @@ func show_building_status(building: Building):
 	"""
 	Display informations about the selected building
 	"""
-	pass
+	building_status.set_building(building)
+	building_status.show()
 
 
-func show_resource_info(id: String, amount: int):
+func show_tile_info(tile: Tile):
 	"""
-	Show information about the given resource
+	Show information about the given tile
 	"""
-	pass
+	tile_info.set_tile(tile)
+	tile_info.show()
 
 
-func hide_resource_info():
-	pass
+func hide_tile_info():
+	tile_info.hide()
 
 
 func hide_building_status():
-	pass
+	building_status.hide()

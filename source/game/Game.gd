@@ -30,7 +30,7 @@ func clear_selection():
 	"""
 	interface.clear_highlights()
 	interface.hide_building_status()
-	interface.hide_resource_info()
+	interface.hide_tile_info()
 
 
 func select_tile(cell: Vector2):
@@ -43,11 +43,20 @@ func select_tile(cell: Vector2):
 	if not tile:
 		return
 
+	var highlightings = [ tile ]
+
 	if tile.construction and tile.construction is Building:
 		interface.show_building_status(tile.construction)
+		highlightings = tile.construction.tiles
+	else:
+		interface.hide_building_status()
 
 	if not tile.is_depleted():
-		interface.show_resource_info(tile.deposit.id, tile.deposit.amount)
+		interface.show_tile_info(tile)
+	else:
+		interface.hide_tile_info()
+
+	interface.highlight_tiles(highlightings)
 
 
 func _process_factory_loop_volume() -> void:
