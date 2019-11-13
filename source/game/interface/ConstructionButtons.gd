@@ -22,6 +22,8 @@ func _ready() -> void:
 
 func add_button(button: Button) -> void:
 	buttons.add_child(button)
+	button.connect("mouse_entered", self, "_on_Button_mouse_entered")
+	button.connect("mouse_exited", self, "_on_Button_mouse_exited")
 	open_position.y = closed_position.y - button.rect_size.y * buttons.get_child_count()
 	button_width = max(button_width, button.rect_size.x)
 
@@ -41,6 +43,7 @@ func _close():
 	tween.start()
 	toggle_button.pressed = false
 
+
 func get_buttons() -> Array:
 	return buttons.get_children()
 
@@ -56,6 +59,9 @@ func _on_CloseTimer_timeout() -> void:
 	_close()
 
 
-func _on_ConstructionButtons_mouse_entered() -> void:
+func _on_Button_mouse_entered() -> void:
 	close_timer.stop()
+
+
+func _on_Button_mouse_exited() -> void:
 	close_timer.start()

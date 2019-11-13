@@ -30,6 +30,9 @@ one_shot = true
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Buttons" type="VBoxContainer" parent="."]
+margin_right = 45.0
+margin_bottom = 120.0
+mouse_filter = 0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,6 +51,5 @@ stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="mouse_entered" from="." to="." method="_on_ConstructionButtons_mouse_entered"]
 [connection signal="timeout" from="CloseTimer" to="." method="_on_CloseTimer_timeout"]
 [connection signal="toggled" from="ToggleButton" to="." method="_on_ToggleButton_toggled"]
