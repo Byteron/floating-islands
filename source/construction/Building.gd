@@ -6,6 +6,10 @@ Handle building logic
 
 onready var mine_timer := $MineTimer as Timer
 onready var sprite := $Sprite as Sprite
+var hitbox : Area2D
+var efficiency : float
+
+export (float, 0, 1) var minimal_efficiency = 0.1
 
 
 static func instance():
@@ -22,6 +26,12 @@ func init(_data: ConstructionData, _tile: Tile, _tiles: Array):
 
 	name = data.name
 
+	hitbox = $Hitbox
+	var collision_shape := $Hitbox/CollisionShape2D as CollisionShape2D
+	hitbox.position = get_center_position()
+	collision_shape.shape = RectangleShape2D.new()
+	collision_shape.shape.extents = get_center_position()
+
 	texture_active = data.texture
 
 	if data.texture_inactive:
@@ -30,6 +40,8 @@ func init(_data: ConstructionData, _tile: Tile, _tiles: Array):
 	is_miner = data.is_miner
 	miner_radius = data.miner_radius
 	miner_amount = data.miner_mine_amount
+
+	update_efficiency()
 
 
 func _ready():
@@ -62,15 +74,29 @@ func mine() -> void:
 				break
 
 	if mining_on:
-		var mined : int = mining_on.mine(miner_amount)
+		var mined : int = mining_on.mine(miner_amount * efficiency)
 		get_tree().call_group("Player", "add_resource", data.target_resource, mined)
 		Global.get_game().display_resource_popup(
 			mined, data.target_resource,
 			global_position,
-			data.size * Global.TILE_SIZE / 2
+			get_center_position()
 		)
 	else:
 		mine_timer.stop()
+
+
+func get_center_world_position() -> Vector2:
+	"""
+	Same as get_center_position but returns world coordinates
+	"""
+	return global_position + get_center_position()
+
+
+func get_center_position() -> Vector2:
+	"""
+	Get the position of the center of this building
+	"""
+	return Global.get_rect_center(data.size)
 
 
 func _on_MineTimer_timeout() -> void:
@@ -84,3 +110,24 @@ func _set_connected_to_storage(value: bool) -> void:
 		sprite.texture = texture_active
 	elif not value and texture_inactive:
 		sprite.texture = texture_inactive
+
+
+func _process(_delta):
+	update_efficiency()
+
+
+func update_efficiency():
+	"""
+	Compute efficiency based on nearly efficiency booster (like storage)
+	"""
+	efficiency = minimal_efficiency
+
+	# Compute efficiency of this building
+	for area in hitbox.get_overlapping_areas():
+		var building = area.get_parent()
+		if not building.has_method("compute_efficiency"):
+			continue
+
+		var new_efficiency = building.compute_efficiency(get_center_world_position())
+		if new_efficiency > efficiency:
+			efficiency = new_efficiency

@@ -8,9 +8,10 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-valid_color = Color( 0, 1, 0, 1 )
-invalid_color = Color( 1, 0, 0, 1 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Selectors" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
