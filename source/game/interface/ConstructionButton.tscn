@@ -5,9 +5,9 @@
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=3]
 
 [node name="ConstructionButton" type="Button"]
-margin_right = 40.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 45, 0 )
+margin_right = 45.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 45, 20 )
 focus_mode = 0
 theme = ExtResource( 3 )
 enabled_focus_mode = 0
@@ -17,7 +17,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 3
-
-[node name="Tooltip" parent="CanvasLayer" instance=ExtResource( 2 )]
+[node name="Tooltip" parent="." instance=ExtResource( 2 )]
+visible = false
+show_behind_parent = true
+margin_left = 44.0
+margin_right = 3.0
+margin_bottom = 0.0

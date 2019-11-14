@@ -10,7 +10,7 @@ onready var map := $Map as Map
 onready var interface := $Interface
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		var cell = map.world_to_map(get_global_mouse_position())
 		select_tile(cell)
@@ -43,16 +43,29 @@ func select_tile(cell: Vector2):
 
 	var highlightings = [ tile ]
 
+	var construction = null
+	var deposit = null
 	if tile.construction and tile.construction is Building:
-		interface.show_building_status(tile.construction)
+		construction = tile.construction
 		highlightings = tile.construction.tiles
-	else:
-		interface.hide_building_status()
 
 	if not tile.is_depleted():
-		interface.show_tile_info(tile)
-	else:
+		deposit = tile
+
+	if not deposit and not construction:
+		interface.hide_building_status()
 		interface.hide_tile_info()
+
+	else:
+		if deposit:
+			interface.show_tile_info(tile)
+		else:
+			interface.show_tile_info(null)
+
+		if construction:
+			interface.show_building_status(construction)
+		else:
+			interface.show_building_status(null)
 
 	interface.highlight_tiles(highlightings)
 
@@ -91,6 +104,8 @@ func remove_construction():
 	"""
 	Handle selection of what to remove
 	"""
+	$Interface/HUD/ConstructionButtons/SlidingMenu/RemoveButton.pressed = true
+
 	disable_user_selection()
 
 	# Adds selection UI
@@ -123,6 +138,8 @@ func remove_construction():
 		call_deferred("remove_construction")
 	else:
 		enable_user_selection()
+
+	$Interface/HUD/ConstructionButtons/SlidingMenu/RemoveButton.pressed = false
 
 
 func place_construction(data: ConstructionData):
