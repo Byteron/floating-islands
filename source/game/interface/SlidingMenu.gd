@@ -58,13 +58,18 @@ func _close():
 
 
 func _on_preview_enter() -> void:
+	if $Tween.is_active():
+		return
+
+	var position = open_position
 	var offset = preview_offset
 	if not is_open:
+		position = closed_position
 		offset = preview_offset * Vector2(-1, -1)
 
 	$Tween.stop_all()
 	$Tween.interpolate_property(self, "rect_global_position",
-		rect_global_position, rect_global_position + offset, preview_time,
+		position, position + offset, preview_time,
 		Tween.TRANS_SINE, Tween.EASE_IN_OUT
 	)
 	$Tween.interpolate_property(gear_button, "rect_scale",

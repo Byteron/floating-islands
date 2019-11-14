@@ -29,6 +29,7 @@ func get_buttons() -> Array:
 
 func _on_ConstructButton_toggled(button_pressed: bool) -> void:
 	slider.toggle()
+	construct_button.pressed = slider.is_open
 
 
 func _on_RemoveButton_pressed():

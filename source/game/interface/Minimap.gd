@@ -10,8 +10,6 @@ var COLORS = {
 	Tile.TYPE.SPECIAL_ALLOY: Color("F5FFE8")
 }
 
-var minimap
-
 
 func _gui_input(event: InputEvent) -> void:
 	"""

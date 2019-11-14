@@ -163,7 +163,3 @@ func _on_ConstructionButton_mouse_entered(button: Button):
 
 func _on_ConstructionButton_mouse_exited(button: Button):
 	button.hide_tooltip()
-
-
-func _on_GearButton_toggled(button_pressed: bool) -> void:
-	pass # Replace with function body.
