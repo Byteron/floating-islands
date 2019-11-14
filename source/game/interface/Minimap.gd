@@ -18,7 +18,6 @@ func _gui_input(event: InputEvent) -> void:
 	Move camera on click on the minimap
 	"""
 	if Input.is_action_pressed("select"):
-		var camera = Global.get_camera()
 		Global.get_camera().focus((event.position - margin) * Global.TILE_SIZE)
 
 
@@ -71,14 +70,6 @@ func _draw():
 
 func _on_SlidingMenu_gear_entered():
 	get_parent()._on_preview_enter()
-
-
-func _on_Minimap_gui_input(event):
-	"""
-	Move camera on click on the minimap
-	"""
-	if Input.is_action_pressed("select"):
-		Global.get_camera().focus( (event.position - Vector2(margin, margin)) * Global.TILE_SIZE )
 
 
 func _on_SlidingMenu_gear_exited():
