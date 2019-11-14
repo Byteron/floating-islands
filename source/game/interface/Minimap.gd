@@ -19,6 +19,9 @@ onready var gear_button := $GearButton as TextureButton
 
 onready var open_position := rect_global_position
 
+var is_open: bool = true
+
+
 func _gui_input(event: InputEvent) -> void:
 	"""
 	Move camera on click on the minimap
@@ -96,18 +99,30 @@ func _close():
 func _on_GearButton_toggled(button_pressed: bool) -> void:
 	if button_pressed:
 		_open()
+		is_open = true
 	else:
 		_close()
+		is_open = false
 
 	_on_GearButton_mouse_exited()
 
 func _on_GearButton_mouse_entered() -> void:
+	var offset = -5
+	if is_open:
+		offset = 5
+
 	tween.stop(gear_button, "rect_scale")
+	tween.interpolate_property(self, "rect_position:y", rect_position.y, rect_position.y + offset, 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.interpolate_property(gear_button, "rect_scale", gear_button.rect_scale, Vector2(1.25, 1.25), 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
 
 func _on_GearButton_mouse_exited() -> void:
+	if is_open:
+		rect_position = open_position
+	else:
+		rect_position = open_position + Vector2(0, tween_travel)
+
 	tween.stop(gear_button, "rect_scale")
 	tween.interpolate_property(gear_button, "rect_scale", gear_button.rect_scale, Vector2(1, 1), 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
