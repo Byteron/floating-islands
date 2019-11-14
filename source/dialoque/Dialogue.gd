@@ -17,6 +17,11 @@ func _ready() -> void:
 	yield(get_tree().create_timer(1.5), "timeout")
 	_fade_in()
 
+
+func _process(_delta) -> void:
+	Global.get_game().disable_user_selection()
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("select"):
 		if has_next_line() and not is_writing():
@@ -44,6 +49,7 @@ func has_next_line():
 
 func complete():
 	text_box.complete()
+	Global.get_game().enable_user_selection()
 
 
 func is_writing():

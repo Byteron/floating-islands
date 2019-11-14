@@ -20,6 +20,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("toggle_building_mode"):
 		interface.open_build_menu()
+	elif Input.is_action_just_pressed("destruction_mode"):
+		interface.enter_destruction_mode()
 
 
 func _ready() -> void:

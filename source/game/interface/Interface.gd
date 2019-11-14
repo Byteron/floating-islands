@@ -167,3 +167,7 @@ func _on_ConstructionButton_mouse_exited(button: Button):
 
 func open_build_menu():
 	construction_buttons._on_ConstructButton_pressed()
+
+
+func enter_destruction_mode():
+	construction_buttons._on_RemoveButton_pressed()
