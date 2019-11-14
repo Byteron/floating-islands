@@ -1,5 +1,6 @@
 extends Node2D
 
+export var lightning_particle : Resource
 export var miner_sfx_radius := 180
 export var miner_sfx_max_volume := 0.2
 
@@ -23,6 +24,7 @@ func _ready() -> void:
 	SFX.play_sfx("FactoryLoop")
 
 	var __ = map.connect("loading_complete", $LoadingScreen, "_on_level_loaded")
+	__ = map.connect("construction_complete", self, "_on_construction_complete")
 
 
 func _process(_delta: float) -> void:
@@ -224,3 +226,37 @@ func display_resource_popup(value: int, resource_id: String, position: Vector2, 
 
 	popup.rect_global_position = position + offset
 	add_child(popup)
+
+
+func _on_construction_complete(construction: Construction):
+	"""
+	Called everytime someting is built
+	"""
+	if construction.get_id() == "Wonder":
+		_on_player_won(construction.get_center_world_position())
+
+
+func _on_player_won(look_at: Vector2):
+	"""
+	Target the place where endgame is trigerred
+	"""
+	remove_child(interface)
+
+	# Focus on wonder
+	var camera = Global.get_camera()
+	camera.player_has_control = false
+	camera.remove_limitation()
+	camera.focus(look_at)
+
+	yield(get_tree().create_timer(1.0), "timeout")
+
+	var particles = lightning_particle.instance()
+	particles.position = look_at
+	particles.z_index = Global.get_map().size.x * 10
+	add_child(particles)
+
+	$FadingOverlay.bounce_in()
+
+	yield(get_tree().create_timer($FadingOverlay.fade_in_time), "timeout")
+
+	var __ = get_tree().change_scene("res://source/menu/Credits.tscn")

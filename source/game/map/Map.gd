@@ -2,6 +2,7 @@ extends TileMap
 class_name Map
 
 signal loading_complete()
+signal construction_complete(construction)
 
 onready var BASIC_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("basic_alloy")
 onready var SPECIAL_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("special_alloy")
@@ -206,7 +207,8 @@ func _spawn_player():
 		add_construction(tile, Global.constructions["Storage"])
 		spawn = tile.position
 
-		Global.get_camera().set_global_position(start_island.global_position)
+		var look_at = tile.position * Global.TILE_SIZE + Global.get_rect_center(Global.constructions["Storage"].size)
+		Global.get_camera().focus(look_at)
 		break
 
 	efficiency_overlay.generate()
@@ -439,18 +441,19 @@ func add_construction(origin: Tile, data: ConstructionData) -> void:
 	update_connections()
 
 	# bail when construction is placed, only rails should add builable tiles
-	if not data.is_connector and not data.is_storage:
-		return
+	if data.is_connector or data.is_storage:
+		# Adds neighboring tiles to available construction places
+		for tile in affected_tiles:
+			for neighbor in tile.direct_neighbors:
+				# If there is a building or a rail, cannot be built on
+				var type = get_tile_type(neighbor.position)
+				if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
+					continue
 
-	# Adds neighboring tiles to available construction places
-	for tile in affected_tiles:
-		for neighbor in tile.direct_neighbors:
-			# If there is a building or a rail, cannot be built on
-			var type = get_tile_type(neighbor.position)
-			if type == Tile.TYPE.BUILDING or type == Tile.TYPE.CONNECTOR:
-				continue
+				valid_construction_sites[neighbor.position] = neighbor
 
-			valid_construction_sites[neighbor.position] = neighbor
+	if construction:
+		emit_signal("construction_complete", construction)
 
 
 func _add_connector(tile: Tile, data: ConstructionData) -> Connector:

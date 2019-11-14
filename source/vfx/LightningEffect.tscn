@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://graphics/tilesets/lightning_animatedtexture.tres" type="Texture" id=1]
+
+[node name="LightningEffect" type="CPUParticles2D"]
+amount = 6
+lifetime = 0.5
+texture = ExtResource( 1 )
+emission_shape = 2
+emission_rect_extents = Vector2( 32, 24 )
+gravity = Vector2( 0, 0 )
+angular_velocity = 5.0
+angular_velocity_random = 1.0
+angle = 90.0
+angle_random = 1.0
+scale_amount_random = 1.0
+anim_offset = 0.57

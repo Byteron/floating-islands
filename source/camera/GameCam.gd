@@ -5,6 +5,7 @@ var initial_camera_position := Vector2()
 var initial_mouse_position := Vector2()
 
 var viewport_extents := Vector2()
+var player_has_control := true
 
 export var speed := 2000
 
@@ -22,10 +23,15 @@ func _ready() -> void:
 	limit_right = Global.get_map().get_extents().x + limit_tolerance
 	limit_bottom = Global.get_map().get_extents().y + limit_tolerance
 
+
 func _process(delta: float) -> void:
 	_handle_keyboard_scroll(delta)
 
+
 func _handle_keyboard_scroll(delta: float) -> void:
+	if not player_has_control:
+		return
+
 	var motion := Vector2()
 
 	if Input.is_action_pressed("ui_up"):
@@ -43,7 +49,11 @@ func _handle_keyboard_scroll(delta: float) -> void:
 	global_position.x = clamp(global_position.x + motion.x, limit_left + viewport_extents.x, limit_right - viewport_extents.x)
 	global_position.y = clamp(global_position.y + motion.y, limit_top + viewport_extents.y, limit_bottom - viewport_extents.y)
 
+
 func _handle_mouse(event: InputEvent) -> void:
+	if not player_has_control:
+		return
+
 	if Input.is_action_pressed("grab_camera"):
 		var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 
@@ -56,5 +66,16 @@ func _handle_mouse(event: InputEvent) -> void:
 		global_position.x = clamp(new_position.x, limit_left + viewport_extents.x, limit_right - viewport_extents.x)
 		global_position.y = clamp(new_position.y, limit_top + viewport_extents.y, limit_bottom - viewport_extents.y)
 
+
 func focus(world_position: Vector2) -> void:
 	global_position = world_position
+
+
+func remove_limitation():
+	"""
+	Used so camera can go out of bounds
+	"""
+	limit_left = -10000
+	limit_top = -10000
+	limit_right = Global.get_map().get_extents().x + 10000
+	limit_bottom = Global.get_map().get_extents().y + 10000

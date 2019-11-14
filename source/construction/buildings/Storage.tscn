@@ -11,7 +11,7 @@ extents = Vector2( 32, 32 )
 
 [sub_resource type="CircleShape2D" id=3]
 
-[node name="Storage" instance=ExtResource( 1 )]
+[node name="Storage" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 efficiency_radius = 16
 efficiency_curve = SubResource( 1 )
