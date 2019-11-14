@@ -4,6 +4,9 @@ class_name Dialogue
 signal finished
 
 export(Array, String, MULTILINE) var lines = []
+export var fadout_time : float = 0.5
+export var fadin_time : float = 1.0
+export var start_delay : float = 0.0
 
 var current = -1 setget _set_current
 
@@ -14,10 +17,19 @@ onready var tween := $Tween
 
 func _ready() -> void:
 	modulate.a = 0
-	yield(get_tree().create_timer(1.5), "timeout")
+	yield(get_tree().create_timer(start_delay), "timeout")
 	_fade_in()
 
+
+func _process(_delta) -> void:
+	if not kill:
+		Global.get_game().disable_user_selection()
+
+
 func _input(event: InputEvent) -> void:
+	if kill:
+		return
+
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("select"):
 		if has_next_line() and not is_writing():
 			next_line()
@@ -51,21 +63,24 @@ func is_writing():
 
 
 func _set_current(value):
+	assert(lines.size() > value)
+
 	current = value
 	text_box.write(lines[current])
 
 
 func _fade_in() -> void:
-	var __ = tween.interpolate_property(self, "modulate:a", 0, 1, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	var __ = tween.interpolate_property(self, "modulate:a", 0, 1, fadin_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	__ = tween.start()
 
 func _fade_out() -> void:
-	var __ = tween.interpolate_property(self, "modulate:a", 1, 0, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	var __ = tween.interpolate_property(self, "modulate:a", 1, 0, fadout_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	__ = tween.start()
 	kill = true
+	Global.get_game().enable_user_selection()
 
 func _on_Tween_tween_all_completed() -> void:
 	if kill:
 		queue_free()
-	else:
+	elif has_next_line():
 		next_line()

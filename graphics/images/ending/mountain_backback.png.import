@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bird3.png-59fc44331733c0bbe571e8240de0f28d.stex"
+path="res://.import/mountain_backback.png-774105cd5e0b433412056ba2ad43f1d8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/ending/bird3.png"
-dest_files=[ "res://.import/bird3.png-59fc44331733c0bbe571e8240de0f28d.stex" ]
+source_file="res://graphics/images/ending/mountain_backback.png"
+dest_files=[ "res://.import/mountain_backback.png-774105cd5e0b433412056ba2ad43f1d8.stex" ]
 
 [params]
 
