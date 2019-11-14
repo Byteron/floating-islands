@@ -17,6 +17,7 @@ id = "Smeltery"
 name = "Smeltery"
 cost_basic_alloy = 600
 cost_special_alloy = 0
+cost_oil = 50
 size = Vector2( 2, 1 )
 is_miner = true
 is_connector = false
