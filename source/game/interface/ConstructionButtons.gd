@@ -32,18 +32,18 @@ func add_button(button: Button) -> void:
 
 
 func _open():
-	tween.stop_all()
-	tween.interpolate_property(remove_button, "rect_global_position:x", remove_button.rect_global_position.x, button_width + 1, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
-	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT, 0.2)
-	tween.start()
+	var __ = tween.stop_all()
+	__ = tween.interpolate_property(remove_button, "rect_global_position:x", remove_button.rect_global_position.x, button_width + 1, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	__ = tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT, 0.2)
+	__ = tween.start()
 	close_timer.start()
 
 
 func _close():
-	tween.stop_all()
-	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, closed_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
-	tween.interpolate_property(remove_button, "rect_global_position:x", remove_button.rect_global_position.x, remove_button.rect_size.x + 1, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT, 0.2)
-	tween.start()
+	var __ = tween.stop_all()
+	__ = tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, closed_position.y, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	__ = tween.interpolate_property(remove_button, "rect_global_position:x", remove_button.rect_global_position.x, remove_button.rect_size.x + 1, 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT, 0.2)
+	__ = tween.start()
 	toggle_button.pressed = false
 
 

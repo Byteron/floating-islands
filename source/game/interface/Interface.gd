@@ -17,6 +17,7 @@ var tile_selector : TileSelector = null
 func _ready() -> void:
 	_add_construction_buttons()
 
+	hide_efficiency_overlay()
 	hide_building_status()
 	hide_tile_info()
 
@@ -144,13 +145,11 @@ func clear_selection():
 	hide_tile_info()
 
 
-func show_tile_selector(removing_tool: bool, _size: Vector2, placing_connector=false) -> TileSelector:
+func show_tile_selector(data: ConstructionData) -> TileSelector:
 	hide_tile_selector()
 
 	tile_selector = TileSelector.instance() as TileSelector
-	tile_selector.size = _size
-	tile_selector.placing_connector = placing_connector
-	tile_selector.removing_tool = removing_tool
+	tile_selector.placement_data = data
 	Global.get_map().add_child(tile_selector)
 	construction_buttons.close_timer.stop()
 	return tile_selector
@@ -165,3 +164,11 @@ func hide_tile_selector() -> void:
 	tile_selector = null
 	remove_button.pressed = false
 	construction_buttons.close_timer.start()
+
+
+func show_efficiency_overlay():
+	Global.get_map().efficiency_overlay.show()
+
+
+func hide_efficiency_overlay():
+	Global.get_map().efficiency_overlay.hide()

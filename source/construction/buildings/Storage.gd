@@ -27,10 +27,14 @@ func init(_data: ConstructionData, _tile: Tile, _tiles: Array):
 
 func compute_efficiency(building_position: Vector2) -> float:
 	"""
-	Given a building position, compute what would be its efficiency
+	Given a building world position of its center, compute what would be its efficiency
 	"""
-	var max_distance = efficiency_shape.shape.radius + Global.TILE_SIZE
-	var distance = get_center_world_position().distance_to(building_position)
+	return _compute_efficiency(get_center_world_position(), building_position)
+
+
+func _compute_efficiency(from: Vector2, to: Vector2) -> float:
+	var max_distance = floor(efficiency_radius * Global.TILE_SIZE / 2.0) + Global.TILE_SIZE
+	var distance = from.distance_to(to)
 
 	if distance > max_distance:
 		return 0.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=1]
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://graphics/images/tiles/rails.png" type="Texture" id=4]
 [ext_resource path="res://graphics/images/tiles/Dirt_Cliff_Tiles.png" type="Texture" id=5]
 [ext_resource path="res://graphics/tilesets/resources_tileset.tres" type="TileSet" id=6]
+[ext_resource path="res://source/game/map/EfficiencyOverlay.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 ), 5.24141, 5.24141, 0, 0, Vector2( 0.52552, 1 ), 5.77839, 27.892, 0, 0 ]
@@ -92,3 +93,5 @@ cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="Buildings" type="Node2D" parent="."]
+
+[node name="EfficiencyOverlay" parent="." instance=ExtResource( 7 )]

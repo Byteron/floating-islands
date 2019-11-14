@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://graphics/images/heatmap.png" type="Texture" id=1]
+[ext_resource path="res://source/game/map/EfficiencyArea.gd" type="Script" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 48, 16, 16 )
+
+[node name="EfficiencyArea" type="Sprite"]
+self_modulate = Color( 1, 1, 1, 0.294118 )
+texture = SubResource( 1 )
+offset = Vector2( 8, 8 )
+script = ExtResource( 2 )

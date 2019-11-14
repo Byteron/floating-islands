@@ -36,6 +36,7 @@ onready var resource_overlay := $Resources as TileMap
 onready var island_bottom_overlay := $IslandBottom as TileMap
 onready var buildings := $Buildings as Node2D
 onready var islands := $Islands as Node2D
+onready var efficiency_overlay := $EfficiencyOverlay
 
 onready var RAIL_INDEX := rails_overlay.tile_set.find_tile_by_name("Rail")
 
@@ -207,6 +208,8 @@ func _spawn_player():
 
 		Global.get_camera().set_global_position(start_island.global_position)
 		break
+
+	efficiency_overlay.generate()
 
 
 func _generate_island_bottom():
