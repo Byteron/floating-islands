@@ -87,29 +87,6 @@ func clear_highlights():
 		child.queue_free()
 
 
-func _on_Generate_pressed() -> void:
-	clear_selection()
-	var __ = get_tree().reload_current_scene()
-
-
-func _on_ConstructionButton_pressed(data: ConstructionData):
-	clear_selection()
-	Global.get_game().place_construction(data)
-
-
-func _on_ConstructionButton_mouse_entered(button: Button):
-	button.show_tooltip()
-
-
-func _on_ConstructionButton_mouse_exited(button: Button):
-	button.hide_tooltip()
-
-
-func _on_Remove_pressed():
-	clear_selection()
-	Global.get_game().remove_construction()
-
-
 func show_building_status(building: Building):
 	"""
 	Display informations about the selected building
@@ -172,3 +149,30 @@ func show_efficiency_overlay():
 
 func hide_efficiency_overlay():
 	Global.get_map().efficiency_overlay.hide()
+
+
+func _on_Generate_pressed() -> void:
+	clear_selection()
+	var __ = get_tree().reload_current_scene()
+
+
+func _on_ConstructionButton_pressed(data: ConstructionData):
+	clear_selection()
+	Global.get_game().place_construction(data)
+
+
+func _on_ConstructionButton_mouse_entered(button: Button):
+	button.show_tooltip()
+
+
+func _on_ConstructionButton_mouse_exited(button: Button):
+	button.hide_tooltip()
+
+
+func _on_Remove_pressed():
+	clear_selection()
+	Global.get_game().remove_construction()
+
+
+func _on_GearButton_toggled(button_pressed: bool) -> void:
+	pass # Replace with function body.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
@@ -25,17 +25,6 @@ margin_left = 15.0
 margin_right = 15.0
 margin_top = 15.0
 margin_bottom = 15.0
-
-[sub_resource type="StyleBoxTexture" id=4]
-texture = ExtResource( 9 )
-region_rect = Rect2( 81, 0, 31, 32 )
-margin_left = 23.0
-margin_right = 2.0
-margin_top = 24.0
-margin_bottom = 2.0
-expand_margin_left = 16.0
-expand_margin_top = 16.0
-expand_margin_bottom = 1.0
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
@@ -126,26 +115,13 @@ resource_id = "special_alloy"
 [node name="Minimap" parent="HUD" instance=ExtResource( 3 )]
 anchor_left = 1.0
 anchor_top = 1.0
-margin_left = -66.0
-margin_top = -66.0
-margin_right = 2.0
-margin_bottom = 2.0
-custom_styles/panel = SubResource( 4 )
-
-[node name="MarginContainer" type="MarginContainer" parent="HUD"]
-anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -72.0
-margin_top = -72.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = -68.0
+margin_top = -69.0
+margin_right = 0.0
+margin_bottom = -1.0
+mouse_filter = 1
 
 [node name="TileInfo" parent="HUD" instance=ExtResource( 7 )]
 anchor_left = 1.0
@@ -164,4 +140,3 @@ margin_right = -83.0
 margin_bottom = 183.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
 [connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
-[connection signal="gui_input" from="HUD/Minimap" to="HUD/Minimap" method="_on_Minimap_gui_input"]
