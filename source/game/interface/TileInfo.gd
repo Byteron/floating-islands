@@ -24,6 +24,9 @@ func update_value():
 	"""
 	Update displayed values
 	"""
+	icon.texture = null
+	value_label.text = ""
+
 	if not tile:
 		return
 

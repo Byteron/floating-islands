@@ -25,6 +25,9 @@ func update_status():
 	"""
 	Update displayed informations
 	"""
+	description_label.text = ""
+	efficiency_label.text = ""
+
 	if not building:
 		return
 

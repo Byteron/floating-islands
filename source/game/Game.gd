@@ -41,16 +41,29 @@ func select_tile(cell: Vector2):
 
 	var highlightings = [ tile ]
 
+	var construction = null
+	var deposit = null
 	if tile.construction and tile.construction is Building:
-		interface.show_building_status(tile.construction)
+		construction = tile.construction
 		highlightings = tile.construction.tiles
-	else:
-		interface.hide_building_status()
 
 	if not tile.is_depleted():
-		interface.show_tile_info(tile)
-	else:
+		deposit = tile
+
+	if not deposit and not construction:
+		interface.hide_building_status()
 		interface.hide_tile_info()
+
+	else:
+		if deposit:
+			interface.show_tile_info(tile)
+		else:
+			interface.show_tile_info(null)
+
+		if construction:
+			interface.show_building_status(construction)
+		else:
+			interface.show_building_status(null)
 
 	interface.highlight_tiles(highlightings)
 

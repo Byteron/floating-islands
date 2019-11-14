@@ -29,27 +29,24 @@ __meta__ = {
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 134.0
-margin_bottom = 32.0
+margin_bottom = 28.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_right = 130.0
-margin_bottom = 12.0
+margin_bottom = 10.0
 
 [node name="Description" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 126.0
-margin_bottom = 12.0
-text = "This building does some shit"
+margin_bottom = 10.0
 
 [node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 130.0
-margin_right = 130.0
-margin_bottom = 12.0
+margin_left = 4.0
+margin_right = 4.0
+margin_bottom = 10.0
 
 [node name="Efficiency" type="Label" parent="MarginContainer/VBoxContainer"]
-margin_top = 16.0
+margin_top = 14.0
 margin_right = 130.0
-margin_bottom = 28.0
-text = "Output: 100%"
+margin_bottom = 24.0
