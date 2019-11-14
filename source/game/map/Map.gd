@@ -535,6 +535,7 @@ func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) 
 
 
 func _remove_building(construction: Construction):
+	construction.cleanup()
 	buildings.remove_child(construction)
 	for tile in construction.tiles:
 		_remove_rail(tile)
