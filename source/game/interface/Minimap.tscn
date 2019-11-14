@@ -1,12 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://source/game/interface/Minimap.gd" type="Script" id=1]
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=2]
 [ext_resource path="res://source/game/interface/SlidingMenu.tscn" type="PackedScene" id=3]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends Control
-"
 
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 2 )
@@ -21,10 +17,9 @@ expand_margin_bottom = 1.0
 
 [node name="Minimap" type="Control"]
 margin_left = 320.0
-margin_top = 111.0
+margin_top = 110.0
 margin_right = 320.0
-margin_bottom = 111.0
-script = SubResource( 1 )
+margin_bottom = 110.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -33,11 +28,10 @@ __meta__ = {
 preview_offset = Vector2( 0, 3 )
 
 [node name="Minimap" type="Panel" parent="SlidingMenu"]
-margin_left = -67.0
+margin_left = -66.0
 margin_top = 4.0
-margin_right = 1.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 68, 68 )
+margin_bottom = 70.0
+rect_min_size = Vector2( 66, 66 )
 custom_styles/panel = SubResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {

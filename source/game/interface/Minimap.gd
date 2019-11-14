@@ -10,6 +10,8 @@ var COLORS = {
 	Tile.TYPE.SPECIAL_ALLOY: Color("F5FFE8")
 }
 
+export var margin : Vector2 = Vector2(2, 2)
+
 
 func _gui_input(event: InputEvent) -> void:
 	"""
@@ -17,7 +19,7 @@ func _gui_input(event: InputEvent) -> void:
 	"""
 	if Input.is_action_pressed("select"):
 		var camera = Global.get_camera()
-		camera.position = event.position * Global.TILE_SIZE
+		camera.position = (event.position - margin) * Global.TILE_SIZE
 
 
 func _ready():
@@ -38,7 +40,7 @@ func _draw():
 			var position = Vector2(x, y)
 			var type = map.get_tile_type(position)
 			var color = COLORS[type]
-			draw_rect(Rect2(position, Vector2(1, 1)), color)
+			draw_rect(Rect2(margin + position, Vector2(1, 1)), color)
 
 	# Draw camera
 	var camera = Global.get_camera()
@@ -64,7 +66,7 @@ func _draw():
 		if (draw_position + extents).y > map.size.y:
 			extents.y -= (draw_position + extents).y - map.size.y
 
-		draw_rect(Rect2(draw_position, extents), Color.yellow, false)
+		draw_rect(Rect2(margin + draw_position, extents), Color.yellow, false)
 
 
 func _on_SlidingMenu_gear_entered():

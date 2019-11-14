@@ -11,7 +11,7 @@ onready var open_position := rect_global_position
 onready var closed_position := rect_global_position + tween_travel
 
 export var is_open : bool = true
-export var tween_travel : Vector2 = Vector2(0.0, 68.0)
+export var tween_travel : Vector2 = Vector2(0.0, 64.0)
 export var sliding_time : float = 0.5
 export var preview_offset : Vector2 = Vector2(0.0, 5.0)
 export var preview_time : float = 0.1
