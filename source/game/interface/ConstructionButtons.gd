@@ -15,9 +15,6 @@ func _ready() -> void:
 
 func add_button(button: Button) -> void:
 	buttons.add_child(button)
-	var __ = button.connect("mouse_entered", self, "_on_Button_mouse_entered")
-	__ = button.connect("mouse_exited", self, "_on_Button_mouse_exited")
-
 	slider.open_position.y = slider.closed_position.y - button.rect_size.y * buttons.get_child_count()
 	button_width = max(button_width, button.rect_size.x)
 

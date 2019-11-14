@@ -5,19 +5,19 @@
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=3]
 [ext_resource path="res://source/game/interface/SlidingMenu.tscn" type="PackedScene" id=4]
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
 region = Rect2( 32, 48, 15, 16 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
 region = Rect2( 48, 48, 15, 16 )
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 48, 15, 16 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 3 )
 region = Rect2( 16, 48, 15, 16 )
 
@@ -44,8 +44,8 @@ margin_bottom = -1.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
-texture_normal = SubResource( 3 )
-texture_pressed = SubResource( 4 )
+texture_normal = SubResource( 1 )
+texture_pressed = SubResource( 2 )
 stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -59,8 +59,8 @@ margin_bottom = -1.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
-texture_normal = SubResource( 1 )
-texture_pressed = SubResource( 2 )
+texture_normal = SubResource( 3 )
+texture_pressed = SubResource( 4 )
 stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false

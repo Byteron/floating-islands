@@ -4,11 +4,11 @@
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=2]
 [ext_resource path="res://source/game/interface/SlidingMenu.tscn" type="PackedScene" id=3]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 "
 
-[sub_resource type="StyleBoxTexture" id=1]
+[sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 2 )
 region_rect = Rect2( 80, 0, 32, 32 )
 margin_left = 14.0
@@ -24,7 +24,7 @@ margin_left = 320.0
 margin_top = 111.0
 margin_right = 320.0
 margin_bottom = 111.0
-script = SubResource( 2 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -38,7 +38,7 @@ margin_top = 4.0
 margin_right = 1.0
 margin_bottom = 72.0
 rect_min_size = Vector2( 68, 68 )
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
