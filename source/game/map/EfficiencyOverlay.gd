@@ -1,22 +1,26 @@
-extends TileMap
+extends Node2D
 """
 Heatmap layer showing where efficiency is best
 """
 
-onready var RED = tile_set.find_tile_by_name("red")
-onready var ORANGE = tile_set.find_tile_by_name("orange")
-onready var GREEN = tile_set.find_tile_by_name("green")
+export var color_gradient : Gradient
+
+var cells = []
 
 
 func _ready():
 	for x in Global.get_map().size.x:
 		for y in Global.get_map().size.y:
-			set_cell(x, y, GREEN)
+			var cell = load("res://source/game/map/EfficiencyArea.tscn").instance()
+			cell.x = x
+			cell.y = y
+			add_child(cell)
 
 
 func generate(use_mouse: bool=false):
-	for cell in get_used_cells():
-		var real_position = cell * Global.TILE_SIZE + Global.get_rect_center(Vector2(1, 1))
+	for cell in get_children():
+		var cell_position = Vector2(cell.x, cell.y)
+		var real_position = cell_position * Global.TILE_SIZE + Global.get_rect_center(Vector2(1, 1))
 
 		var efficiency = 0
 		var storages = get_tree().get_nodes_in_group("Storage")
@@ -29,11 +33,6 @@ func generate(use_mouse: bool=false):
 
 			efficiency = max(efficiency, storage._compute_efficiency(mouse_position, real_position))
 
-		if efficiency > 0.75:
-			set_cellv(cell, GREEN)
-		elif efficiency > 0.50:
-			set_cellv(cell, ORANGE)
-		else:
-			set_cellv(cell, RED)
+		cell.modulate = color_gradient.interpolate(efficiency)
 
 
