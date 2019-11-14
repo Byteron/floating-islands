@@ -10,16 +10,7 @@ var COLORS = {
 	Tile.TYPE.SPECIAL_ALLOY: Color("F5FFE8")
 }
 
-
-export var margin = 2
-export var tween_travel := 68
-
-onready var tween := $Tween as Tween
-onready var gear_button := $GearButton as TextureButton
-
-onready var open_position := rect_global_position
-
-var is_open: bool = true
+var minimap
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -28,12 +19,12 @@ func _gui_input(event: InputEvent) -> void:
 	"""
 	if Input.is_action_pressed("select"):
 		var camera = Global.get_camera()
-		camera.position = (event.position - Vector2(margin, margin)) * Global.TILE_SIZE
+		camera.position = event.position * Global.TILE_SIZE
 
 
 func _ready():
 	var map = Global.get_map()
-	rect_size = map.size + Vector2(margin, margin) * 2
+	rect_size = map.size
 
 
 func _process(_delta):
@@ -49,7 +40,7 @@ func _draw():
 			var position = Vector2(x, y)
 			var type = map.get_tile_type(position)
 			var color = COLORS[type]
-			draw_rect(Rect2(Vector2(margin, margin) + position, Vector2(1, 1)), color)
+			draw_rect(Rect2(position, Vector2(1, 1)), color)
 
 	# Draw camera
 	var camera = Global.get_camera()
@@ -75,54 +66,16 @@ func _draw():
 		if (draw_position + extents).y > map.size.y:
 			extents.y -= (draw_position + extents).y - map.size.y
 
-		draw_rect(Rect2(Vector2(margin, margin) + draw_position, extents), Color.yellow, false)
+		draw_rect(Rect2(draw_position, extents), Color.yellow, false)
 
 
-func _open():
-	print("open")
-	tween.stop(self, "rect_global_position:y")
-	tween.stop(gear_button, "rect_rotation:y")
-	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y, 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.interpolate_property(gear_button, "rect_rotation", gear_button.rect_rotation, 0, 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.start()
+func _on_SlidingMenu_gear_entered():
+	get_parent()._on_preview_enter()
 
 
-func _close():
-	print("close")
-	tween.stop(self, "rect_global_position:y")
-	tween.stop(gear_button, "rect_rotation:y")
-	tween.interpolate_property(self, "rect_global_position:y", rect_global_position.y, open_position.y + tween_travel, 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.interpolate_property(gear_button, "rect_rotation", gear_button.rect_rotation, -360, 0.5, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.start()
+func _on_SlidingMenu_gear_exited():
+	get_parent()._on_preview_exited()
 
 
-func _on_GearButton_toggled(button_pressed: bool) -> void:
-	if button_pressed:
-		_open()
-		is_open = true
-	else:
-		_close()
-		is_open = false
-
-	_on_GearButton_mouse_exited()
-
-func _on_GearButton_mouse_entered() -> void:
-	var offset = -5
-	if is_open:
-		offset = 5
-
-	tween.stop(gear_button, "rect_scale")
-	tween.interpolate_property(self, "rect_position:y", rect_position.y, rect_position.y + offset, 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.interpolate_property(gear_button, "rect_scale", gear_button.rect_scale, Vector2(1.25, 1.25), 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.start()
-
-
-func _on_GearButton_mouse_exited() -> void:
-	if is_open:
-		rect_position = open_position
-	else:
-		rect_position = open_position + Vector2(0, tween_travel)
-
-	tween.stop(gear_button, "rect_scale")
-	tween.interpolate_property(gear_button, "rect_scale", gear_button.rect_scale, Vector2(1, 1), 0.1, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	tween.start()
+func _on_SlidingMenu_gear_pressed():
+	get_parent().toggle()

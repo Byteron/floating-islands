@@ -12,7 +12,7 @@ font_data = ExtResource( 2 )
 [node name="ResourceDisplay" type="HBoxContainer"]
 margin_right = 16.0
 margin_bottom = 16.0
-custom_constants/separation = 0
+custom_constants/separation = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -24,13 +24,13 @@ margin_bottom = 16.0
 rect_min_size = Vector2( 16, 16 )
 stretch_mode = 7
 
-[node name="ValueLabel" type="Label" parent="Icon"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="ValueLabel" type="Label" parent="."]
+margin_left = 19.0
+margin_right = 19.0
+margin_bottom = 16.0
 rect_min_size = Vector2( 0, 16 )
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
-align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

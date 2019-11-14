@@ -3,11 +3,10 @@ class_name Interface
 
 export (Resource) var construction_button
 
-onready var remove_button := $HUD/Remove
 onready var construction_buttons := $HUD/ConstructionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var basic_alloy_display := $HUD/ResourceContainer/CenterContainer/VBoxContainer/basic_alloy
-onready var special_alloy_display := $HUD/ResourceContainer/CenterContainer/VBoxContainer/special_alloy
+onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
+onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/special_alloy
 onready var building_status := $HUD/BuildingStatus
 onready var tile_info := $HUD/TileInfo
 
@@ -128,7 +127,6 @@ func show_tile_selector(data: ConstructionData) -> TileSelector:
 	tile_selector = TileSelector.instance() as TileSelector
 	tile_selector.placement_data = data
 	Global.get_map().add_child(tile_selector)
-	construction_buttons.close_timer.stop()
 	return tile_selector
 
 
@@ -139,8 +137,6 @@ func hide_tile_selector() -> void:
 	Global.get_map().remove_child(tile_selector)
 	tile_selector.queue_free()
 	tile_selector = null
-	remove_button.pressed = false
-	construction_buttons.close_timer.start()
 
 
 func show_efficiency_overlay():
@@ -167,11 +163,6 @@ func _on_ConstructionButton_mouse_entered(button: Button):
 
 func _on_ConstructionButton_mouse_exited(button: Button):
 	button.hide_tooltip()
-
-
-func _on_Remove_pressed():
-	clear_selection()
-	Global.get_game().remove_construction()
 
 
 func _on_GearButton_toggled(button_pressed: bool) -> void:

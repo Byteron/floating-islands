@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
@@ -10,15 +10,7 @@
 [ext_resource path="res://source/game/interface/ConstructionButtons.tscn" type="PackedScene" id=8]
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=9]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 9 )
-region = Rect2( 32, 48, 15, 16 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 9 )
-region = Rect2( 48, 48, 15, 16 )
-
-[sub_resource type="StyleBoxTexture" id=3]
+[sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 9 )
 region_rect = Rect2( 0, 0, 32, 32 )
 margin_left = 15.0
@@ -57,21 +49,6 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Remove" type="TextureButton" parent="HUD"]
-margin_left = 16.0
-margin_top = 128.0
-margin_right = 31.0
-margin_bottom = 144.0
-focus_mode = 0
-toggle_mode = true
-enabled_focus_mode = 0
-texture_normal = SubResource( 1 )
-texture_pressed = SubResource( 2 )
-stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="ConstructionButtons" parent="HUD" instance=ExtResource( 8 )]
 
 [node name="ResourceContainer" type="Panel" parent="HUD"]
@@ -80,63 +57,45 @@ anchor_bottom = 1.0
 margin_top = -38.0
 margin_right = 61.0
 margin_bottom = 3.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="HUD/ResourceContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ResourceContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 7.0
-margin_right = -6.0
+margin_top = 10.0
+custom_constants/separation = -3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ResourceContainer/CenterContainer"]
-margin_left = 19.0
-margin_top = 3.0
-margin_right = 35.0
-margin_bottom = 30.0
-custom_constants/separation = -5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="basic_alloy" parent="HUD/ResourceContainer/CenterContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="basic_alloy" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_right = 61.0
 resource_id = "basic_alloy"
 
-[node name="special_alloy" parent="HUD/ResourceContainer/CenterContainer/VBoxContainer" instance=ExtResource( 5 )]
-margin_top = 11.0
-margin_bottom = 27.0
+[node name="special_alloy" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 13.0
+margin_right = 61.0
+margin_bottom = 29.0
 resource_id = "special_alloy"
 
 [node name="Minimap" parent="HUD" instance=ExtResource( 3 )]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -68.0
-margin_top = -69.0
-margin_right = 0.0
-margin_bottom = -1.0
-mouse_filter = 1
 
 [node name="TileInfo" parent="HUD" instance=ExtResource( 7 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -248.0
+margin_left = -259.0
 margin_top = 148.0
-margin_right = -221.0
+margin_right = -232.0
 margin_bottom = 183.0
 
 [node name="BuildingStatus" parent="HUD" instance=ExtResource( 6 )]
 anchor_left = 1.0
 anchor_bottom = 0.0
-margin_left = -221.0
+margin_left = -232.0
 margin_top = 148.0
-margin_right = -83.0
+margin_right = -94.0
 margin_bottom = 183.0
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
-[connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
