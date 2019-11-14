@@ -18,7 +18,10 @@ onready var close_timer := $CloseTimer as Timer
 func _ready() -> void:
 	closed_position = rect_global_position
 	open_position = rect_global_position
-
+	remove_button.connect("mouse_entered", self, "_on_Button_mouse_entered")
+	remove_button.connect("mouse_exited", self, "_on_Button_mouse_exited")
+	toggle_button.connect("mouse_entered", self, "_on_Button_mouse_entered")
+	toggle_button.connect("mouse_exited", self, "_on_Button_mouse_exited")
 
 func add_button(button: Button) -> void:
 	buttons.add_child(button)

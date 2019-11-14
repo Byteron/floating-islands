@@ -1,6 +1,6 @@
 extends Button
 
-onready var tooltip := $Pivot/Tooltip
+onready var tooltip := $Tooltip
 
 var data : ConstructionData = null
 

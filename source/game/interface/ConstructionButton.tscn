@@ -5,9 +5,9 @@
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=3]
 
 [node name="ConstructionButton" type="Button"]
-margin_right = 40.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 45, 16 )
+margin_right = 45.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 45, 20 )
 focus_mode = 0
 theme = ExtResource( 3 )
 enabled_focus_mode = 0
@@ -17,17 +17,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Pivot" type="Control" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Tooltip" parent="Pivot" instance=ExtResource( 2 )]
-margin_left = -3.8147e-006
-margin_top = -24.0
-margin_right = 52.0
+[node name="Tooltip" parent="." instance=ExtResource( 2 )]
+visible = false
+show_behind_parent = true
+margin_left = 44.0
+margin_right = 3.0
 margin_bottom = 0.0

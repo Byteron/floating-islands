@@ -10,8 +10,8 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [node name="ResourceDisplay" type="HBoxContainer"]
-margin_right = 30.0
-margin_bottom = 20.0
+margin_right = 16.0
+margin_bottom = 16.0
 custom_constants/separation = 0
 script = ExtResource( 1 )
 __meta__ = {
@@ -19,22 +19,18 @@ __meta__ = {
 }
 
 [node name="Icon" type="TextureRect" parent="."]
-margin_right = 20.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 20, 18 )
-stretch_mode = 4
+margin_right = 16.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 16, 16 )
+stretch_mode = 7
 
-[node name="ValueLabel" type="Label" parent="."]
-margin_left = 20.0
-margin_right = 28.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 0, 20 )
+[node name="ValueLabel" type="Label" parent="Icon"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 16 )
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
 align = 1
-
-[node name="Spacer" type="Control" parent="."]
-margin_left = 28.0
-margin_right = 30.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 2, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

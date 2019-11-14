@@ -6,8 +6,8 @@ export (Resource) var construction_button
 onready var remove_button := $HUD/Remove
 onready var construction_buttons := $HUD/ConstructionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
-onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/special_alloy
+onready var basic_alloy_display := $HUD/ResourceContainer/CenterContainer/VBoxContainer/basic_alloy
+onready var special_alloy_display := $HUD/ResourceContainer/CenterContainer/VBoxContainer/special_alloy
 onready var building_status := $HUD/BuildingStatus
 onready var tile_info := $HUD/TileInfo
 
