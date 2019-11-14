@@ -92,7 +92,7 @@ func remove_construction():
 	disable_user_selection()
 
 	# Adds selection UI
-	var tile_selector : TileSelector = interface.show_tile_selector(true, Vector2(1, 1))
+	var tile_selector : TileSelector = interface.show_tile_selector(null)
 
 	yield(tile_selector, "tile_selected")
 
@@ -115,6 +115,8 @@ func remove_construction():
 
 		SFX.play_sfx("Destroy")
 
+	map.efficiency_overlay.generate()
+
 	if Input.is_action_pressed("repeat"):
 		call_deferred("remove_construction")
 	else:
@@ -128,8 +130,11 @@ func place_construction(data: ConstructionData):
 	"""
 	disable_user_selection()
 
+	if data.is_miner or data.id == "Storage":
+		interface.show_efficiency_overlay()
+
 	# Adds selection UI
-	var tile_selector : TileSelector = interface.show_tile_selector(false, data.size, data.is_connector)
+	var tile_selector : TileSelector = interface.show_tile_selector(data)
 	interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
@@ -159,10 +164,13 @@ func place_construction(data: ConstructionData):
 		else:
 			SFX.play_sfx("BuildBuilding")
 
+	map.efficiency_overlay.generate()
+
 	if Input.is_action_pressed("repeat"):
 		call_deferred("place_construction", data)
 	else:
 		enable_user_selection()
+		interface.hide_efficiency_overlay()
 
 
 func display_costs_popup(costs: Dictionary, loose: bool, position: Vector2, offset: Vector2=Vector2()) -> void:

@@ -14,6 +14,9 @@ var map = null
 var placing_connector = false
 var follow_mouse = true			# The selection should follow the mouse
 var removing_tool = false		# Are we destroying buildings?
+var efficiency_impact = false	# Display selector on heatmap?
+
+var placement_data = null		# What is being placed?
 
 
 static func instance():
@@ -22,6 +25,13 @@ static func instance():
 
 func _ready() -> void:
 	map = Global.get_map()
+
+	if not placement_data:
+		removing_tool = true
+	else:
+		placing_connector = placement_data.is_connector
+		size = placement_data.size
+		efficiency_impact = placement_data.id == "Storage"
 
 	var cell = map.world_to_map(get_global_mouse_position())
 	for x in size.x:
@@ -56,6 +66,8 @@ func _input(event: InputEvent) -> void:
 
 	if not event is InputEventMouseMotion:
 		return
+
+	Global.get_map().efficiency_overlay.generate(efficiency_impact)
 
 	# Mouse movement
 	var cell = map.world_to_map(get_global_mouse_position())
