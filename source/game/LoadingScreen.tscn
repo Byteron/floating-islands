@@ -27,6 +27,7 @@ margin_left = -21.0
 margin_top = -20.0
 margin_right = 21.0
 margin_bottom = 20.0
+custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -45,13 +46,13 @@ expand = true
 stretch_mode = 3
 
 [node name="CenterContainer2" type="CenterContainer" parent="Background/VBoxContainer"]
-margin_top = 20.0
+margin_top = 26.0
 margin_right = 42.0
-margin_bottom = 32.0
+margin_bottom = 36.0
 
 [node name="Label" type="Label" parent="Background/VBoxContainer/CenterContainer2"]
 margin_right = 42.0
-margin_bottom = 12.0
+margin_bottom = 10.0
 text = "Loading... "
 
 [node name="Tween" type="Tween" parent="."]

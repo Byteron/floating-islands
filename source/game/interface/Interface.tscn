@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://source/game/interface/Interface.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
@@ -7,21 +7,17 @@
 [ext_resource path="res://source/game/interface/ResourceDisplay.tscn" type="PackedScene" id=5]
 [ext_resource path="res://source/game/interface/BuildingStatus.tscn" type="PackedScene" id=6]
 [ext_resource path="res://source/game/interface/TileInfo.tscn" type="PackedScene" id=7]
-[ext_resource path="res://source/game/interface/ConstructionButtons.gd" type="Script" id=8]
-[ext_resource path="res://source/dialoque/Dialoque.tscn" type="PackedScene" id=9]
+[ext_resource path="res://source/game/interface/ConstructionButtons.tscn" type="PackedScene" id=8]
+[ext_resource path="res://graphics/images/interface.png" type="Texture" id=9]
+[ext_resource path="res://source/dialoque/Dialogue.tscn" type="PackedScene" id=10]
 
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 4.0
-content_margin_right = 4.0
-content_margin_top = 0.0
-content_margin_bottom = 4.0
-bg_color = Color( 0.670588, 0.313726, 0.184314, 1 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.996078, 0.933333, 0.509804, 1 )
-anti_aliasing = false
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 32, 32 )
+margin_left = 15.0
+margin_right = 15.0
+margin_top = 15.0
+margin_bottom = 15.0
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
@@ -39,6 +35,7 @@ __meta__ = {
 layer = 2
 
 [node name="Generate" type="Button" parent="HUD"]
+visible = false
 anchor_left = 0.996714
 anchor_top = 0.604538
 anchor_right = 0.996714
@@ -53,53 +50,14 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Remove" type="Button" parent="HUD"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -88.9268
-margin_top = -18.0
-margin_right = -72.9268
-margin_bottom = -2.0
-theme = ExtResource( 2 )
-text = "X"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="ConstructionButtons" type="Control" parent="HUD"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -32.0
-margin_bottom = -32.0
-theme = ExtResource( 2 )
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Tween" type="Tween" parent="HUD/ConstructionButtons"]
-
-[node name="Buttons" type="VBoxContainer" parent="HUD/ConstructionButtons"]
-custom_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ToggleButton" type="Button" parent="HUD/ConstructionButtons"]
-margin_top = -16.0
-margin_right = 22.0
-focus_mode = 0
-toggle_mode = true
-enabled_focus_mode = 0
-text = "Build"
+[node name="ConstructionButtons" parent="HUD" instance=ExtResource( 8 )]
 
 [node name="ResourceContainer" type="Panel" parent="HUD"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -32.0
-margin_right = 80.0
+margin_top = -38.0
+margin_right = 61.0
+margin_bottom = 3.0
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -108,64 +66,41 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/ResourceContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 3.0
-custom_constants/separation = -5
+margin_top = 10.0
+custom_constants/separation = -3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="basic_alloy" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
-margin_right = 80.0
+margin_right = 61.0
 resource_id = "basic_alloy"
 
 [node name="special_alloy" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
-margin_top = 15.0
-margin_right = 80.0
-margin_bottom = 35.0
+margin_top = 13.0
+margin_right = 61.0
+margin_bottom = 29.0
 resource_id = "special_alloy"
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -72.0
-margin_top = -72.0
-custom_constants/margin_right = 2
-custom_constants/margin_top = 2
-custom_constants/margin_left = 2
-custom_constants/margin_bottom = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Minimap" parent="HUD/MarginContainer" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 70.0
-margin_bottom = 70.0
+[node name="Minimap" parent="HUD" instance=ExtResource( 3 )]
 
 [node name="TileInfo" parent="HUD" instance=ExtResource( 7 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -52.0
-margin_top = 41.0
-margin_right = 0.0
-margin_bottom = 65.0
+margin_left = -259.0
+margin_top = 148.0
+margin_right = -232.0
+margin_bottom = 183.0
 
 [node name="BuildingStatus" parent="HUD" instance=ExtResource( 6 )]
 anchor_left = 1.0
 anchor_bottom = 0.0
-margin_left = -138.0
-margin_right = 0.0
-margin_bottom = 41.0
+margin_left = -232.0
+margin_top = 148.0
+margin_right = -94.0
+margin_bottom = 183.0
 
-[node name="Dialoque" parent="HUD" instance=ExtResource( 9 )]
+[node name="Dialogue" parent="HUD" instance=ExtResource( 10 )]
 pause_mode = 2
 lines = [ "Alright, so you're the new boss, huh?", "Hope you know how to fix this. We got a problem here. Like, an apocalype-sized problem.", "War burst the Planet apart. No Gravity. No Air. Pieces of Land everwhere.", "You build us a wonder, we might survive." ]
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
-[connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
-[connection signal="toggled" from="HUD/ConstructionButtons/ToggleButton" to="HUD/ConstructionButtons" method="_on_ToggleButton_toggled"]
-[connection signal="gui_input" from="HUD/MarginContainer/Minimap" to="HUD/MarginContainer/Minimap" method="_on_Minimap_gui_input"]

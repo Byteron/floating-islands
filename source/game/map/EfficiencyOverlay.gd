@@ -5,8 +5,6 @@ Heatmap layer showing where efficiency is best
 
 export var color_gradient : Gradient
 
-var cells = []
-
 
 func _ready():
 	for x in Global.get_map().size.x:

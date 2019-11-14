@@ -1,5 +1,5 @@
 extends Control
-class_name Dialoque
+class_name Dialogue
 
 signal finished
 
