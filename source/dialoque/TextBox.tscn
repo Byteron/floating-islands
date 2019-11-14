@@ -1,0 +1,89 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://source/dialoque/TextBox.gd" type="Script" id=1]
+[ext_resource path="res://graphics/images/NamePlate.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/ChatBox.png" type="Texture" id=3]
+[ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=4]
+[ext_resource path="res://graphics/fonts/poco/Poco.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://graphics/images/SteamPunkGearLadySmaller.png" type="Texture" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 10
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[node name="TextBox" type="Control"]
+margin_right = 320.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 320, 60 )
+theme = ExtResource( 4 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Portrait" type="TextureRect" parent="."]
+margin_left = 203.771
+margin_top = -110.942
+margin_right = 316.771
+margin_bottom = 33.0578
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Box" type="TextureRect" parent="."]
+margin_right = 320.0
+margin_bottom = 60.0
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Box"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 4
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Box/MarginContainer"]
+margin_left = 10.0
+margin_top = 4.0
+margin_right = 310.0
+margin_bottom = 56.0
+custom_fonts/normal_font = SubResource( 1 )
+text = "This is some cool text to show in the dialoque box of our game"
+
+[node name="NamePlate" type="TextureRect" parent="Box"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 203.958
+margin_top = -10.6995
+margin_right = -63.0423
+margin_bottom = -52.6995
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Speaker" type="Label" parent="Box/NamePlate"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 1 )
+text = "Amisha"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
