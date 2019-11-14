@@ -144,13 +144,11 @@ func clear_selection():
 	hide_tile_info()
 
 
-func show_tile_selector(removing_tool: bool, _size: Vector2, placing_connector=false) -> TileSelector:
+func show_tile_selector(data: ConstructionData) -> TileSelector:
 	hide_tile_selector()
 
 	tile_selector = TileSelector.instance() as TileSelector
-	tile_selector.size = _size
-	tile_selector.placing_connector = placing_connector
-	tile_selector.removing_tool = removing_tool
+	tile_selector.placement_data = data
 	Global.get_map().add_child(tile_selector)
 
 	return tile_selector
