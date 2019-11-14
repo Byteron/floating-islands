@@ -18,6 +18,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("cancel"):
 		interface.clear_selection()
 
+	if Input.is_action_just_pressed("toggle_building_mode"):
+		interface.open_build_menu()
+
 
 func _ready() -> void:
 	SFX.set_sfx_volume("FactoryLoop", 0)
@@ -89,7 +92,7 @@ func disable_user_selection():
 	"""
 	Disable selection and camera move
 	"""
-	set_process_input(false)
+	set_process_unhandled_input(false)
 	get_tree().call_group("Tooltip", "hide")
 
 
@@ -97,7 +100,7 @@ func enable_user_selection():
 	"""
 	Enables selection and camera move
 	"""
-	call_deferred("set_process_input", true)
+	call_deferred("set_process_unhandled_input", true)
 
 
 func remove_construction():

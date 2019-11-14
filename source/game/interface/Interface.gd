@@ -163,3 +163,7 @@ func _on_ConstructionButton_mouse_entered(button: Button):
 
 func _on_ConstructionButton_mouse_exited(button: Button):
 	button.hide_tooltip()
+
+
+func open_build_menu():
+	construction_buttons._on_ConstructButton_pressed()

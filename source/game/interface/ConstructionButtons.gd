@@ -23,11 +23,11 @@ func get_buttons() -> Array:
 	return buttons.get_children()
 
 
-func _on_ConstructButton_toggled(_button_pressed: bool) -> void:
-	slider.toggle()
-	construct_button.pressed = slider.is_open
-
-
 func _on_RemoveButton_pressed():
 	Global.get_game().interface.clear_selection()
 	Global.get_game().remove_construction()
+
+
+func _on_ConstructButton_pressed():
+	slider.toggle()
+	construct_button.pressed = slider.is_open
