@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://source/construction/ConstructionData.gd"
 }, {
+"base": "Control",
+"class": "Dialogue",
+"language": "GDScript",
+"path": "res://source/dialoque/Dialogue.gd"
+}, {
 "base": "Camera2D",
 "class": "GameCam",
 "language": "GDScript",
@@ -124,6 +129,7 @@ _global_script_class_icons={
 "Connector": "",
 "Construction": "",
 "ConstructionData": "",
+"Dialogue": "",
 "GameCam": "",
 "Interface": "",
 "Island": "",
