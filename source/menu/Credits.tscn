@@ -1,31 +1,105 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://source/game/interface/FadingOverlay.tscn" type="PackedScene" id=1]
 [ext_resource path="res://source/menu/Credits.gd" type="Script" id=2]
 [ext_resource path="res://graphics/images/ending/grass.png" type="Texture" id=3]
 [ext_resource path="res://graphics/images/ending/sky.png" type="Texture" id=4]
-[ext_resource path="res://graphics/images/ending/bird1.png" type="Texture" id=5]
-[ext_resource path="res://graphics/images/ending/bird2.png" type="Texture" id=6]
-[ext_resource path="res://graphics/images/ending/bird3.png" type="Texture" id=7]
+[ext_resource path="res://graphics/images/ending/mountain_front.png" type="Texture" id=5]
+[ext_resource path="res://graphics/images/ending/clouds.png" type="Texture" id=6]
+[ext_resource path="res://graphics/images/ending/mountain_back.png" type="Texture" id=7]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=8]
+[ext_resource path="res://graphics/images/ending/sun.png" type="Texture" id=9]
+[ext_resource path="res://graphics/images/ending/tree.png" type="Texture" id=10]
+[ext_resource path="res://graphics/images/ending/mountain_backback.png" type="Texture" id=11]
 
 [node name="Credits" type="Node2D"]
 script = ExtResource( 2 )
+camera_movement = 60.0
+camera_movement_time = 8.0
+animation_time = 8.0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.1, 1 )
 
 [node name="SkyRect" type="TextureRect" parent="ParallaxBackground/Sky"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -66.0
-margin_top = -31.0
-margin_right = 540.0
-margin_bottom = 233.0
+margin_left = -155.672
+margin_top = -27.731
+margin_right = 244.328
+margin_bottom = 197.269
 texture = ExtResource( 4 )
-expand = true
 __meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Sun" type="TextureRect" parent="ParallaxBackground/Sky"]
+margin_left = -146.848
+margin_top = -38.4453
+margin_right = 253.152
+margin_bottom = 186.555
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.9, 1 )
+
+[node name="Clouds" type="TextureRect" parent="ParallaxBackground/Clouds"]
+margin_left = 7.56299
+margin_top = -33.4033
+margin_right = 407.563
+margin_bottom = 191.597
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Mountain3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.2, 1 )
+
+[node name="Mountain3" type="TextureRect" parent="ParallaxBackground/Mountain3"]
+margin_left = -75.63
+margin_top = -26.4705
+margin_right = 324.37
+margin_bottom = 198.529
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mountain2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.3, 1 )
+
+[node name="Mountain2" type="TextureRect" parent="ParallaxBackground/Mountain2"]
+margin_left = -180.252
+margin_top = -3.15125
+margin_right = 219.748
+margin_bottom = 221.849
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Mountain1" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.6, 1 )
+
+[node name="Mountain1" type="TextureRect" parent="ParallaxBackground/Mountain1"]
+margin_left = -74.3659
+margin_top = 3.15126
+margin_right = 325.634
+margin_bottom = 228.151
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -34,45 +108,26 @@ __meta__ = {
 [node name="GrassRect" type="TextureRect" parent="ParallaxBackground/Grass"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -83.0
-margin_top = 109.0
-margin_right = 563.0
-margin_bottom = 202.0
+margin_left = -16.3981
+margin_top = -15.0916
+margin_right = 383.602
+margin_bottom = 209.908
 texture = ExtResource( 3 )
-expand = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="Life" type="ParallaxLayer" parent="ParallaxBackground"]
 
-[node name="bird1" type="TextureRect" parent="ParallaxBackground/Life"]
-margin_left = 354.778
-margin_top = 37.4468
-margin_right = 394.778
-margin_bottom = 77.4468
-texture = ExtResource( 5 )
+[node name="Tree" type="TextureRect" parent="ParallaxBackground/Life"]
+margin_left = -65.4232
+margin_top = -6.61583
+margin_right = 334.577
+margin_bottom = 218.384
+texture = ExtResource( 10 )
 __meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="bird2" type="TextureRect" parent="ParallaxBackground/Life"]
-margin_left = 330.795
-margin_top = 25.1802
-margin_right = 370.795
-margin_bottom = 65.1802
-texture = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="bird3" type="TextureRect" parent="ParallaxBackground/Life"]
-margin_left = 319.273
-margin_top = 54.5183
-margin_right = 359.273
-margin_bottom = 94.5183
-texture = ExtResource( 7 )
-__meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -87,6 +142,10 @@ visible_by_default = true
 
 [node name="CreditsStart" type="Node2D" parent="FadingOverlay"]
 position = Vector2( 160, 90 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="CreditsEnd" type="Node2D" parent="FadingOverlay/CreditsStart"]
 position = Vector2( 0, -348 )

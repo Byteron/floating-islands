@@ -153,7 +153,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Floating Islands"
-run/main_scene="res://source/game/Game.tscn"
+run/main_scene="res://source/menu/Splash.tscn"
 config/icon="res://icon.png"
 
 [autoload]
