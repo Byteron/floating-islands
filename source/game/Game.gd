@@ -1,5 +1,6 @@
 extends Node2D
 
+export var lightning_particle : Resource
 export var miner_sfx_radius := 180
 export var miner_sfx_max_volume := 0.2
 
@@ -222,8 +223,23 @@ func _on_player_won(look_at: Vector2):
 	"""
 	Target the place where endgame is trigerred
 	"""
-	Global.get_camera().set_global_position(look_at)
+	remove_child(interface)
 
-	yield(get_tree().create_timer(5.0), "timeout")
+	# Focus on wonder
+	var camera = Global.get_camera()
+	camera.player_has_control = false
+	camera.remove_limitation()
+	camera.focus(look_at)
+
+	yield(get_tree().create_timer(1.0), "timeout")
+
+	var particles = lightning_particle.instance()
+	particles.position = look_at
+	particles.z_index = Global.get_map().size.x * 10
+	add_child(particles)
+
+	$FadingOverlay.fade_in()
+
+	yield(get_tree().create_timer($FadingOverlay.fade_in_time), "timeout")
 
 	var __ = get_tree().change_scene("res://source/menu/Credits.tscn")

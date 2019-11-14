@@ -208,7 +208,7 @@ func _spawn_player():
 		spawn = tile.position
 
 		var look_at = tile.position * Global.TILE_SIZE + Global.get_rect_center(Global.constructions["Storage"].size)
-		Global.get_camera().set_global_position(look_at)
+		Global.get_camera().focus(look_at)
 		break
 
 	efficiency_overlay.generate()

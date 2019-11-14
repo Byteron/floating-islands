@@ -47,7 +47,7 @@ func init(_data: ConstructionData, _tile: Tile, _tiles: Array):
 func _ready():
 	sprite.texture = data.texture
 	sprite.offset = data.texture_offset
-	sprite.z_index = tile.position.y
+	sprite.z_index = int(tile.position.y)
 
 	if is_miner:
 		mine_timer.start(data.miner_tick_time)

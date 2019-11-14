@@ -65,5 +65,4 @@ func _on_Minimap_gui_input(event):
 	Move camera on click on the minimap
 	"""
 	if Input.is_action_pressed("select"):
-		var camera = Global.get_camera()
-		camera.position = (event.position - Vector2(margin, margin)) * Global.TILE_SIZE
+		Global.get_camera().focus( (event.position - Vector2(margin, margin)) * Global.TILE_SIZE )

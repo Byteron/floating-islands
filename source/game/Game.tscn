@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://source/game/map/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://source/camera/GameCam.tscn" type="PackedScene" id=2]
@@ -8,11 +8,14 @@
 [ext_resource path="res://graphics/images/paralax_bg/close_islands.png" type="Texture" id=6]
 [ext_resource path="res://source/game/LoadingScreen.tscn" type="PackedScene" id=7]
 [ext_resource path="res://graphics/images/paralax_bg/sky_and_distant_islands.png" type="Texture" id=8]
+[ext_resource path="res://source/vfx/LightningEffect.tscn" type="PackedScene" id=9]
+[ext_resource path="res://source/game/interface/FadingOverlay.tscn" type="PackedScene" id=10]
 
 [node name="Game" type="Node2D" groups=[
 "Game",
 ]]
 script = ExtResource( 4 )
+lightning_particle = ExtResource( 9 )
 
 [node name="Background" type="ParallaxBackground" parent="."]
 layer = -1
@@ -60,3 +63,6 @@ speed = 600
 [node name="Interface" parent="." instance=ExtResource( 3 )]
 
 [node name="LoadingScreen" parent="." instance=ExtResource( 7 )]
+layer = 3
+
+[node name="FadingOverlay" parent="." instance=ExtResource( 10 )]
