@@ -23,6 +23,7 @@ func _ready() -> void:
 	SFX.play_sfx("FactoryLoop")
 
 	var __ = map.connect("loading_complete", $LoadingScreen, "_on_level_loaded")
+	__ = map.connect("construction_complete", self, "_on_construction_complete")
 
 
 func _process(_delta: float) -> void:
@@ -207,3 +208,22 @@ func display_resource_popup(value: int, resource_id: String, position: Vector2, 
 
 	popup.rect_global_position = position + offset
 	add_child(popup)
+
+
+func _on_construction_complete(construction: Construction):
+	"""
+	Called everytime someting is built
+	"""
+	if construction.get_id() == "Wonder":
+		_on_player_won(construction.get_center_world_position())
+
+
+func _on_player_won(look_at: Vector2):
+	"""
+	Target the place where endgame is trigerred
+	"""
+	Global.get_camera().set_global_position(look_at)
+
+	yield(get_tree().create_timer(5.0), "timeout")
+
+	var __ = get_tree().change_scene("res://source/menu/Credits.tscn")
