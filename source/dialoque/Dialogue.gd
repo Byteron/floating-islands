@@ -24,6 +24,9 @@ func _process(_delta) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if kill:
+		return
+
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("select"):
 		if has_next_line() and not is_writing():
 			next_line()
@@ -57,6 +60,8 @@ func is_writing():
 
 
 func _set_current(value):
+	assert(lines.size() > value)
+
 	current = value
 	text_box.write(lines[current])
 
@@ -74,5 +79,5 @@ func _fade_out() -> void:
 func _on_Tween_tween_all_completed() -> void:
 	if kill:
 		queue_free()
-	else:
+	elif has_next_line():
 		next_line()

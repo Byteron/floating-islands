@@ -1,6 +1,14 @@
 extends Control
 
 var button_width := 0.0
+# warning-ignore:unused_class_variable
+var construction_actions = [
+	"build_rail",
+	"build_miner",
+	"build_wonder",
+	"build_refinery",
+	"build_storage"
+]
 
 onready var construct_button := $SlidingMenu/ConstructButton
 onready var slider := $SlidingMenu
@@ -31,3 +39,12 @@ func _on_RemoveButton_pressed():
 func _on_ConstructButton_pressed():
 	slider.toggle()
 	construct_button.pressed = slider.is_open
+
+
+func _on_construction_action(action: String):
+	var id = action.substr("build_".length(), -1)
+	print(id)
+	for button in buttons.get_children():
+		if button.data.id.to_lower() == id:
+			Global.get_game().interface._on_ConstructionButton_pressed(button.data)
+			return

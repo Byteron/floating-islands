@@ -18,10 +18,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("cancel"):
 		interface.clear_selection()
 
+	var construction_buttons = interface.construction_buttons
 	if Input.is_action_just_pressed("toggle_building_mode"):
-		interface.open_build_menu()
+		construction_buttons._on_ConstructButton_pressed()
 	elif Input.is_action_just_pressed("destruction_mode"):
-		interface.enter_destruction_mode()
+		construction_buttons._on_RemoveButton_pressed()
+
+	for action in construction_buttons.construction_actions:
+		if Input.is_action_just_pressed(action):
+			construction_buttons._on_construction_action(action)
 
 
 func _ready() -> void:

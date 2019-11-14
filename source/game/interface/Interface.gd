@@ -154,6 +154,10 @@ func _on_Generate_pressed() -> void:
 
 func _on_ConstructionButton_pressed(data: ConstructionData):
 	clear_selection()
+
+	if not construction_buttons.slider.is_open:
+		construction_buttons._on_ConstructButton_pressed()
+
 	Global.get_game().place_construction(data)
 
 
@@ -163,11 +167,3 @@ func _on_ConstructionButton_mouse_entered(button: Button):
 
 func _on_ConstructionButton_mouse_exited(button: Button):
 	button.hide_tooltip()
-
-
-func open_build_menu():
-	construction_buttons._on_ConstructButton_pressed()
-
-
-func enter_destruction_mode():
-	construction_buttons._on_RemoveButton_pressed()
