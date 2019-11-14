@@ -1,17 +1,63 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://source/menu/TitleScreen.gd" type="Script" id=1]
 [ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
+[ext_resource path="res://graphics/images/paralax_bg/menu_sky2.png" type="Texture" id=3]
+[ext_resource path="res://graphics/images/paralax_bg/menu_sky.png" type="Texture" id=4]
+[ext_resource path="res://graphics/images/paralax_bg/menu_earth.png" type="Texture" id=5]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.0784314, 0.0941176, 0.180392, 1 )
-
-[node name="TitleScreen" type="Panel"]
+[node name="TitleScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 2 )
-custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="BG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0941176, 0.180392, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stars1" type="TextureRect" parent="BG"]
+margin_right = 320.0
+margin_bottom = 180.0
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stars2" type="TextureRect" parent="BG"]
+margin_right = 320.0
+margin_bottom = 180.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Earth" type="Control" parent="BG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="BG/Earth"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -156.0
+margin_top = -77.0
+margin_right = -19.0
+margin_bottom = 81.0
+texture = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -19,14 +65,16 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -136.0
+theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="CenterContainer"]
-margin_left = 110.0
+margin_left = 42.0
 margin_top = 40.0
-margin_right = 210.0
+margin_right = 142.0
 margin_bottom = 140.0
 rect_min_size = Vector2( 100, 100 )
 
@@ -45,13 +93,13 @@ __meta__ = {
 
 [node name="New Game" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
 margin_right = 50.0
-margin_bottom = 16.0
+margin_bottom = 14.0
 text = "New Game"
 
 [node name="Quit" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
-margin_top = 20.0
+margin_top = 18.0
 margin_right = 50.0
-margin_bottom = 36.0
+margin_bottom = 32.0
 text = "Quit"
 [connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
 [connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
