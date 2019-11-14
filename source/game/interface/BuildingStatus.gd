@@ -5,9 +5,9 @@ Displays building informations
 
 var building: Building
 
-onready var efficiency_label = $MarginContainer/VBoxContainer/Efficiency
-onready var description_label = $MarginContainer/VBoxContainer/HBoxContainer/Description
-onready var icon = $MarginContainer/VBoxContainer/HBoxContainer/Icon
+onready var efficiency_label = $MarginContainer/Container/Efficiency
+onready var description_label = $MarginContainer/Container/HBoxContainer/Description
+onready var icon = $MarginContainer/Container/HBoxContainer/Icon
 
 
 func _process(_delta):

@@ -3,11 +3,11 @@ extends Control
 Shows tooltip at mouse position
 """
 
-onready var basic_alloy_display = $VBoxContainer/ResourceCost/basic_alloy
-onready var special_alloy_display = $VBoxContainer/ResourceCost/special_alloy
+onready var basic_alloy_display = $Container/ResourceCost/basic_alloy
+onready var special_alloy_display = $Container/ResourceCost/special_alloy
 
-onready var description_label = $VBoxContainer/BuildingDesc/Description
-onready var icon = $VBoxContainer/BuildingDesc/Icon
+onready var description_label = $Container/BuildingDesc/Description
+onready var icon = $Container/BuildingDesc/Icon
 
 func set_description(value: String):
 	icon.texture = null

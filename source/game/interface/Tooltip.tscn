@@ -28,47 +28,48 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Container" type="VBoxContainer" parent="."]
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 38.0
 margin_bottom = 22.0
+custom_constants/separation = -5
 
-[node name="ResourceCost" type="HBoxContainer" parent="VBoxContainer"]
+[node name="ResourceCost" type="HBoxContainer" parent="Container"]
 margin_right = 36.0
 custom_constants/separation = 0
 
-[node name="basic_alloy" parent="VBoxContainer/ResourceCost" instance=ExtResource( 3 )]
+[node name="basic_alloy" parent="Container/ResourceCost" instance=ExtResource( 3 )]
 visible = false
 resource_id = "basic_alloy"
 hide_empty = true
 
-[node name="special_alloy" parent="VBoxContainer/ResourceCost" instance=ExtResource( 3 )]
+[node name="special_alloy" parent="Container/ResourceCost" instance=ExtResource( 3 )]
 visible = false
 margin_left = 16.0
 margin_right = 32.0
 resource_id = "special_alloy"
 hide_empty = true
 
-[node name="BuildingDesc" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 4.0
+[node name="BuildingDesc" type="HBoxContainer" parent="Container"]
+margin_top = -5.0
 margin_right = 36.0
-margin_bottom = 20.0
+margin_bottom = 11.0
 
-[node name="Spacer" type="Label" parent="VBoxContainer/BuildingDesc"]
+[node name="Spacer" type="Label" parent="Container/BuildingDesc"]
 margin_top = 3.0
 margin_right = 12.0
 margin_bottom = 13.0
 rect_min_size = Vector2( 12, 0 )
 text = "  "
 
-[node name="Description" type="Label" parent="VBoxContainer/BuildingDesc"]
+[node name="Description" type="Label" parent="Container/BuildingDesc"]
 margin_left = 16.0
 margin_top = 3.0
 margin_right = 16.0
 margin_bottom = 13.0
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/BuildingDesc"]
+[node name="Icon" type="TextureRect" parent="Container/BuildingDesc"]
 margin_left = 20.0
 margin_right = 36.0
 margin_bottom = 16.0
