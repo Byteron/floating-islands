@@ -19,7 +19,8 @@ func _ready() -> void:
 
 
 func _process(_delta) -> void:
-	Global.get_game().disable_user_selection()
+	if not kill:
+		Global.get_game().disable_user_selection()
 
 
 func _input(event: InputEvent) -> void:
@@ -49,7 +50,6 @@ func has_next_line():
 
 func complete():
 	text_box.complete()
-	Global.get_game().enable_user_selection()
 
 
 func is_writing():
@@ -69,6 +69,7 @@ func _fade_out() -> void:
 	var __ = tween.interpolate_property(self, "modulate:a", 1, 0, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	__ = tween.start()
 	kill = true
+	Global.get_game().enable_user_selection()
 
 func _on_Tween_tween_all_completed() -> void:
 	if kill:
