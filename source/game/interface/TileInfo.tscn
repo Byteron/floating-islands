@@ -23,12 +23,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 39.0
-margin_bottom = 20.0
-
 [node name="Icon" type="TextureRect" parent="MarginContainer"]
 margin_left = 4.0
 margin_top = 4.0
