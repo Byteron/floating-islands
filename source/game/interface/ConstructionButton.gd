@@ -8,6 +8,7 @@ var data : ConstructionData = null
 func _ready() -> void:
 	name = data.name
 	text = data.name
+	tooltip.set_description(data.description)
 	tooltip.set_costs(data.get_costs())
 
 
