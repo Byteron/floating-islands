@@ -238,7 +238,7 @@ func _on_player_won(look_at: Vector2):
 	particles.z_index = Global.get_map().size.x * 10
 	add_child(particles)
 
-	$FadingOverlay.fade_in()
+	$FadingOverlay.bounce_in()
 
 	yield(get_tree().create_timer($FadingOverlay.fade_in_time), "timeout")
 
