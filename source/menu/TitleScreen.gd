@@ -7,7 +7,6 @@ onready var stars2 := $BG/Stars2
 onready var earth := $BG/Earth
 
 func _ready() -> void:
-	print(center)
 	Music.play_song("Loop")
 
 
