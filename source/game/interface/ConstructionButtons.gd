@@ -2,7 +2,6 @@ extends Control
 
 var button_width := 0.0
 
-onready var remove_button := $SlidingMenu/RemoveButton as TextureButton
 onready var construct_button := $SlidingMenu/ConstructButton
 onready var slider := $SlidingMenu
 
@@ -27,7 +26,7 @@ func get_buttons() -> Array:
 	return buttons.get_children()
 
 
-func _on_ConstructButton_toggled(button_pressed: bool) -> void:
+func _on_ConstructButton_toggled(_button_pressed: bool) -> void:
 	slider.toggle()
 	construct_button.pressed = slider.is_open
 

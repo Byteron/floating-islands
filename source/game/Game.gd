@@ -89,6 +89,8 @@ func remove_construction():
 	"""
 	Handle selection of what to remove
 	"""
+	$Interface/HUD/ConstructionButtons/SlidingMenu/RemoveButton.pressed = true
+
 	disable_user_selection()
 
 	# Adds selection UI
@@ -121,6 +123,8 @@ func remove_construction():
 		call_deferred("remove_construction")
 	else:
 		enable_user_selection()
+
+	$Interface/HUD/ConstructionButtons/SlidingMenu/RemoveButton.pressed = false
 
 
 func place_construction(data: ConstructionData):
