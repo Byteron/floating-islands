@@ -61,8 +61,8 @@ margin_left = 10.0
 margin_top = 4.0
 margin_right = 310.0
 margin_bottom = 56.0
+rect_clip_content = false
 custom_fonts/normal_font = SubResource( 1 )
-text = "This is some cool text to show in the dialoque box of our game"
 
 [node name="NamePlate" type="TextureRect" parent="Box"]
 anchor_right = 1.0

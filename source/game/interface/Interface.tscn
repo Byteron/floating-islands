@@ -163,6 +163,8 @@ margin_right = 0.0
 margin_bottom = 41.0
 
 [node name="Dialoque" parent="HUD" instance=ExtResource( 9 )]
+pause_mode = 2
+lines = [ "Alright, so you're the new boss, huh?", "Hope you know how to fix this. We got a problem here. Like, an apocalype-sized problem.", "War burst the Planet apart. No Gravity. No Air. Pieces of Land everwhere.", "You build us a wonder, we might survive." ]
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
 [connection signal="pressed" from="HUD/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="toggled" from="HUD/ConstructionButtons/ToggleButton" to="HUD/ConstructionButtons" method="_on_ToggleButton_toggled"]
