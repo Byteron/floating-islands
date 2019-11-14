@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://source/game/interface/ConstructionButtons.gd" type="Script" id=1]
+[ext_resource path="res://graphics/themes/menu.tres" type="Theme" id=2]
+[ext_resource path="res://graphics/images/interface.png" type="Texture" id=3]
+[ext_resource path="res://source/game/interface/SlidingMenu.tscn" type="PackedScene" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 48, 15, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 48, 15, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 48, 15, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 48, 15, 16 )
+
+[node name="ConstructionButtons" type="Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -37.0
+margin_bottom = -37.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SlidingMenu" parent="." instance=ExtResource( 4 )]
+is_open = false
+preview_offset = Vector2( 0, 3 )
+
+[node name="RemoveButton" type="TextureButton" parent="SlidingMenu"]
+margin_left = 19.0
+margin_top = -17.0
+margin_right = 34.0
+margin_bottom = -1.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+texture_normal = SubResource( 1 )
+texture_pressed = SubResource( 2 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConstructButton" type="TextureButton" parent="SlidingMenu"]
+margin_left = 3.0
+margin_top = -17.0
+margin_right = 18.0
+margin_bottom = -1.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+texture_normal = SubResource( 3 )
+texture_pressed = SubResource( 4 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="VBoxContainer" parent="SlidingMenu"]
+margin_right = 45.0
+margin_bottom = 120.0
+mouse_filter = 0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="SlidingMenu/RemoveButton" to="." method="_on_RemoveButton_pressed"]
+[connection signal="mouse_entered" from="SlidingMenu/ConstructButton" to="SlidingMenu" method="_on_preview_enter"]
+[connection signal="mouse_exited" from="SlidingMenu/ConstructButton" to="SlidingMenu" method="_on_preview_exited"]
+[connection signal="toggled" from="SlidingMenu/ConstructButton" to="." method="_on_ConstructButton_toggled"]

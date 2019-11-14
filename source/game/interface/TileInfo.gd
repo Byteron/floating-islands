@@ -5,8 +5,8 @@ Display deposit information on a tile
 
 var tile
 
-onready var icon = $MarginContainer/HBoxContainer/Icon
-onready var value_label = $MarginContainer/HBoxContainer/Value
+onready var icon = $MarginContainer/Icon
+onready var value_label = $MarginContainer/Value
 
 
 func _process(_delta):
@@ -24,6 +24,9 @@ func update_value():
 	"""
 	Update displayed values
 	"""
+	icon.texture = null
+	value_label.text = ""
+
 	if not tile:
 		return
 

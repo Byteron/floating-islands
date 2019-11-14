@@ -23,3 +23,6 @@ func set_value(resources: Dictionary):
 			hide()
 	else:
 		show()
+
+	if resources[resource_id] > 0:
+		show()

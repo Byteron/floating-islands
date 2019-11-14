@@ -1,6 +1,6 @@
 extends Button
 
-onready var tooltip := $CanvasLayer/Tooltip
+onready var tooltip := $Tooltip
 
 var data : ConstructionData = null
 
@@ -8,6 +8,7 @@ var data : ConstructionData = null
 func _ready() -> void:
 	name = data.name
 	text = data.name
+	tooltip.set_description(data.description)
 	tooltip.set_costs(data.get_costs())
 
 
