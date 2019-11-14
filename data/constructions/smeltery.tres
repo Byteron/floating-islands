@@ -13,19 +13,19 @@ frame_1/delay_sec = 0.0
 
 [resource]
 script = ExtResource( 1 )
-id = "Refinery"
-name = "Refinery"
+id = "Smeltery"
+name = "Smeltery"
 cost_basic_alloy = 600
 cost_special_alloy = 0
 size = Vector2( 2, 1 )
 is_miner = true
 is_connector = false
 is_storage = false
-target_resource = "special_alloy"
+target_resource = "oil"
 miner_radius = 1
 miner_tick_time = 5
 miner_mine_amount = 20
 texture = SubResource( 1 )
 texture_inactive = ExtResource( 3 )
 texture_offset = Vector2( 0, -16 )
-description = "Refines %oil"
+description = "Melts %special_alloy"

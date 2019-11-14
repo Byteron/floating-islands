@@ -71,6 +71,8 @@ cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 2 )
 special_alloy_amount_curve = SubResource( 1 )
+oil_min_deposit_count = 200
+oil_amount_curve = SubResource( 1 )
 IslandPacked = ExtResource( 3 )
 
 [node name="Islands" type="Node2D" parent="."]
