@@ -165,6 +165,7 @@ func _generate_special_alloy():
 		if tile.deposit.amount <= 0:
 			continue
 
+		tile.deposit.amount = max(tile.deposit.amount, special_alloy_min_deposit_count)
 		tile.deposit.id = "special_alloy"
 		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
 		deposit_count += 1
