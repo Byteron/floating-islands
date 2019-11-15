@@ -48,13 +48,6 @@ func _add_construction_buttons():
 		construction_buttons.add_button(button)
 
 
-func highlight_connected_tiles(tiles: Array):
-	clear_highlights()
-
-	for tile in tiles:
-		highlight(tile, "66FF33")
-
-
 func highlight_tiles(tiles):
 	clear_highlights()
 

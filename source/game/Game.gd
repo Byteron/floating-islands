@@ -172,7 +172,8 @@ func place_construction(data: ConstructionData):
 
 	# Adds selection UI
 	var tile_selector : TileSelector = interface.show_tile_selector(data)
-	interface.highlight_connected_tiles(map.valid_construction_sites.values())
+	map.show_buildable()
+	# interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
 
@@ -181,7 +182,7 @@ func place_construction(data: ConstructionData):
 
 	# Remove specific UI
 	interface.hide_tile_selector()
-	interface.clear_highlights()
+	map.clear_buildable()
 
 	for tile in selected_tiles:
 		# Cannot build there or nothing selected

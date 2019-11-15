@@ -38,12 +38,16 @@ export (float) var process_time = 1					# Time given to physic engine to place i
 
 onready var rails_overlay := $Rails as TileMap
 onready var resource_overlay := $Resources as TileMap
+onready var buildable_overlay := $Buildable as TileMap
 onready var island_bottom_overlay := $IslandBottom as TileMap
 onready var buildings := $Buildings as Node2D
 onready var islands := $Islands as Node2D
+
 onready var efficiency_overlay := $EfficiencyOverlay
 
 onready var RAIL_INDEX := rails_overlay.tile_set.find_tile_by_name("Rail")
+
+onready var BUILDABLE_INDEX := buildable_overlay.tile_set.find_tile_by_name("Buildable")
 
 func _ready() -> void:
 	randomize()
@@ -318,6 +322,13 @@ func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: Cons
 				neighbors.append(cell)
 	return neighbors
 
+func show_buildable():
+	for cell in valid_construction_sites.keys():
+		buildable_overlay.set_cellv(cell, BUILDABLE_INDEX)
+		print(cell)
+
+func clear_buildable():
+	buildable_overlay.clear()
 
 func create_tile(position: Vector2, type, island: Node) -> bool:
 	"""

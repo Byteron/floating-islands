@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=1]
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://graphics/images/tiles/Dirt_Cliff_Tiles.png" type="Texture" id=5]
 [ext_resource path="res://graphics/tilesets/resources_tileset.tres" type="TileSet" id=6]
 [ext_resource path="res://source/game/map/EfficiencyOverlay.tscn" type="PackedScene" id=7]
+[ext_resource path="res://graphics/images/buildable.png" type="Texture" id=8]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 ), 5.24141, 5.24141, 0, 0, Vector2( 0.52552, 1 ), 5.77839, 27.892, 0, 0 ]
@@ -67,6 +68,16 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.255823, 0, 0 ]
 0/z_index = 0
 
 [sub_resource type="TileSet" id=5]
+0/name = "Buildable"
+0/texture = ExtResource( 8 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
 
 [node name="Map" type="TileMap" groups=[
 "Map",
@@ -99,7 +110,8 @@ tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
-[node name="Highlights" type="TileMap" parent="."]
+[node name="Buildable" type="TileMap" parent="."]
+self_modulate = Color( 1, 1, 1, 0.470588 )
 tile_set = SubResource( 5 )
 cell_size = Vector2( 16, 16 )
 format = 1
