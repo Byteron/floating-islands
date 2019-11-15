@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/inactive.png-7ad7c0238449cfddddfb4420e948b3bf.stex"
+path="res://.import/inactive.png-9f8c43e5e11a56974923070b3759f389.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/buildings/refinery/inactive.png"
-dest_files=[ "res://.import/inactive.png-7ad7c0238449cfddddfb4420e948b3bf.stex" ]
+source_file="res://graphics/images/buildings/smeltery/inactive.png"
+dest_files=[ "res://.import/inactive.png-9f8c43e5e11a56974923070b3759f389.stex" ]
 
 [params]
 

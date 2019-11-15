@@ -1,14 +1,14 @@
 [gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://source/construction/ConstructionData.gd" type="Script" id=1]
-[ext_resource path="res://graphics/images/buildings/refinery/0.png" type="Texture" id=2]
-[ext_resource path="res://graphics/images/buildings/refinery/inactive.png" type="Texture" id=3]
-[ext_resource path="res://graphics/images/buildings/refinery/1.png" type="Texture" id=4]
+[ext_resource path="res://graphics/images/buildings/smeltery/1.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/buildings/smeltery/0.png" type="Texture" id=3]
+[ext_resource path="res://graphics/images/buildings/smeltery/inactive.png" type="Texture" id=4]
 
 [sub_resource type="AnimatedTexture" id=1]
 frames = 2
-frame_0/texture = ExtResource( 2 )
-frame_1/texture = ExtResource( 4 )
+frame_0/texture = ExtResource( 3 )
+frame_1/texture = ExtResource( 2 )
 frame_1/delay_sec = 0.0
 
 [resource]
@@ -27,6 +27,6 @@ miner_radius = 1
 miner_tick_time = 5
 miner_mine_amount = 20
 texture = SubResource( 1 )
-texture_inactive = ExtResource( 3 )
+texture_inactive = ExtResource( 4 )
 texture_offset = Vector2( 0, -16 )
 description = "Melts %special_alloy"

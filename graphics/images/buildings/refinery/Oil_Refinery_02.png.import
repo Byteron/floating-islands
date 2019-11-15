@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/1.png-de362d220d668adeb6615eea0928339c.stex"
+path="res://.import/Oil_Refinery_02.png-c10eb40a12074cbe20ae0093bac03d1b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/images/buildings/refinery/1.png"
-dest_files=[ "res://.import/1.png-de362d220d668adeb6615eea0928339c.stex" ]
+source_file="res://graphics/images/buildings/refinery/Oil_Refinery_02.png"
+dest_files=[ "res://.import/Oil_Refinery_02.png-c10eb40a12074cbe20ae0093bac03d1b.stex" ]
 
 [params]
 
