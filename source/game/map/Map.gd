@@ -117,6 +117,7 @@ func _generate_resources():
 	_generate_special_alloy()
 	_generate_oil()
 
+
 func _generate_basic_alloy():
 	"""
 	Add resource deposit randomly using simplex noise

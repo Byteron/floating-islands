@@ -1,5 +1,7 @@
 extends Node2D
 
+var won := false
+
 export var lightning_particle : Resource
 export var miner_sfx_radius := 180
 export var miner_sfx_max_volume := 0.2
@@ -11,6 +13,9 @@ onready var interface := $Interface
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if won:
+		return
+
 	if event.is_action_pressed("select"):
 		var cell = map.world_to_map(get_global_mouse_position())
 		select_tile(cell)
@@ -19,13 +24,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		interface.clear_selection()
 
 	var construction_buttons = interface.construction_buttons
-	if Input.is_action_just_pressed("toggle_building_mode"):
+	if event.is_action_pressed("toggle_building_mode"):
 		construction_buttons._on_ConstructButton_pressed()
-	elif Input.is_action_just_pressed("destruction_mode"):
+	elif event.is_action_pressed("destruction_mode"):
 		construction_buttons._on_RemoveButton_pressed()
 
 	for action in construction_buttons.construction_actions:
-		if Input.is_action_just_pressed(action):
+		if event.is_action_pressed(action):
 			construction_buttons._on_construction_action(action)
 
 
@@ -253,9 +258,15 @@ func _on_player_won(look_at: Vector2):
 	"""
 	Target the place where endgame is trigerred
 	"""
-	remove_child(interface)
+	won = true
 
+	propagate_call("set_process_input", [ false ])
+	propagate_call("set_process_unhandled_input", [ false ])
+	propagate_call("set_process_gui_input", [ false ])
+
+	interface.propagate_call("hide")
 	# Focus on wonder
+
 	var camera = Global.get_camera()
 	camera.player_has_control = false
 	camera.remove_limitation()
