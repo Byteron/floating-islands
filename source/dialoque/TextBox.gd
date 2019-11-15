@@ -22,6 +22,7 @@ func _process(delta):
 		tick += delta
 		if tick > 0.08:
 			tick = 0.0
+			SFX.play_sfx("TypeWriter")
 
 
 func write(line: String) -> void:

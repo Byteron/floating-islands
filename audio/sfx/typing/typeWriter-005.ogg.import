@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/typeWriter-005.ogg-232052a5be5d51c5a40f6a80ee1d234e.oggstr"
+
+[deps]
+
+source_file="res://audio/sfx/typing/typeWriter-005.ogg"
+dest_files=[ "res://.import/typeWriter-005.ogg-232052a5be5d51c5a40f6a80ee1d234e.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

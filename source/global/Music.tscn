@@ -37,6 +37,7 @@ script = ExtResource( 3 )
 
 [node name="Base" type="AudioStreamPlayer" parent="Loop/TrackContainer"]
 stream = ExtResource( 4 )
+bus = "Music"
 
 [node name="StingerContainer" type="Node" parent="Loop"]
 script = ExtResource( 5 )
@@ -48,51 +49,68 @@ probability = 0.5
 
 [node name="Arp1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 7 )
+bus = "Music"
 
 [node name="Arp2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 8 )
+bus = "Music"
 
 [node name="Arp3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 9 )
+bus = "Music"
 
 [node name="Bass1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 10 )
+bus = "Music"
 
 [node name="Bass2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 11 )
+bus = "Music"
 
 [node name="Bass3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 12 )
+bus = "Music"
 
 [node name="Bass4" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 13 )
+bus = "Music"
 
 [node name="Lead1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 14 )
+bus = "Music"
 
 [node name="Lead2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 15 )
+bus = "Music"
 
 [node name="Pad1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 16 )
+bus = "Music"
 
 [node name="Pad2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 17 )
+bus = "Music"
 
 [node name="Pad3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 18 )
+bus = "Music"
 
 [node name="Pad4" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 19 )
+bus = "Music"
 
 [node name="Perc1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 20 )
+bus = "Music"
 
 [node name="Perc2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 21 )
+bus = "Music"
 
 [node name="Perc3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 22 )
+bus = "Music"
 
 [node name="Perc4" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
 stream = ExtResource( 23 )
+bus = "Music"

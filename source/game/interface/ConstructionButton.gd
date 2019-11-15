@@ -18,3 +18,11 @@ func show_tooltip():
 
 func hide_tooltip():
 	tooltip.hide()
+
+
+func _pressed() -> void:
+	SFX.play_sfx("ButtonClick")
+
+
+func _on_ConstructionButton_mouse_entered() -> void:
+	SFX.play_sfx("ButtonHover")

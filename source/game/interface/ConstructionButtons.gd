@@ -35,7 +35,7 @@ func get_buttons() -> Array:
 func _on_RemoveButton_pressed():
 	Global.get_game().interface.clear_selection()
 	Global.get_game().remove_construction()
-
+	SFX.play_sfx("ButtonClick")
 
 func _on_ConstructButton_pressed():
 	slider.toggle()

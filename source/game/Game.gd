@@ -81,7 +81,7 @@ func select_tile(cell: Vector2):
 			interface.show_building_status(construction)
 		else:
 			interface.show_building_status(null)
-
+	SFX.play_sfx("TapTerrain")
 	interface.highlight_tiles(highlightings)
 
 
@@ -93,6 +93,8 @@ func _process_factory_loop_volume() -> void:
 	var refineries := get_tree().get_nodes_in_group("Refinery")
 
 	for building in miners + refineries:
+		if not building.active:
+			continue
 		var distance = camera_position.distance_to(building.global_position)
 		var temp = clamp(1 - distance / miner_sfx_radius, 0, 1)
 		volume = max(volume, temp)

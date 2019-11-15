@@ -40,7 +40,7 @@ func _open():
 	$Tween.start()
 
 	is_open = true
-
+	SFX.play_sfx("MenuOpen")
 
 func _close():
 	$Tween.stop_all()
@@ -55,6 +55,7 @@ func _close():
 	$Tween.start()
 
 	is_open = false
+	SFX.play_sfx("MenuClose")
 
 
 func _on_preview_enter() -> void:

@@ -12,6 +12,8 @@ var efficiency : float
 
 var mined := 0
 
+var active := true setget _set_active
+
 var constant_resource_miner := false
 
 export (float, 0, 1) var minimal_efficiency = 0.1
@@ -103,6 +105,8 @@ func mine() -> void:
 		)
 	else:
 		mine_timer.stop()
+		_set_active(false)
+		SFX.play_sfx("DeactivateBuilding")
 
 func _mine_const() -> bool:
 	if not constant_resource_miner:
@@ -153,11 +157,7 @@ func _on_MineTimer_timeout() -> void:
 
 func _set_connected_to_storage(value: bool) -> void:
 	._set_connected_to_storage(value)
-
-	if value and texture_active:
-		sprite.texture = texture_active
-	elif not value and texture_inactive:
-		sprite.texture = texture_inactive
+	_set_active(value)
 
 
 func _process(_delta):
@@ -183,3 +183,12 @@ func update_efficiency():
 		var new_efficiency = building.compute_efficiency(get_center_world_position())
 		if new_efficiency > efficiency:
 			efficiency = new_efficiency
+
+
+func _set_active(value: bool) -> void:
+	active = value
+
+	if value and texture_active:
+		sprite.texture = texture_active
+	elif not value and texture_inactive:
+		sprite.texture = texture_inactive

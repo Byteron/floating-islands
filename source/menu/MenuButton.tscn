@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://graphics/fonts/poco/Poco.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://source/menu/MenuButton.gd" type="Script" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0.313726 )
@@ -62,6 +63,8 @@ custom_fonts/font = SubResource( 4 )
 enabled_focus_mode = 0
 text = "New Game"
 align = 0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="mouse_entered" from="." to="." method="_on_MenuButton_mouse_entered"]

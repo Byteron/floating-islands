@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://source/global/SFX.gd" type="Script" id=1]
 [ext_resource path="res://addons/audio_booth/source/sfx/Sound.gd" type="Script" id=2]
@@ -6,6 +6,26 @@
 [ext_resource path="res://audio/sfx/destroyBuilding.ogg" type="AudioStream" id=4]
 [ext_resource path="res://audio/sfx/railBuilding.ogg" type="AudioStream" id=5]
 [ext_resource path="res://audio/sfx/factoryLoop.ogg" type="AudioStream" id=6]
+[ext_resource path="res://audio/sfx/typing/typeWriter-004.ogg" type="AudioStream" id=7]
+[ext_resource path="res://audio/sfx/typing/typeWriter-010.ogg" type="AudioStream" id=8]
+[ext_resource path="res://audio/sfx/typing/typeWriter-007.ogg" type="AudioStream" id=9]
+[ext_resource path="res://audio/sfx/typing/typeWriter-005.ogg" type="AudioStream" id=10]
+[ext_resource path="res://audio/sfx/typing/typeWriter-006.ogg" type="AudioStream" id=11]
+[ext_resource path="res://audio/sfx/typing/typeWriter-008.ogg" type="AudioStream" id=12]
+[ext_resource path="res://audio/sfx/typing/typeWriter-009.ogg" type="AudioStream" id=13]
+[ext_resource path="res://audio/sfx/typing/typeWriter-002.ogg" type="AudioStream" id=14]
+[ext_resource path="res://audio/sfx/typing/typeWriter-001.ogg" type="AudioStream" id=15]
+[ext_resource path="res://audio/sfx/typing/typeWriter-003.ogg" type="AudioStream" id=16]
+[ext_resource path="res://audio/sfx/typing/typeWriter-014.ogg" type="AudioStream" id=17]
+[ext_resource path="res://audio/sfx/typing/typeWriter-011.ogg" type="AudioStream" id=18]
+[ext_resource path="res://audio/sfx/typing/typeWriter-012.ogg" type="AudioStream" id=19]
+[ext_resource path="res://audio/sfx/typing/typeWriter-013.ogg" type="AudioStream" id=20]
+[ext_resource path="res://audio/sfx/clickDirt.ogg" type="AudioStream" id=21]
+[ext_resource path="res://audio/sfx/buildingStopWorking.ogg" type="AudioStream" id=22]
+[ext_resource path="res://audio/sfx/hover.ogg" type="AudioStream" id=23]
+[ext_resource path="res://audio/sfx/click.ogg" type="AudioStream" id=24]
+[ext_resource path="res://audio/sfx/menuDown.ogg" type="AudioStream" id=25]
+[ext_resource path="res://audio/sfx/menuUp.ogg" type="AudioStream" id=26]
 
 [node name="SFX" type="Node"]
 script = ExtResource( 1 )
@@ -15,9 +35,37 @@ script = ExtResource( 2 )
 stream = ExtResource( 5 )
 volume_db = -12.0
 
+[node name="TapTerrain" type="Node" parent="."]
+script = ExtResource( 2 )
+singleton = true
+stream = ExtResource( 21 )
+volume_db = -6.0
+
+[node name="TypeWriter" type="Node" parent="."]
+script = ExtResource( 2 )
+singleton = true
+stream = ExtResource( 5 )
+streams = [ ExtResource( 15 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 8 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 17 ) ]
+volume_db = -12.0
+
 [node name="BuildBuilding" type="Node" parent="."]
 script = ExtResource( 2 )
 stream = ExtResource( 3 )
+volume_db = -12.0
+
+[node name="DeactivateBuilding" type="Node" parent="."]
+script = ExtResource( 2 )
+stream = ExtResource( 22 )
+volume_db = -12.0
+
+[node name="ButtonClick" type="Node" parent="."]
+script = ExtResource( 2 )
+stream = ExtResource( 24 )
+volume_db = -12.0
+
+[node name="ButtonHover" type="Node" parent="."]
+script = ExtResource( 2 )
+stream = ExtResource( 23 )
 volume_db = -12.0
 
 [node name="Mine" type="Node" parent="."]
@@ -29,6 +77,18 @@ pitch_scale = 3.0
 script = ExtResource( 2 )
 stream = ExtResource( 4 )
 volume_db = -20.0
+pitch_scale = 0.6
+
+[node name="MenuOpen" type="Node" parent="."]
+script = ExtResource( 2 )
+stream = ExtResource( 26 )
+volume_db = -10.0
+pitch_scale = 0.6
+
+[node name="MenuClose" type="Node" parent="."]
+script = ExtResource( 2 )
+stream = ExtResource( 25 )
+volume_db = -10.0
 pitch_scale = 0.6
 
 [node name="FactoryLoop" type="Node" parent="."]
