@@ -1,12 +1,12 @@
-extends Panel
+extends PanelContainer
 """
 Display deposit information on a tile
 """
 
 var tile
 
-onready var icon = $MarginContainer/Icon
-onready var value_label = $MarginContainer/Value
+onready var icon = $CenterContainer/Icon
+onready var value_label = $CenterContainer/Value
 
 
 func _process(_delta):

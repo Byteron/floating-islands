@@ -53,6 +53,8 @@ __meta__ = {
 [node name="Player" parent="." instance=ExtResource( 5 )]
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
+basic_alloy_min = 500
+basic_alloy_max = 2000
 min_island_size = 12
 
 [node name="GameCam" parent="." instance=ExtResource( 2 )]

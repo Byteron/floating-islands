@@ -50,8 +50,8 @@ __meta__ = {
 }
 
 [node name="ConstructionButtons" parent="HUD" instance=ExtResource( 8 )]
-margin_top = -43.0
-margin_bottom = -43.0
+margin_top = -44.0
+margin_bottom = -44.0
 
 [node name="ResourceContainer" type="PanelContainer" parent="HUD"]
 anchor_top = 1.0
@@ -114,6 +114,5 @@ margin_bottom = 183.0
 
 [node name="Dialogue" parent="HUD" instance=ExtResource( 10 )]
 pause_mode = 2
-visible = false
 lines = [ "Alright, so you're the new boss, huh?", "Hope you know how to fix this. We got a problem here. Like, an apocalype-sized problem.", "War burst the Planet apart. No Gravity. No Air. Pieces of Land everwhere.", "You build us a wonder, we might survive." ]
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
