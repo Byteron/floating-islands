@@ -34,16 +34,16 @@ func _handle_keyboard_scroll(delta: float) -> void:
 
 	var motion := Vector2()
 
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("move_camera_up"):
 		motion.y -= speed * delta / 2
 
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("move_camera_down"):
 		motion.y += speed * delta / 2
 
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("move_camera_left"):
 		motion.x -= speed * delta / 2
 
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("move_camera_right"):
 		motion.x += speed * delta / 2
 
 	global_position.x = clamp(global_position.x + motion.x, limit_left + viewport_extents.x, limit_right - viewport_extents.x)

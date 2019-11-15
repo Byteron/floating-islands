@@ -7,7 +7,8 @@ var construction_actions = [
 	"build_miner",
 	"build_wonder",
 	"build_refinery",
-	"build_storage"
+	"build_storage",
+	"build_smeltery"
 ]
 
 onready var construct_button := $SlidingMenu/ConstructButton
