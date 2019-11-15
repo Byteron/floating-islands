@@ -8,6 +8,8 @@ export var fadout_time : float = 0.5
 export var fadin_time : float = 1.0
 export var start_delay : float = 0.0
 
+export var skip := true
+
 var current = -1 setget _set_current
 
 var kill := false
@@ -16,6 +18,10 @@ onready var text_box = $TextBox
 onready var tween := $Tween
 
 func _ready() -> void:
+	if skip:
+		queue_free()
+		return
+
 	modulate.a = 0
 	yield(get_tree().create_timer(start_delay), "timeout")
 	_fade_in()

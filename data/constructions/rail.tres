@@ -8,6 +8,7 @@ id = "Rail"
 name = "Rail"
 cost_basic_alloy = 10
 cost_special_alloy = 0
+cost_oil = 0
 size = Vector2( 1, 1 )
 is_miner = false
 is_connector = true

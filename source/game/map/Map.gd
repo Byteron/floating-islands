@@ -6,6 +6,8 @@ signal construction_complete(construction)
 
 onready var BASIC_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("basic_alloy")
 onready var SPECIAL_ALLOY_INDEX = $Resources.tile_set.find_tile_by_name("special_alloy")
+onready var OIL_INDEX = $Resources.tile_set.find_tile_by_name("oil")
+
 var LAND_INDEX := tile_set.find_tile_by_name("Land")
 
 var tiles := {}
@@ -20,6 +22,8 @@ export var basic_alloy_min := 200
 export var basic_alloy_max := 8000
 export var special_alloy_min_deposit_count : int = 40
 export var special_alloy_amount_curve : Curve
+export var oil_min_deposit_count : int = 40
+export var oil_amount_curve : Curve
 
 # warning-ignore:unused_class_variable
 export var resource_amplitude := 2
@@ -111,7 +115,7 @@ func _generate_void() -> void:
 func _generate_resources():
 	_generate_basic_alloy()
 	_generate_special_alloy()
-
+	_generate_oil()
 
 func _generate_basic_alloy():
 	"""
@@ -161,11 +165,43 @@ func _generate_special_alloy():
 		if tile.deposit.amount <= 0:
 			continue
 
+		tile.deposit.amount = max(tile.deposit.amount, special_alloy_min_deposit_count)
 		tile.deposit.id = "special_alloy"
 		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
 		deposit_count += 1
 
 	assert(deposit_count == special_alloy_min_deposit_count)
+
+
+func _generate_oil():
+	"""
+	Add resource deposit using random land position far enough from start island
+	deposit amount depends on distance from spawn
+	"""
+	var deposit_count = 0
+	var loop_count = 0
+	var max_trials = 10000
+	while deposit_count < oil_min_deposit_count and loop_count < max_trials:
+		loop_count += 1
+
+		var island = get_random_island()
+		var position = island.get_random_tile_position()
+		var tile = get_tile(position)
+
+		assert(tile)
+
+		# Distance from spawn
+		var spawn_distance = tile.position.distance_to(spawn)
+
+		tile.deposit.amount = floor(500 * oil_amount_curve.interpolate(spawn_distance / size.x))
+		if tile.deposit.amount <= 0:
+			continue
+
+		tile.deposit.id = "oil"
+		resource_overlay.set_cellv(tile.position, OIL_INDEX)
+		deposit_count += 1
+
+	assert(deposit_count == oil_min_deposit_count)
 
 
 func _should_have_basic_alloy(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> bool:
@@ -503,6 +539,7 @@ func _add_building(origin: Tile, affected_tiles: Array, data: ConstructionData) 
 
 
 func _remove_building(construction: Construction):
+	construction.cleanup()
 	buildings.remove_child(construction)
 	for tile in construction.tiles:
 		_remove_rail(tile)

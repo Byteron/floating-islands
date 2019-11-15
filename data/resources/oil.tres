@@ -5,11 +5,11 @@
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
-region = Rect2( 16, 80, 16, 16 )
+region = Rect2( 48, 80, 16, 16 )
 
 [resource]
 script = ExtResource( 1 )
-id = "special_alloy"
-name = "Special Alloys"
+id = "oil"
+name = "Oil"
 icon = SubResource( 1 )
-start_value = 500
+start_value = 100

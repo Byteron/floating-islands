@@ -36,11 +36,11 @@ func buy(costs: Dictionary) -> bool:
 	return false
 
 
-func use_resource(id: String, amount: int) -> bool:
+func use_resource(id: String, amount: int, allow_negative := false) -> bool:
 	"""
 	Use some resource, return true if success
 	"""
-	if has_resource(id, amount):
+	if has_resource(id, amount) or allow_negative:
 		add_resource(id, -amount)
 		return true
 
@@ -68,7 +68,7 @@ func can_afford(costs: Dictionary) -> bool:
 	return has_enough
 
 func has_resource(id: String, amount: int) -> bool:
-	return get_resource(id) >= amount
+	return max(0, get_resource(id)) >= amount
 
 
 func _set_resource(id: String, value: int) -> void:

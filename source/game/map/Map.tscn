@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=1]
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=2]
@@ -10,6 +10,9 @@
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 ), 5.24141, 5.24141, 0, 0, Vector2( 0.52552, 1 ), 5.77839, 27.892, 0, 0 ]
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.255823, 0, 0 ]
 
 [sub_resource type="TileSet" id=2]
 0/name = "Cliff"
@@ -71,6 +74,8 @@ cell_size = Vector2( 16, 16 )
 format = 1
 script = ExtResource( 2 )
 special_alloy_amount_curve = SubResource( 1 )
+oil_min_deposit_count = 200
+oil_amount_curve = SubResource( 4 )
 IslandPacked = ExtResource( 3 )
 
 [node name="Islands" type="Node2D" parent="."]

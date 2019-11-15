@@ -6,8 +6,13 @@ Handle building logic
 
 onready var mine_timer := $MineTimer as Timer
 onready var sprite := $Sprite as Sprite
+
 var hitbox : Area2D
 var efficiency : float
+
+var mined := 0
+
+var constant_resource_miner := false
 
 export (float, 0, 1) var minimal_efficiency = 0.1
 
@@ -48,17 +53,32 @@ func _ready():
 	sprite.texture = data.texture
 	sprite.offset = data.texture_offset
 
-	if is_miner:
+	if is_miner and data.miner_tick_time:
 		mine_timer.start(data.miner_tick_time)
-
+	elif not data.miner_tick_time:
+		constant_resource_miner = true
 	add_to_group(data.id)
 
+	if constant_resource_miner:
+		call_deferred("mine")
+
+func cleanup():
+	if constant_resource_miner and mined:
+		get_tree().call_group("Player", "use_resource", data.target_resource, mined, constant_resource_miner)
+		Global.get_game().display_resource_popup(
+			-mined, data.target_resource,
+			global_position,
+			get_center_position()
+		)
 
 func mine() -> void:
 	"""
 	Try to gather resource around itslef
 	"""
 	if not connected_to_storage or not is_miner:
+		return
+
+	if _mine_const():
 		return
 
 	# Get target deposit
@@ -74,7 +94,7 @@ func mine() -> void:
 				break
 
 	if mining_on:
-		var mined : int = mining_on.mine(miner_amount * efficiency)
+		mined = mining_on.mine(miner_amount * efficiency)
 		get_tree().call_group("Player", "add_resource", data.target_resource, mined)
 		Global.get_game().display_resource_popup(
 			mined, data.target_resource,
@@ -84,6 +104,34 @@ func mine() -> void:
 	else:
 		mine_timer.stop()
 
+func _mine_const() -> bool:
+	if not constant_resource_miner:
+		return false
+
+	var visited := tiles.duplicate()
+
+	var count := 0
+
+	for tile in tiles:
+		if tile.has_resource(data.target_resource):
+			count += 1
+
+		for n_tile in tile.neighbors:
+			if visited.has(n_tile):
+				continue
+			visited.append(n_tile)
+			if n_tile.has_resource(data.target_resource):
+				count += 1
+
+	print("Count: %d" % count)
+	mined = miner_amount * count
+	get_tree().call_group("Player", "add_resource", data.target_resource, mined)
+	Global.get_game().display_resource_popup(
+		mined, data.target_resource,
+		global_position,
+		get_center_position()
+	)
+	return constant_resource_miner
 
 func get_center_world_position() -> Vector2:
 	"""

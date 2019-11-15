@@ -38,9 +38,8 @@ preview_offset = Vector2( 0, 3 )
 
 [node name="RemoveButton" type="TextureButton" parent="SlidingMenu"]
 margin_left = 19.0
-margin_top = -17.0
+margin_top = -16.0
 margin_right = 34.0
-margin_bottom = -1.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0
@@ -53,9 +52,8 @@ __meta__ = {
 
 [node name="ConstructButton" type="TextureButton" parent="SlidingMenu"]
 margin_left = 3.0
-margin_top = -17.0
+margin_top = -16.0
 margin_right = 18.0
-margin_bottom = -1.0
 focus_mode = 0
 toggle_mode = true
 enabled_focus_mode = 0

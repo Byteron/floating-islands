@@ -5,8 +5,11 @@ export (Resource) var construction_button
 
 onready var construction_buttons := $HUD/ConstructionButtons
 onready var highlight_container := $HighlightContainer as Control
-onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
-onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/special_alloy
+
+onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/HBoxContainer/basic_alloy
+onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/HBoxContainer/special_alloy
+onready var oil_display := $HUD/ResourceContainer/VBoxContainer/oil
+
 onready var building_status := $HUD/BuildingStatus
 onready var tile_info := $HUD/TileInfo
 
@@ -28,6 +31,7 @@ func update_player(player: Player):
 	var resources = player.get_resources()
 	basic_alloy_display.set_value(resources)
 	special_alloy_display.set_value(resources)
+	oil_display.set_value(resources)
 
 	for button in construction_buttons.get_buttons():
 		button.disabled = not player.can_afford(button.data.get_costs())

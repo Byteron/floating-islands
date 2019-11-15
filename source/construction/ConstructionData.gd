@@ -8,6 +8,7 @@ export var name := ""
 
 export var cost_basic_alloy := 0
 export var cost_special_alloy := 0
+export var cost_oil := 0
 
 # warning-ignore:unused_class_variable
 export var size := Vector2(1, 1)
@@ -43,5 +44,6 @@ export var description : String = "MISSING DESCRIPTION"
 func get_costs() -> Dictionary:
 	return {
 		"basic_alloy": cost_basic_alloy,
-		"special_alloy": cost_special_alloy
+		"special_alloy": cost_special_alloy,
+		"oil": cost_oil
 	}

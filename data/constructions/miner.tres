@@ -17,6 +17,7 @@ id = "Miner"
 name = "Miner"
 cost_basic_alloy = 100
 cost_special_alloy = 0
+cost_oil = 10
 size = Vector2( 1, 1 )
 is_miner = true
 is_connector = false
