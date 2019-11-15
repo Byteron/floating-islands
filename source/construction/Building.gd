@@ -60,12 +60,11 @@ func _ready():
 	add_to_group(data.id)
 
 	if constant_resource_miner:
-		print("shall mine!")
 		call_deferred("mine")
 
 func cleanup():
 	if constant_resource_miner and mined:
-		get_tree().call_group("Player", "use_resource", data.target_resource, mined)
+		get_tree().call_group("Player", "use_resource", data.target_resource, mined, constant_resource_miner)
 		Global.get_game().display_resource_popup(
 			-mined, data.target_resource,
 			global_position,

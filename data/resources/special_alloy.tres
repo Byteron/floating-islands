@@ -12,4 +12,4 @@ script = ExtResource( 1 )
 id = "special_alloy"
 name = "Special Alloys"
 icon = SubResource( 1 )
-start_value = 10000
+start_value = 500

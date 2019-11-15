@@ -135,7 +135,10 @@ func remove_construction():
 
 		var costs = {}
 		for id in data.get_costs():
-			costs[id] = player.refund_percentage * data.get_costs()[id]
+			if id == "oil":
+				costs[id] = data.get_costs()[id] # oil shall 100% refund
+			else:
+				costs[id] = player.refund_percentage * data.get_costs()[id]
 
 		display_costs_popup(costs, false, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
 		Global.get_player().refund(costs)

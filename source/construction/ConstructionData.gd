@@ -44,5 +44,6 @@ export var description : String = "MISSING DESCRIPTION"
 func get_costs() -> Dictionary:
 	return {
 		"basic_alloy": cost_basic_alloy,
-		"special_alloy": cost_special_alloy
+		"special_alloy": cost_special_alloy,
+		"oil": cost_oil
 	}
