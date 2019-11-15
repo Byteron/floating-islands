@@ -4,7 +4,7 @@
 [ext_resource path="res://graphics/images/interface.png" type="Texture" id=2]
 [ext_resource path="res://source/game/interface/SlidingMenu.tscn" type="PackedScene" id=3]
 
-[sub_resource type="StyleBoxTexture" id=2]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 2 )
 region_rect = Rect2( 80, 0, 32, 32 )
 margin_left = 14.0
@@ -32,7 +32,7 @@ margin_left = -66.0
 margin_top = 4.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 66, 66 )
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

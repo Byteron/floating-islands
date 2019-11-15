@@ -77,4 +77,4 @@ __meta__ = {
 [connection signal="pressed" from="SlidingMenu/RemoveButton" to="." method="_on_RemoveButton_pressed"]
 [connection signal="mouse_entered" from="SlidingMenu/ConstructButton" to="SlidingMenu" method="_on_preview_enter"]
 [connection signal="mouse_exited" from="SlidingMenu/ConstructButton" to="SlidingMenu" method="_on_preview_exited"]
-[connection signal="toggled" from="SlidingMenu/ConstructButton" to="." method="_on_ConstructButton_toggled"]
+[connection signal="pressed" from="SlidingMenu/ConstructButton" to="." method="_on_ConstructButton_pressed"]
