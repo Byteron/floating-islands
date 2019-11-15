@@ -6,6 +6,8 @@ const NEGATIVE_COLOR = Color("FF0000")
 export var resource_id : String = ""
 export var hide_empty : bool = false
 
+export var show_total := false
+
 onready var icon = $Icon
 onready var label = $ValueLabel
 
@@ -20,7 +22,14 @@ func _ready():
 func set_value(resources: Dictionary):
 	assert(resources.has(resource_id))
 	var value = resources[resource_id]
-	label.set_text(str(value))
+
+	if resource_id == "oil" and show_total:
+		var total = Global.resources[resource_id].start_value
+		for refinery in get_tree().get_nodes_in_group("Refinery"):
+			total += refinery.mined
+		label.text = "%d / %d" % [value, total]
+	else:
+		label.text = "%d" % value
 
 	if value < 0:
 		label.modulate = NEGATIVE_COLOR

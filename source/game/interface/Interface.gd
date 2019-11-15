@@ -6,8 +6,8 @@ export (Resource) var construction_button
 onready var construction_buttons := $HUD/ConstructionButtons
 onready var highlight_container := $HighlightContainer as Control
 
-onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/basic_alloy
-onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/special_alloy
+onready var basic_alloy_display := $HUD/ResourceContainer/VBoxContainer/HBoxContainer/basic_alloy
+onready var special_alloy_display := $HUD/ResourceContainer/VBoxContainer/HBoxContainer/special_alloy
 onready var oil_display := $HUD/ResourceContainer/VBoxContainer/oil
 
 onready var building_status := $HUD/BuildingStatus

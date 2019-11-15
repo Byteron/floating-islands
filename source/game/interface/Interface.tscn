@@ -15,8 +15,8 @@
 texture = ExtResource( 9 )
 region_rect = Rect2( 0, 0, 32, 32 )
 margin_right = 14.0
-margin_top = 1.0
-margin_bottom = 13.0
+margin_top = 13.0
+margin_bottom = 1.0
 
 [node name="Interface" type="CanvasLayer" groups=[
 "Interface",
@@ -50,39 +50,49 @@ __meta__ = {
 }
 
 [node name="ConstructionButtons" parent="HUD" instance=ExtResource( 8 )]
-margin_top = 1.0
-margin_bottom = 1.0
+margin_top = -43.0
+margin_bottom = -43.0
 
 [node name="ResourceContainer" type="PanelContainer" parent="HUD"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -45.0
 margin_right = 75.0
-margin_bottom = 30.0
+margin_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="HBoxContainer" parent="HUD/ResourceContainer"]
-margin_top = 1.0
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ResourceContainer"]
+margin_top = 13.0
 margin_right = 61.0
-margin_bottom = 17.0
+margin_bottom = 45.0
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/ResourceContainer/VBoxContainer"]
+margin_right = 61.0
+margin_bottom = 16.0
 custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="basic_alloy" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="basic_alloy" parent="HUD/ResourceContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
 margin_right = 19.0
 resource_id = "basic_alloy"
 
-[node name="special_alloy" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="special_alloy" parent="HUD/ResourceContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
 margin_left = 21.0
 margin_right = 40.0
 resource_id = "special_alloy"
 
 [node name="oil" parent="HUD/ResourceContainer/VBoxContainer" instance=ExtResource( 5 )]
-margin_left = 42.0
+margin_top = 16.0
 margin_right = 61.0
+margin_bottom = 32.0
 resource_id = "oil"
+show_total = true
 
 [node name="Minimap" parent="HUD" instance=ExtResource( 3 )]
 
@@ -104,5 +114,6 @@ margin_bottom = 183.0
 
 [node name="Dialogue" parent="HUD" instance=ExtResource( 10 )]
 pause_mode = 2
+visible = false
 lines = [ "Alright, so you're the new boss, huh?", "Hope you know how to fix this. We got a problem here. Like, an apocalype-sized problem.", "War burst the Planet apart. No Gravity. No Air. Pieces of Land everwhere.", "You build us a wonder, we might survive." ]
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
