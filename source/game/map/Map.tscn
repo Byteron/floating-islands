@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://graphics/tilesets/terrain.tres" type="TileSet" id=1]
 [ext_resource path="res://source/game/map/Map.gd" type="Script" id=2]
@@ -11,10 +11,10 @@
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.215028, 0 ), 0.0, 0.255823, 0, 0, Vector2( 0.4362, 0.4681 ), 5.24141, 5.24141, 0, 0, Vector2( 0.52552, 1 ), 5.77839, 27.892, 0, 0 ]
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 1 ), 0.0, 0.255823, 0, 0 ]
 
-[sub_resource type="TileSet" id=2]
+[sub_resource type="TileSet" id=3]
 0/name = "Cliff"
 0/texture = ExtResource( 5 )
 0/tex_offset = Vector2( 0, 0 )
@@ -45,7 +45,7 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.255823, 0, 0 ]
 1/shapes = [  ]
 1/z_index = 0
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=4]
 0/name = "Rail"
 0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
@@ -66,6 +66,8 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.255823, 0, 0 ]
 0/shapes = [  ]
 0/z_index = 0
 
+[sub_resource type="TileSet" id=5]
+
 [node name="Map" type="TileMap" groups=[
 "Map",
 ]]
@@ -75,7 +77,7 @@ format = 1
 script = ExtResource( 2 )
 special_alloy_amount_curve = SubResource( 1 )
 oil_min_deposit_count = 200
-oil_amount_curve = SubResource( 4 )
+oil_amount_curve = SubResource( 2 )
 IslandPacked = ExtResource( 3 )
 
 [node name="Islands" type="Node2D" parent="."]
@@ -83,7 +85,7 @@ IslandPacked = ExtResource( 3 )
 [node name="IslandBottom" type="TileMap" parent="."]
 show_behind_parent = true
 position = Vector2( 0, 11 )
-tile_set = SubResource( 2 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
@@ -93,7 +95,12 @@ cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="Rails" type="TileMap" parent="."]
-tile_set = SubResource( 3 )
+tile_set = SubResource( 4 )
+cell_size = Vector2( 16, 16 )
+format = 1
+
+[node name="Highlights" type="TileMap" parent="."]
+tile_set = SubResource( 5 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
