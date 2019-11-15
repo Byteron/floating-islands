@@ -25,6 +25,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Tween" type="Tween" parent="."]
+
 [node name="BG" type="CanvasLayer" parent="."]
 layer = -1
 
@@ -114,5 +116,16 @@ margin_top = 38.0
 margin_right = 17.0
 margin_bottom = 53.0
 text = "Quit"
+
+[node name="Cover" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Cover"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.0784314, 0.0941176, 0.180392, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="CenterContainer/VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
