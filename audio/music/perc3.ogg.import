@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/perc3.ogg-357ed7f4170ecbe6cddeb3a34462348c.oggstr"
+
+[deps]
+
+source_file="res://audio/music/perc3.ogg"
+dest_files=[ "res://.import/perc3.ogg-357ed7f4170ecbe6cddeb3a34462348c.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

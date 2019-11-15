@@ -1,9 +1,28 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://source/global/Music.gd" type="Script" id=1]
 [ext_resource path="res://addons/audio_booth/source/music/Song.gd" type="Script" id=2]
 [ext_resource path="res://addons/audio_booth/source/music/containers/TrackContainer.gd" type="Script" id=3]
 [ext_resource path="res://audio/music/loop2.ogg" type="AudioStream" id=4]
+[ext_resource path="res://addons/audio_booth/source/music/containers/StingerContainer.gd" type="Script" id=5]
+[ext_resource path="res://addons/audio_booth/graphics/icons/icon.png" type="Texture" id=6]
+[ext_resource path="res://audio/music/arp.ogg" type="AudioStream" id=7]
+[ext_resource path="res://audio/music/arp2.ogg" type="AudioStream" id=8]
+[ext_resource path="res://audio/music/arp3.ogg" type="AudioStream" id=9]
+[ext_resource path="res://audio/music/bass1.ogg" type="AudioStream" id=10]
+[ext_resource path="res://audio/music/bass2.ogg" type="AudioStream" id=11]
+[ext_resource path="res://audio/music/bass3.ogg" type="AudioStream" id=12]
+[ext_resource path="res://audio/music/bass4.ogg" type="AudioStream" id=13]
+[ext_resource path="res://audio/music/lead1.ogg" type="AudioStream" id=14]
+[ext_resource path="res://audio/music/lead2.ogg" type="AudioStream" id=15]
+[ext_resource path="res://audio/music/pad.ogg" type="AudioStream" id=16]
+[ext_resource path="res://audio/music/pad2.ogg" type="AudioStream" id=17]
+[ext_resource path="res://audio/music/pad3.ogg" type="AudioStream" id=18]
+[ext_resource path="res://audio/music/pad4.ogg" type="AudioStream" id=19]
+[ext_resource path="res://audio/music/perc1.ogg" type="AudioStream" id=20]
+[ext_resource path="res://audio/music/perc2.ogg" type="AudioStream" id=21]
+[ext_resource path="res://audio/music/perc3.ogg" type="AudioStream" id=22]
+[ext_resource path="res://audio/music/perc4.ogg" type="AudioStream" id=23]
 
 [node name="Music" type="Node"]
 script = ExtResource( 1 )
@@ -16,5 +35,64 @@ beats = 4
 [node name="TrackContainer" type="Node" parent="Loop"]
 script = ExtResource( 3 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Loop/TrackContainer"]
+[node name="Base" type="AudioStreamPlayer" parent="Loop/TrackContainer"]
 stream = ExtResource( 4 )
+
+[node name="StingerContainer" type="Node" parent="Loop"]
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_icon": ExtResource( 6 )
+}
+wait_ticks = 16
+probability = 0.5
+
+[node name="Arp1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 7 )
+
+[node name="Arp2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 8 )
+
+[node name="Arp3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 9 )
+
+[node name="Bass1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 10 )
+
+[node name="Bass2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 11 )
+
+[node name="Bass3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 12 )
+
+[node name="Bass4" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 13 )
+
+[node name="Lead1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 14 )
+
+[node name="Lead2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 15 )
+
+[node name="Pad1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 16 )
+
+[node name="Pad2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 17 )
+
+[node name="Pad3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 18 )
+
+[node name="Pad4" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 19 )
+
+[node name="Perc1" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 20 )
+
+[node name="Perc2" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 21 )
+
+[node name="Perc3" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 22 )
+
+[node name="Perc4" type="AudioStreamPlayer" parent="Loop/StingerContainer"]
+stream = ExtResource( 23 )
