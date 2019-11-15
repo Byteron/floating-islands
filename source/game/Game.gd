@@ -173,7 +173,6 @@ func place_construction(data: ConstructionData):
 	# Adds selection UI
 	var tile_selector : TileSelector = interface.show_tile_selector(data)
 	map.show_buildable()
-	# interface.highlight_connected_tiles(map.valid_construction_sites.values())
 
 	yield(tile_selector, "tile_selected")
 

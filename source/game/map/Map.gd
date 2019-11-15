@@ -325,7 +325,6 @@ func _get_non_diagonal_construction_neighbor_cells(position: Vector2, data: Cons
 func show_buildable():
 	for cell in valid_construction_sites.keys():
 		buildable_overlay.set_cellv(cell, BUILDABLE_INDEX)
-		print(cell)
 
 func clear_buildable():
 	buildable_overlay.clear()
