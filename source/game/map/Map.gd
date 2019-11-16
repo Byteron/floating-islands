@@ -113,7 +113,7 @@ func _generate_void() -> void:
 			if tiles.has(position):
 				continue
 
-			assert(create_tile(position, Tile.TYPE.VOID, null))
+			create_tile(position, Tile.TYPE.VOID, null)
 
 
 func _generate_resources():
