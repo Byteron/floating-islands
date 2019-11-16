@@ -195,7 +195,9 @@ func place_construction(data: ConstructionData):
 			break	# Will not be able to buy following ones then
 
 		display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
-		assert(player.buy(costs))
+		var __ = player.buy(costs)
+		assert(__)
+
 		map.add_construction(tile, data)
 
 		if data.id == "Rail":

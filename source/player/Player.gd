@@ -30,7 +30,8 @@ func add_resource(id: String, amount: int) -> void:
 func buy(costs: Dictionary) -> bool:
 	if can_afford(costs):
 		for id in costs:
-			assert(use_resource(id, costs[id]))
+			var __ = use_resource(id, costs[id])
+			assert(__)
 		return true
 
 	return false
