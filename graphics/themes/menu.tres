@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=10 format=2]
 
-[ext_resource path="res://graphics/fonts/poco/Poco-10.tres" type="DynamicFont" id=1]
-[ext_resource path="res://graphics/images/interface.png" type="Texture" id=2]
+[ext_resource path="res://graphics/images/interface.png" type="Texture" id=1]
+[ext_resource path="res://graphics/fonts/poco/Poco-10.tres" type="DynamicFont" id=2]
 
 [sub_resource type="StreamTexture" id=1]
 load_path = "res://.import/interface.png-8a3507e59cf7d7af85fda1deb848d5a8.stex"
@@ -15,7 +15,7 @@ margin_top = 2.0
 margin_bottom = 2.0
 
 [sub_resource type="StyleBoxTexture" id=3]
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 region_rect = Rect2( 32, 16, 16, 16 )
 margin_left = 2.0
 margin_right = 2.0
@@ -23,7 +23,7 @@ margin_top = 2.0
 margin_bottom = 2.0
 
 [sub_resource type="StyleBoxTexture" id=4]
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 region_rect = Rect2( 48, 16, 16, 16 )
 margin_left = 2.0
 margin_right = 2.0
@@ -42,7 +42,7 @@ margin_top = 2.0
 margin_bottom = 2.0
 
 [sub_resource type="StyleBoxTexture" id=7]
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 region_rect = Rect2( 48, 0, 16, 16 )
 margin_left = 1.0
 margin_right = 1.0
@@ -50,7 +50,7 @@ margin_top = 1.0
 margin_bottom = 1.0
 
 [resource]
-default_font = ExtResource( 1 )
+default_font = ExtResource( 2 )
 Button/colors/font_color = Color( 0.960784, 1, 0.909804, 1 )
 Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
