@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 	if not event is InputEventMouseMotion:
 		return
 
-	Global.get_map().efficiency_overlay.generate(efficiency_impact)
+	# Global.get_map().efficiency_overlay.generate(efficiency_impact)
 
 	# Mouse movement
 	var cell = map.world_to_map(get_global_mouse_position())
