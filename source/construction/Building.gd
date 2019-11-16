@@ -12,6 +12,8 @@ var efficiency : float
 
 var mined := 0
 
+var mining_on = true
+
 var active := true setget _set_active
 
 var constant_resource_miner := false
@@ -84,7 +86,7 @@ func mine() -> void:
 		return
 
 	# Get target deposit
-	var mining_on = null
+	mining_on = null
 	for tile in tiles:
 		if tile.has_resource(data.target_resource):
 			mining_on = tile
@@ -157,7 +159,7 @@ func _on_MineTimer_timeout() -> void:
 
 func _set_connected_to_storage(value: bool) -> void:
 	._set_connected_to_storage(value)
-	_set_active(value)
+	_set_active(value and mining_on != null)
 
 
 func _process(_delta):
