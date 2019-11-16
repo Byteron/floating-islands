@@ -99,21 +99,22 @@ show_total = true
 [node name="TileInfo" parent="HUD" instance=ExtResource( 7 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -259.0
-margin_top = 148.0
-margin_right = -232.0
-margin_bottom = 183.0
+margin_left = -236.0
+margin_top = 143.0
+margin_right = -209.0
+margin_bottom = 178.0
 
 [node name="BuildingStatus" parent="HUD" instance=ExtResource( 6 )]
 anchor_left = 1.0
 anchor_bottom = 0.0
-margin_left = -232.0
-margin_top = 148.0
-margin_right = -94.0
-margin_bottom = 183.0
+margin_left = -208.0
+margin_top = 143.0
+margin_right = -73.0
+margin_bottom = 178.0
 
 [node name="Dialogue" parent="HUD" instance=ExtResource( 10 )]
 pause_mode = 2
+visible = false
 lines = [ "Alright, so you're the new boss, huh?", "Hope you know how to fix this. We got a problem here. Like, an apocalype-sized problem.", "War burst the Planet apart. No Gravity. No Air. Pieces of Land everwhere.", "You build us a wonder, we might survive." ]
 skip = false
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
