@@ -108,7 +108,7 @@ margin_top = 26.0
 margin_right = 184.0
 margin_bottom = 42.0
 custom_fonts/font = SubResource( 2 )
-text = "Last Engeneer"
+text = "Last Engineer"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false
