@@ -11,16 +11,19 @@ onready var earth := $BG/Earth
 onready var cover := $Cover/ColorRect
 onready var title := $Title
 onready var menu := $CenterContainer
+onready var hints := $HintMenu
 
 func _ready() -> void:
 	Music.play_song("Loop", 2.0)
 
 	title.modulate.a = 0
 	menu.modulate.a = 0
+	hints.modulate.a = 0
 
 	var __ = tween.interpolate_property(cover, "modulate:a", 1, 0, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	__ = tween.interpolate_property(title, "modulate:a", 0, 1, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, 1)
 	__ = tween.interpolate_property(menu, "modulate:a", 0, 1, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, 1.3)
+	__ = tween.interpolate_property(hints, "modulate:a", 0, 1, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, 1.6)
 	__ = tween.start()
 
 func _process(delta: float) -> void:
