@@ -2,18 +2,16 @@
 
 [ext_resource path="res://source/menu/hints/HintMenu.gd" type="Script" id=1]
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0, 0, 0, 0.470588 )
-border_width_left = 2
-border_width_top = 2
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0784314, 0.0941176, 0.180392, 0.627451 )
 border_width_right = 2
 border_width_bottom = 2
-corner_radius_top_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 8
+corner_radius_bottom_right = 8
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 draw_center = false
 border_width_left = 2
 border_color = Color( 1, 1, 1, 1 )
@@ -22,7 +20,7 @@ corner_radius_bottom_left = 7
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=3]
 draw_center = false
 border_width_left = 2
 corner_radius_top_left = 7
@@ -30,7 +28,7 @@ corner_radius_bottom_left = 7
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=4]
 draw_center = false
 border_width_right = 2
 border_color = Color( 1, 1, 1, 1 )
@@ -39,7 +37,7 @@ corner_radius_bottom_right = 7
 corner_detail = 1
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=5]
 draw_center = false
 border_width_right = 2
 corner_radius_top_right = 7
@@ -50,7 +48,7 @@ anti_aliasing = false
 [node name="HintMenu" type="Panel"]
 margin_right = 139.0
 margin_bottom = 64.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -84,11 +82,11 @@ rect_min_size = Vector2( 12, 12 )
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 1 )
-custom_styles/focus = SubResource( 1 )
-custom_styles/disabled = SubResource( 1 )
-custom_styles/normal = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 3 )
 enabled_focus_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
@@ -147,11 +145,11 @@ rect_min_size = Vector2( 12, 12 )
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 2 )
-custom_styles/disabled = SubResource( 2 )
-custom_styles/normal = SubResource( 2 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
 enabled_focus_mode = 0
 [connection signal="mouse_entered" from="HBoxContainer/Left/ButtonLeft" to="." method="_on_ButtonLeft_mouse_entered"]
 [connection signal="pressed" from="HBoxContainer/Left/ButtonLeft" to="." method="_on_ButtonLeft_pressed"]

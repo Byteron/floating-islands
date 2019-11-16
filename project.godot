@@ -152,7 +152,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Floating Islands"
+config/name="Shattered World 2"
 run/main_scene="res://source/menu/Splash.tscn"
 config/icon="res://icon.png"
 
