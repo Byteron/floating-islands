@@ -114,7 +114,6 @@ margin_bottom = 178.0
 
 [node name="Dialogue" parent="HUD" instance=ExtResource( 10 )]
 pause_mode = 2
-visible = false
 lines = [ "Alright, so you're the new boss, huh?", "Hope you know how to fix this. We got a problem here. Like, an apocalype-sized problem.", "War burst the Planet apart. No Gravity. No Air. Pieces of Land everwhere.", "You build us a wonder, we might survive." ]
 skip = false
 [connection signal="pressed" from="HUD/Generate" to="." method="_on_Generate_pressed"]
