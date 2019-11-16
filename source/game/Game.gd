@@ -196,7 +196,7 @@ func place_construction(data: ConstructionData):
 
 		display_costs_popup(costs, true, tile.position * Global.TILE_SIZE, Global.get_rect_center(data.size))
 		var __ = player.buy(costs)
-		assert(__)
+		# assert(__)
 
 		map.add_construction(tile, data)
 

@@ -114,7 +114,7 @@ func _generate_void() -> void:
 				continue
 
 			var __ = create_tile(position, Tile.TYPE.VOID, null)
-			assert(__)
+			# assert(__)
 
 func _generate_resources():
 	_generate_basic_alloy()
@@ -140,7 +140,7 @@ func _generate_basic_alloy():
 			if not _should_have_basic_alloy(tile.position, noise, resource_shrink):
 				continue
 
-			assert(basic_alloy_min > 0) # Could create empty deposit otherwise
+			# assert(basic_alloy_min > 0) # Could create empty deposit otherwise
 			tile.deposit.id = "basic_alloy"
 			tile.deposit.amount = (randi() % (basic_alloy_max - basic_alloy_min)) + basic_alloy_min
 			resource_overlay.set_cellv(tile.position, BASIC_ALLOY_INDEX)
@@ -161,7 +161,7 @@ func _generate_special_alloy():
 		var position = island.get_random_tile_position()
 		var tile = get_tile(position)
 
-		assert(tile)
+		# assert(tile)
 
 		# Distance from spawn
 		var spawn_distance = tile.position.distance_to(spawn)
@@ -175,7 +175,7 @@ func _generate_special_alloy():
 		resource_overlay.set_cellv(tile.position, SPECIAL_ALLOY_INDEX)
 		deposit_count += 1
 
-	assert(deposit_count == special_alloy_min_deposit_count)
+	# assert(deposit_count == special_alloy_min_deposit_count)
 
 
 func _generate_oil():
@@ -193,7 +193,7 @@ func _generate_oil():
 		var position = island.get_random_tile_position()
 		var tile = get_tile(position)
 
-		assert(tile)
+		# assert(tile)
 
 		# Distance from spawn
 		var spawn_distance = tile.position.distance_to(spawn)
@@ -206,7 +206,7 @@ func _generate_oil():
 		resource_overlay.set_cellv(tile.position, OIL_INDEX)
 		deposit_count += 1
 
-	assert(deposit_count == oil_min_deposit_count)
+	# assert(deposit_count == oil_min_deposit_count)
 
 
 func _should_have_basic_alloy(cell: Vector2, noise: OpenSimplexNoise, factor: int) -> bool:
@@ -233,7 +233,7 @@ func _spawn_player():
 	var start_island := get_random_island()
 
 	# Otherwise, its possible to get an island with no plain tile in it
-	assert(min_island_size >= 6)
+	# assert(min_island_size >= 6)
 
 	start_island.tiles_position.shuffle()
 	for position in start_island.tiles_position:
@@ -466,7 +466,7 @@ func add_construction(origin: Tile, data: ConstructionData) -> void:
 		for x in data.size.x:
 			var position = origin.position + Vector2(x, y)
 			var tile = get_tile(position)
-			assert(tile)
+			# assert(tile)
 
 			affected_tiles.append(tile)
 
@@ -526,7 +526,7 @@ func _remove_connector(tile: Tile):
 	"""
 	Remove a rail and update adjacent rails connections
 	"""
-	assert(tile.construction == null) # Tile status should be updated upfront
+	# assert(tile.construction == null) # Tile status should be updated upfront
 
 	rails_overlay.set_cellv(tile.position, TileMap.INVALID_CELL)
 	rails_overlay.update_bitmask_area(tile.position)

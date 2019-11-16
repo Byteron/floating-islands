@@ -13,14 +13,14 @@ onready var label = $ValueLabel
 
 
 func _ready():
-	assert(resource_id != "")
-	assert(Global.resources.has(resource_id))
+	# assert(resource_id != "")
+	# assert(Global.resources.has(resource_id))
 
 	icon.texture = Global.resources[resource_id].icon
 
 
 func set_value(resources: Dictionary):
-	assert(resources.has(resource_id))
+	# assert(resources.has(resource_id))
 	var value = resources[resource_id]
 
 	if resource_id == "oil" and show_total:

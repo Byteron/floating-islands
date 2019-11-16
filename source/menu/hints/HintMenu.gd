@@ -35,7 +35,7 @@ func prev() -> void:
 func _set_current_hint(value: int) -> void:
 	current_hint = value
 
-	assert(current_hint < hints.size())
+	# assert(current_hint < hints.size())
 	if text_label:
 		text_label.text = hints[current_hint]
 		pages_label.text = "%d / %d" % [ current_hint + 1, hints.size()]

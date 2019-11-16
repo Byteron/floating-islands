@@ -11,7 +11,7 @@ func get_tiles():
 
 
 func _init(_data: ConstructionData, _tile: Tile):
-	assert(_tile) # Assume all tiles have valid neighbors list
+	# assert(_tile) # Assume all tiles have valid neighbors list
 
 	data = _data
 	tile = _tile

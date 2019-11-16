@@ -69,7 +69,7 @@ func is_writing():
 
 
 func _set_current(value):
-	assert(lines.size() > value)
+	# assert(lines.size() > value)
 
 	current = value
 	text_box.write(lines[current])

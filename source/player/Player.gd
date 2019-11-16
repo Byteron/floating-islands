@@ -22,7 +22,7 @@ func refund(costs: Dictionary):
 
 
 func add_resource(id: String, amount: int) -> void:
-	assert(_resources.has(id))
+	# assert(_resources.has(id))
 
 	_set_resource(id, _resources[id] + amount)
 
@@ -31,7 +31,7 @@ func buy(costs: Dictionary) -> bool:
 	if can_afford(costs):
 		for id in costs:
 			var __ = use_resource(id, costs[id])
-			assert(__)
+			# assert(__)
 		return true
 
 	return false
@@ -49,8 +49,7 @@ func use_resource(id: String, amount: int, allow_negative := false) -> bool:
 
 
 func get_resource(id: String) -> int:
-	assert(_resources.has(id))
-
+	# assert(_resources.has(id))
 	return _resources[id]
 
 
