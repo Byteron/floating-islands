@@ -41,6 +41,9 @@ func _ready() -> void:
 	var __ = map.connect("loading_complete", $LoadingScreen, "_on_level_loaded")
 	__ = map.connect("construction_complete", self, "_on_construction_complete")
 
+	yield(map, "loading_complete")
+
+	$Interface/HUD/Dialogue.start()
 
 func _process(_delta: float) -> void:
 	_process_factory_loop_volume()

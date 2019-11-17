@@ -18,9 +18,16 @@ onready var text_box = $TextBox
 onready var tween := $Tween
 
 func _ready() -> void:
+	set_process_input(false)
+
+func start():
+	set_process_input(true)
+
 	if skip:
 		queue_free()
 		return
+
+	Global.get_camera().player_has_control = false
 
 	modulate.a = 0
 	yield(get_tree().create_timer(start_delay), "timeout")
@@ -87,6 +94,7 @@ func _fade_out() -> void:
 
 func _on_Tween_tween_all_completed() -> void:
 	if kill:
+		Global.get_camera().player_has_control = true
 		queue_free()
 	elif has_next_line():
 		next_line()
