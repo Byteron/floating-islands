@@ -28,4 +28,4 @@ miner_tick_time = 5
 miner_mine_amount = 20
 texture = SubResource( 1 )
 texture_offset = Vector2( 0, 0 )
-description = "Boost buildings efficiency"
+description = "Boosts buildings efficiency"
