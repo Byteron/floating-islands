@@ -32,6 +32,10 @@ func play() -> void:
 		_randomize(new_player)
 		new_player.play()
 
+func stop() -> void:
+	if singleton:
+		player.stop()
+
 func _randomize(_player: AudioStreamPlayer) -> void:
 	randomize()
 

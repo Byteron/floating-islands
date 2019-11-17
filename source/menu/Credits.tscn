@@ -200,9 +200,9 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="FadingOverlay/CreditsStart/CreditsContainer"]
-margin_left = 38.0
+margin_left = 17.0
 margin_top = 52.0
-margin_right = 130.0
+margin_right = 151.0
 margin_bottom = 296.0
 custom_constants/separation = 10
 __meta__ = {
@@ -236,7 +236,7 @@ align = 2
 
 [node name="Names" type="Label" parent="FadingOverlay/CreditsStart/CreditsContainer/HBoxContainer"]
 margin_left = 35.0
-margin_right = 92.0
+margin_right = 134.0
 margin_bottom = 244.0
 size_flags_horizontal = 3
 text = "
@@ -248,9 +248,9 @@ text = "
 
 
 BurntRobot
-Eric_Ronin
+Eric Faries (Eric_Ronin)
 TheMooseman
-Bitron 
+Aaron Winter (Bitron)
 T4g1
 
 

@@ -279,6 +279,9 @@ func _on_player_won(look_at: Vector2):
 	camera.remove_limitation()
 	camera.focus(look_at)
 
+	SFX.stop_sfx("FactoryLoop")
+	Music.stop_song(1.5)
+
 	yield(get_tree().create_timer(1.0), "timeout")
 
 	var particles = lightning_particle.instance()
