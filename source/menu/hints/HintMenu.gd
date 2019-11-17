@@ -1,13 +1,16 @@
 extends Panel
 
 var hints := [
-	"mining buildings also mine neighbored tiles.",
-	"destryoing buildings refund 75% of their costs.",
-	"always have enough oil at hand!",
-	"the numbers 1 to 6 are shortcuts for placing buildings.",
-	"press X and click on buildings to destroy them.",
-	"hold SHIFT to place or destroy mutliple buildings.",
-	"We love you!"
+	"Read all the hints.",
+	"Mining buildings also mine neighbored tiles.",
+	"Destroying buildings refund 75% of their costs.",
+	"Always have enough oil at hand!",
+	"Keep yourself hydrated while playing.",
+	"The numbers 1 to 6 are shortcuts for placing buildings.",
+	"Press X and click on buildings to destroy them.",
+	"Hold SHIFT to place or destroy mutliple buildings.",
+	"We love you!",
+	"Hide the minimap by clicking on the grear.",
 ]
 
 var current_hint := 0 setget _set_current_hint
