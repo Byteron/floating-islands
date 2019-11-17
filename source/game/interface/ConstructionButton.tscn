@@ -18,9 +18,9 @@ __meta__ = {
 }
 
 [node name="Tooltip" parent="." instance=ExtResource( 2 )]
-visible = false
 show_behind_parent = true
 margin_left = 44.0
-margin_right = 3.0
+margin_top = -13.0
+margin_right = 39.0
 margin_bottom = 0.0
 [connection signal="mouse_entered" from="." to="." method="_on_ConstructionButton_mouse_entered"]
